@@ -23,28 +23,26 @@ jobs:
           PR_TITLE=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
           echo "ℹ️ Evaluating PR Title: '$PR_TITLE'"
 
-          # Regex patterns
-          JIRA_REGEX="[A-Z]+-[0-9]+"
-          CHANGE_TYPE_REGEX="^(\[?[A-Z]+-[0-9]+\]? )?(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)(\(.+\))?:"
+          JIRA_REGEX="^[A-Z]+-[0-9]+:"
+          CHANGE_TYPE_REGEX="^[A-Z]+-[0-9]+: ?(\(?(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)\)?) "
 
           echo "🔍 Checking for valid change type..."
           if [[ ! "$PR_TITLE" =~ $CHANGE_TYPE_REGEX ]]; then
-            echo "::error::❌ Invalid PR title format. It must start with a valid change type followed by an optional scope (in parentheses)."
+            echo "::error::❌ Invalid PR title format. It must start with a valid change type followed by an optional scope."
             echo "::error::✅ Allowed change types: feat, fix, hotfix, chore, docs, refactor, test, ci, perf, infra, style, revert, build"
-            echo "::error::🔹 Example: 'feat(auth): Add login endpoint' or 'fix: Correct payment processing bug'."
+            echo "::error::🔹 Example: 'MERA-9: feat Created feature' or 'MERA-9: (fix) Bug fix'"
             exit 1
           else
-            DETECTED_CHANGE_TYPE=$(echo "$PR_TITLE" | grep -oE '^(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)')
+            DETECTED_CHANGE_TYPE=$(echo "$PR_TITLE" | grep -oP '(\(?(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)\)?)')
             echo "✅ Change type detected: '$DETECTED_CHANGE_TYPE'"
           fi
 
           echo "🔍 Checking for JIRA ticket..."
           if [[ ! "$PR_TITLE" =~ $JIRA_REGEX ]]; then
-            echo "::error::❌ No JIRA ticket found in PR title. Please include a JIRA ticket number in the format ABCD-XX."
-            echo "::error::🔹 Example: 'feat(auth): Add JWT authentication [PROJ-123]'"
+            echo "::error::❌ No JIRA ticket found in PR title. Expected format: 'MERA-9: feat Created feature'"
             exit 1
           else
-            DETECTED_JIRA_TICKET=$(echo "$PR_TITLE" | grep -oE '[A-Z]+-[0-9]+')
+            DETECTED_JIRA_TICKET=$(echo "$PR_TITLE" | grep -oP '^[A-Z]+-[0-9]+')
             echo "✅ JIRA ticket detected: '$DETECTED_JIRA_TICKET'"
           fi
 
@@ -56,15 +54,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if command -v gh &> /dev/null; then
-            gh pr comment ${{ github.event.pull_request.number }} --body "🚨 **Your PR title must follow the correct format!**  
-            
+            PR_NUMBER=${{ github.event.pull_request.number }}
+            REPO=${{ github.repository }}
+            gh pr comment "$PR_NUMBER" --repo "$REPO" --body "🚨 **Your PR title must follow the correct format!**  
+
+            **✅ Allowed PR title formats:**  
+            - \`MERA-9: feat Created MeraStore.Shared.Kernel.Common.Core\`  
+            - \`MERA-9: (feat) Created MeraStore.Shared.Kernel.Common.Core\`  
+
             **✅ Allowed change types:**  
             \`feat\`, \`fix\`, \`hotfix\`, \`chore\`, \`docs\`, \`refactor\`, \`test\`, \`ci\`, \`perf\`, \`infra\`, \`style\`, \`revert\`, \`build\`  
-            
+
             **🔹 Correct Examples:**  
-            - \`feat(auth): Add JWT authentication [PROJ-123]\`  
-            - \`fix: Correct payment processing bug [MSEC-456]\`  
-            
+            - \`MERA-9: feat Added new feature\`  
+            - \`PROJ-123: (fix) Resolved database issue\`  
+
             Please update your PR title accordingly. 🛠"
           else
             echo "⚠️ GitHub CLI (gh) not available. Cannot post comment."
