@@ -23,6 +23,7 @@ jobs:
           PR_TITLE=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
           echo "ℹ️ Evaluating PR Title: '$PR_TITLE'"
 
+          # Regex patterns
           JIRA_REGEX="[A-Z]+-[0-9]+"
           CHANGE_TYPE_REGEX="^(\[?[A-Z]+-[0-9]+\]? )?(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)(\(.+\))?:"
 
@@ -33,7 +34,7 @@ jobs:
             echo "::error::🔹 Example: 'feat(auth): Add login endpoint' or 'fix: Correct payment processing bug'."
             exit 1
           else
-            DETECTED_CHANGE_TYPE=$(echo "$PR_TITLE" | grep -oP '^(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)')
+            DETECTED_CHANGE_TYPE=$(echo "$PR_TITLE" | grep -oE '^(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)')
             echo "✅ Change type detected: '$DETECTED_CHANGE_TYPE'"
           fi
 
@@ -43,7 +44,7 @@ jobs:
             echo "::error::🔹 Example: 'feat(auth): Add JWT authentication [PROJ-123]'"
             exit 1
           else
-            DETECTED_JIRA_TICKET=$(echo "$PR_TITLE" | grep -oP '[A-Z]+-[0-9]+')
+            DETECTED_JIRA_TICKET=$(echo "$PR_TITLE" | grep -oE '[A-Z]+-[0-9]+')
             echo "✅ JIRA ticket detected: '$DETECTED_JIRA_TICKET'"
           fi
 
@@ -51,12 +52,19 @@ jobs:
 
       - name: Post comment if checks fail
         if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "🚨 Your PR title must start with a **valid change type** and **contain a JIRA ticket** (e.g., `PROJ-123`).  
-          
-          **✅ Allowed change types:**  
-          \`feat\`, \`fix\`, \`hotfix\`, \`chore\`, \`docs\`, \`refactor\`, \`test\`, \`ci\`, \`perf\`, \`infra\`, \`style\`, \`revert\`, \`build\`  
-          
-          **🔹 Examples:**  
-          - \`feat(auth): Add JWT authentication [PROJ-123]\`  
-          - \`fix: Correct payment processing bug [MSEC-456]\`"
+          if command -v gh &> /dev/null; then
+            gh pr comment ${{ github.event.pull_request.number }} --body "🚨 **Your PR title must follow the correct format!**  
+            
+            **✅ Allowed change types:**  
+            \`feat\`, \`fix\`, \`hotfix\`, \`chore\`, \`docs\`, \`refactor\`, \`test\`, \`ci\`, \`perf\`, \`infra\`, \`style\`, \`revert\`, \`build\`  
+            
+            **🔹 Correct Examples:**  
+            - \`feat(auth): Add JWT authentication [PROJ-123]\`  
+            - \`fix: Correct payment processing bug [MSEC-456]\`  
+            
+            Please update your PR title accordingly. 🛠"
+          else
+            echo "⚠️ GitHub CLI (gh) not available. Cannot post comment."
