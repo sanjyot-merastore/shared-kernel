@@ -1,33 +1,62 @@
-name: Build GateKeeper
+name: Watcher
 
 on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
-  check-jira:
+  check-jira-and-change-type:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check for JIRA ticket in PR title or body
-        id: check_jira
+      - name: Log PR title before checks
         run: |
           PR_TITLE=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
-          PR_BODY=$(jq -r '.pull_request.body' "$GITHUB_EVENT_PATH")
+          echo "ℹ️ PR Title BEFORE validation: '$PR_TITLE'"
+
+      - name: Check PR title for JIRA ticket and change type
+        id: check_title
+        run: |
+          PR_TITLE=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
+          echo "ℹ️ Evaluating PR Title: '$PR_TITLE'"
+
           JIRA_REGEX="[A-Z]+-[0-9]+"
-          if [[ "$PR_TITLE" =~ $JIRA_REGEX ]] || [[ "$PR_BODY" =~ $JIRA_REGEX ]]; then
-            echo "JIRA ticket found in PR title or body."
-          else
-            echo "No JIRA ticket found in PR title or body."
-            echo "::error::No JIRA ticket found in PR title or body. Please include a JIRA ticket number in the format ABCD-XX."
+          CHANGE_TYPE_REGEX="^(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)(\(.+\))?:"
+
+          echo "🔍 Checking for valid change type..."
+          if [[ ! "$PR_TITLE" =~ $CHANGE_TYPE_REGEX ]]; then
+            echo "::error::❌ Invalid PR title format. It must start with a valid change type followed by an optional scope (in parentheses)."
+            echo "::error::✅ Allowed change types: feat, fix, hotfix, chore, docs, refactor, test, ci, perf, infra, style, revert, build"
+            echo "::error::🔹 Example: 'feat(auth): Add login endpoint' or 'fix: Correct payment processing bug'."
             exit 1
+          else
+            DETECTED_CHANGE_TYPE=$(echo "$PR_TITLE" | grep -oP '^(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)')
+            echo "✅ Change type detected: '$DETECTED_CHANGE_TYPE'"
           fi
 
-      - name: Post comment if JIRA ticket is missing
+          echo "🔍 Checking for JIRA ticket..."
+          if [[ ! "$PR_TITLE" =~ $JIRA_REGEX ]]; then
+            echo "::error::❌ No JIRA ticket found in PR title. Please include a JIRA ticket number in the format ABCD-XX."
+            echo "::error::🔹 Example: 'feat(auth): Add JWT authentication [PROJ-123]'"
+            exit 1
+          else
+            DETECTED_JIRA_TICKET=$(echo "$PR_TITLE" | grep -oP '[A-Z]+-[0-9]+')
+            echo "✅ JIRA ticket detected: '$DETECTED_JIRA_TICKET'"
+          fi
+
+          echo "✅ PR title validation PASSED."
+
+      - name: Post comment if checks fail
         if: failure()
         run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "🚨 PR title or description must contain a JIRA ticket number in the format ABCD-XX. Example: JRIA-45, MSEC-101, CONQ-4521."
-
+          gh pr comment ${{ github.event.pull_request.number }} --body "🚨 Your PR title must start with a **valid change type** and **contain a JIRA ticket** (e.g., `PROJ-123`).  
+          
+          **✅ Allowed change types:**  
+          \`feat\`, \`fix\`, \`hotfix\`, \`chore\`, \`docs\`, \`refactor\`, \`test\`, \`ci\`, \`perf\`, \`infra\`, \`style\`, \`revert\`, \`build\`  
+          
+          **🔹 Examples:**  
+          - \`feat(auth): Add JWT authentication [PROJ-123]\`  
+          - \`fix: Correct payment processing bug [MSEC-456]\`"
