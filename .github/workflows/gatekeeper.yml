@@ -24,7 +24,7 @@ jobs:
           echo "ℹ️ Evaluating PR Title: '$PR_TITLE'"
 
           JIRA_REGEX="[A-Z]+-[0-9]+"
-          CHANGE_TYPE_REGEX="^(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)(\(.+\))?:"
+          CHANGE_TYPE_REGEX="^(\[?[A-Z]+-[0-9]+\]? )?(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build)(\(.+\))?:"
 
           echo "🔍 Checking for valid change type..."
           if [[ ! "$PR_TITLE" =~ $CHANGE_TYPE_REGEX ]]; then
