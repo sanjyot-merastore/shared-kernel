@@ -1,6 +1,7 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 
-namespace MeraStore.Shared.Kernel.Common.Core.Exceptions;
+namespace MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 
 [ExcludeFromCodeCoverage]
 public class BaseAppException : Exception

@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace MeraStore.Shared.Kernel.Common.Core.Exceptions;
+namespace MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 
-public class InventoryServiceExceptions
+public partial class InventoryServiceExceptions
 {
     public class OutOfStockException(string message) : BaseAppException(
       ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.InventoryService),

@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace MeraStore.Shared.Kernel.Common.Core.Exceptions;
+namespace MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 
-public class UserServiceExceptions
+public partial class UserServiceExceptions
 {
     public class UserNotFoundException(string message) : BaseAppException(
       ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.UserService),

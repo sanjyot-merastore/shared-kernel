@@ -1,5 +1,5 @@
-﻿using MeraStore.Shared.Kernel.Common.Core.Enums;
-using MeraStore.Shared.Kernel.Common.Core.Exceptions;
+﻿#nullable enable
+using MeraStore.Shared.Kernel.Common.Core.Enums;
 
 namespace MeraStore.Shared.Kernel.Common.Core.Domain.ValueObjects;
 
@@ -10,7 +10,7 @@ public class Money : IEquatable<Money>
 
   public Money(decimal amount, Currency currency = Currency.INR)
   {
-    if (amount < 0) throw new CommonExceptions.InvalidDataFormatException("Amount cannot be negative");
+    if (amount < 0) throw new FormatException("Amount cannot be negative");
 
     Amount = amount;
     Currency = currency;

@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace MeraStore.Shared.Kernel.Common.Core.Exceptions;
+namespace MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 
-public class CartServiceExceptions
+public partial class CartServiceExceptions
 {
     public class CartNotFoundException(string message) : BaseAppException(
       ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.CartService),

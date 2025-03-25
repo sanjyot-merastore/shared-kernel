@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace MeraStore.Shared.Kernel.Common.Core.Exceptions;
+namespace MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 
-public class AuthServiceExceptions
+public partial class AuthServiceExceptions
 {
     public class AuthenticationException(string message) : BaseAppException(
       ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.AuthService),

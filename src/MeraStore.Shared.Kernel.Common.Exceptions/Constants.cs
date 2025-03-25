@@ -1,69 +1,8 @@
-﻿namespace MeraStore.Shared.Kernel.Common.Core;
+﻿namespace MeraStore.Shared.Kernel.Common.Exceptions;
 
 public static class Constants
 {
-  public static readonly string ApplicationName = "ApplicationName";
-
-  public static class Services
-  {
-    public static readonly string User = "merastore-user-service";
-    public static readonly string Product = "merastore-product-service";
-    public static readonly string Inventory = "merastore-inventory-service";
-    public static readonly string Order = "merastore-order-service";
-    public static readonly string Cart = "merastore-cart-service";
-    public static readonly string Payment = "merastore-payment-service";
-    public static readonly string Shipping = "merastore-shipping-service";
-    public static readonly string Auth = "merastore-auth-service";
-    public static readonly string Notification = "merastore-notification-service";
-    public static readonly string Search = "merastore-search-service";
-    public static readonly string Review = "merastore-review-service";
-    public static readonly string Warehouse = "merastore-warehouse-service";
-    public static readonly string Analytics = "merastore-analytics-service";
-    public static readonly string Discount = "merastore-discount-service";
-    public static readonly string FraudDetection = "merastore-fraud-detection-service";
-  }
-
-  public static class SharedLibraries
-  {
-    public static readonly string SharedKernel = "merastore-shared-kernel";
-    public static readonly string Crypto = "merastore-crypto-library";
-    public static readonly string Serialization = "merastore-serialization-library";
-    public static readonly string Logging = "merastore-logging-library";
-    public static readonly string Caching = "merastore-caching-library";
-    public static readonly string Configuration = "merastore-configuration-library";
-    public static readonly string Validation = "merastore-validation-library";
-    public static readonly string ErrorHandling = "merastore-error-handling-library";
-    public static readonly string RateLimiting = "merastore-rate-limiting-library";
-    public static readonly string HealthCheck = "merastore-health-check-library";
-    public static readonly string Authorization = "merastore-authorization-library";
-    public static readonly string Telemetry = "merastore-telemetry-library";
-    public static readonly string I18n = "merastore-i18n-library";
-  }
-
-  public static class Infrastructure
-  {
-    public static readonly string Config = "merastore-infra-config";
-    public static readonly string DockerImages = "merastore-docker-images";
-    public static readonly string CiCdPipelines = "merastore-ci-cd-pipelines";
-  }
-
-  public static class Frontend
-  {
-    public static readonly string Web = "merastore-frontend";
-    public static readonly string Mobile = "merastore-mobile-app";
-  }
-
-  public static class Additional
-  {
-    public static readonly string Docs = "merastore-docs";
-    public static readonly string Monitoring = "merastore-monitoring";
-    public static readonly string SecretsManagement = "merastore-secrets-management";
-    public static readonly string Testing = "merastore-testing";
-    public static readonly string Analytics = "merastore-analytics";
-    public static readonly string FeatureFlags = "merastore-feature-flags";
-  }
-
-  public static partial class ServiceIdentifiers
+  public static class ServiceIdentifiers
   {
     public static readonly string General = "general";
     public static readonly string ApiGateway = "api-gateway";
@@ -93,7 +32,7 @@ public static class Constants
 
 
 
-  public static partial class EventCodes
+  public static class EventCodes
   {
     public const string ApiKeyMissing = "ApiKeyMissing";
     public const string DataIntegrityViolation = "DataIntegrityViolation";
