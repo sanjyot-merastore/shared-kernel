@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace MeraStore.Shared.Kernel.Common.Core.Exceptions;
+namespace MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 
-public class ApiExceptions
+public partial class ApiExceptions
 {
     public class HttpRequestBuilderException(string message)
       : BaseAppException(ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.ApiGateway), EventCodeProvider.GetEventCode(Constants.EventCodes.HttpRequestError),

@@ -1,10 +1,10 @@
 ﻿using System.Net;
 
-namespace MeraStore.Shared.Kernel.Common.Core.Exceptions;
+namespace MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 
 public class CommonExceptions
 {
-  public class ApiCommunicationException : BaseAppException
+  public partial class ApiCommunicationException : BaseAppException
   {
     public ApiCommunicationException(string message) : base(
       ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.ApiGateway),

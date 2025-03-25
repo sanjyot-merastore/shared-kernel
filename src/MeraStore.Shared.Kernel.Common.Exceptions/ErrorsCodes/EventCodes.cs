@@ -1,4 +1,4 @@
-﻿namespace MeraStore.Shared.Kernel.Common.Core.ErrorsCodes;
+﻿namespace MeraStore.Shared.Kernel.Common.Exceptions.ErrorsCodes;
 
 public static class EventCodes
 {

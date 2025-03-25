@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace MeraStore.Shared.Kernel.Common.Core.Exceptions;
+namespace MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 
-public class ProductServiceExceptions
+public partial class ProductServiceExceptions
 {
     public class ProductNotFoundException(string message) : BaseAppException(
       ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.ProductService),
