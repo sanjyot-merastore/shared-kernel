@@ -11,6 +11,7 @@ public static class Constants
     public static readonly string Inventory = "merastore-inventory-service";
     public static readonly string Order = "merastore-order-service";
     public static readonly string Cart = "merastore-cart-service";
+    public static readonly string Logging = "merastore-logging-service";
     public static readonly string Payment = "merastore-payment-service";
     public static readonly string Shipping = "merastore-shipping-service";
     public static readonly string Auth = "merastore-auth-service";
@@ -25,20 +26,100 @@ public static class Constants
 
   public static class SharedLibraries
   {
-    public static readonly string SharedKernel = "merastore-shared-kernel";
-    public static readonly string Crypto = "merastore-crypto-library";
-    public static readonly string Serialization = "merastore-serialization-library";
-    public static readonly string Logging = "merastore-logging-library";
-    public static readonly string Caching = "merastore-caching-library";
-    public static readonly string Configuration = "merastore-configuration-library";
-    public static readonly string Validation = "merastore-validation-library";
-    public static readonly string ErrorHandling = "merastore-error-handling-library";
-    public static readonly string RateLimiting = "merastore-rate-limiting-library";
-    public static readonly string HealthCheck = "merastore-health-check-library";
-    public static readonly string Authorization = "merastore-authorization-library";
-    public static readonly string Telemetry = "merastore-telemetry-library";
-    public static readonly string I18n = "merastore-i18n-library";
+    public static readonly string SharedKernel = "library-shared-kernel";
+    public static readonly string Crypto = "library-crypto";
+    public static readonly string Serialization = "library-serialization";
+    public static readonly string Logging = "library-logging";
+    public static readonly string Caching = "library-caching";
+    public static readonly string Configuration = "library-configuration";
+    public static readonly string Validation = "library-validation";
+    public static readonly string ErrorHandling = "library-error-handling";
+    public static readonly string RateLimiting = "library-rate-limiting";
+    public static readonly string HealthCheck = "library-health-check";
+    public static readonly string Authorization = "library-authorization";
+    public static readonly string Telemetry = "library-telemetry";
+    public static readonly string I18n = "library-i18n";
   }
+
+  public static class Headers
+  {
+    // **MS-Specific Headers for Tracing & Observability**
+    public static readonly string CorrelationId = "ms-correlationid";
+    public static readonly string TraceId = "ms-traceid";
+    public static readonly string SpanId = "ms-spanid";
+    public static readonly string ParentSpanId = "ms-parent-spanid";
+    public static readonly string RequestStart = "ms-requeststart";
+    public static readonly string ServiceName = "ms-servicename";
+
+    // **MS-Specific Headers for Security & Identity**
+    public static readonly string UserId = "ms-userid";
+    public static readonly string ClientId = "ms-clientid";
+    public static readonly string SessionId = "ms-sessionid";
+    public static readonly string TenantId = "ms-tenantid";
+    public static readonly string Roles = "ms-roles";
+    public static readonly string Scope = "ms-scope";
+    public static readonly string AuthMethod = "ms-auth-method";
+    public static readonly string DeviceId = "ms-deviceid";
+    public static readonly string AppVersion = "ms-appversion";
+
+    // **MS-Specific Headers for Performance & Debugging**
+    public static readonly string Region = "ms-region";
+    public static readonly string Environment = "ms-environment";
+    public static readonly string ApiVersion = "ms-apiversion";
+    public static readonly string FeatureFlag = "ms-feature-flag";
+    public static readonly string DebugMode = "ms-debug-mode";
+
+    // **Standard Request Headers**
+    public static readonly string UserAgent = "user-agent";
+    public static readonly string Authorization = "authorization";
+    public static readonly string ContentType = "content-type";
+    public static readonly string Accept = "accept";
+    public static readonly string AcceptEncoding = "accept-encoding";
+    public static readonly string AcceptLanguage = "accept-language";
+    public static readonly string Host = "host";
+    public static readonly string Referer = "referer";
+    public static readonly string Origin = "origin";
+    public static readonly string Connection = "connection";
+    public static readonly string CacheControl = "cache-control";
+    public static readonly string Pragma = "pragma";
+    public static readonly string XForwardedFor = "x-forwarded-for";
+    public static readonly string XForwardedProto = "x-forwarded-proto";
+    public static readonly string XForwardedPort = "x-forwarded-port";
+    public static readonly string XRequestId = "x-request-id";
+    public static readonly string XRealIp = "x-real-ip";
+    public static readonly string XApiKey = "x-api-key";
+    public static readonly string IfModifiedSince = "if-modified-since";
+    public static readonly string IfNoneMatch = "if-none-match";
+    public static readonly string Range = "range";
+
+    // **Standard Response Headers**
+    public static readonly string ResponseCorrelationId = "ms-correlationid";
+    public static readonly string ResponseRequestId = "ms-requestid";
+    public static readonly string ResponseContentType = "content-type";
+    public static readonly string ResponseContentLength = "content-length";
+    public static readonly string ResponseServer = "server";
+    public static readonly string ResponseConnection = "connection";
+    public static readonly string ResponseCacheControl = "cache-control";
+    public static readonly string ResponsePragma = "pragma";
+    public static readonly string ResponseSetCookie = "set-cookie";
+    public static readonly string ResponseExpires = "expires";
+    public static readonly string ResponseLastModified = "last-modified";
+    public static readonly string ResponseETag = "etag";
+    public static readonly string ResponseXPoweredBy = "x-powered-by";
+    public static readonly string ResponseAccessControlAllowOrigin = "access-control-allow-origin";
+    public static readonly string ResponseAccessControlAllowCredentials = "access-control-allow-credentials";
+    public static readonly string ResponseAccessControlAllowMethods = "access-control-allow-methods";
+    public static readonly string ResponseAccessControlAllowHeaders = "access-control-allow-headers";
+    public static readonly string ResponseXFrameOptions = "x-frame-options";
+    public static readonly string ResponseXXSSProtection = "x-xss-protection";
+    public static readonly string ResponseXContentTypeOptions = "x-content-type-options";
+    public static readonly string ResponseStrictTransportSecurity = "strict-transport-security";
+    public static readonly string ResponseReferrerPolicy = "referrer-policy";
+    public static readonly string ResponseFeaturePolicy = "feature-policy";
+    public static readonly string ResponseContentSecurityPolicy = "content-security-policy";
+  }
+
+
 
   public static class Infrastructure
   {
