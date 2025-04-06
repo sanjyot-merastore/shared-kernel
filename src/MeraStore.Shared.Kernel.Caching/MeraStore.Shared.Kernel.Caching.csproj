@@ -18,7 +18,6 @@
     <RepositoryUrl>https://github.com/sanjyot-merastore/shared-kernel</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/sanjyot-merastore/shared-kernel</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/sanjyot-merastore/docs/refs/heads/main/icons/MeraStore.ico</PackageIconUrl>
 
     <!-- Licensing -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -44,6 +43,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="icon.png">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+    </None>
     <None Update="ReadMe.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
