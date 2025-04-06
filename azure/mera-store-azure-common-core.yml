@@ -201,3 +201,10 @@ jobs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         TargetPath: '\\${{ parameters.project }}\$(Build.DefinitionName)\$(Build.BuildNumber)'
         publishLocation: 'Container'
+    
+    - task: GitHubComment@0
+      displayName: Comment
+      inputs:
+        gitHubConnection: 'GitHub - sanjyotagureddy'
+        repositoryName: '$(Build.Repository.Name)'
+        comment: 'Nuget: $(versionType), version: $(packageVersion) created'

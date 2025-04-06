@@ -43,80 +43,76 @@ public static class Constants
 
   public static class Headers
   {
-    // **MS-Specific Headers for Tracing & Observability**
-    public static readonly string CorrelationId = "ms-correlationid";
-    public static readonly string TraceId = "ms-traceid";
-    public static readonly string SpanId = "ms-spanid";
-    public static readonly string ParentSpanId = "ms-parent-spanid";
-    public static readonly string RequestStart = "ms-requeststart";
-    public static readonly string ServiceName = "ms-servicename";
+    // Tracing & Observability
+    public const string CorrelationId = "ms-correlationid";
+    public const string RequestId = "ms-request-id";
+    public const string TransactionId = "ms-txn-id";
+    public const string TraceId = "ms-traceid";
+    public const string SpanId = "ms-spanid";
+    public const string ParentSpanId = "ms-parent-spanid";
+    public const string RequestStart = "ms-requeststart";
+    public const string ServiceName = "ms-servicename";
 
-    // **MS-Specific Headers for Security & Identity**
-    public static readonly string UserId = "ms-userid";
-    public static readonly string ClientId = "ms-clientid";
-    public static readonly string SessionId = "ms-sessionid";
-    public static readonly string TenantId = "ms-tenantid";
-    public static readonly string Roles = "ms-roles";
-    public static readonly string Scope = "ms-scope";
-    public static readonly string AuthMethod = "ms-auth-method";
-    public static readonly string DeviceId = "ms-deviceid";
-    public static readonly string AppVersion = "ms-appversion";
+    // Security & Identity
+    public const string UserId = "ms-userid";
+    public const string ClientId = "ms-clientid";
+    public const string SessionId = "ms-sessionid";
+    public const string TenantId = "ms-tenantid";
+    public const string Roles = "ms-roles";
+    public const string Scope = "ms-scope";
+    public const string AuthMethod = "ms-auth-method";
+    public const string DeviceId = "ms-deviceid";
+    public const string AppVersion = "ms-appversion";
+    public const string ApiKey = "ms-api-key";
+    public const string UserToken = "ms-user-token";
 
-    // **MS-Specific Headers for Performance & Debugging**
-    public static readonly string Region = "ms-region";
-    public static readonly string Environment = "ms-environment";
-    public static readonly string ApiVersion = "ms-apiversion";
-    public static readonly string FeatureFlag = "ms-feature-flag";
-    public static readonly string DebugMode = "ms-debug-mode";
+    // Performance & Debugging
+    public const string Region = "ms-region";
+    public const string Environment = "ms-environment";
+    public const string ApiVersion = "ms-apiversion";
+    public const string FeatureFlag = "ms-feature-flag";
+    public const string DebugMode = "ms-debug-mode";
 
-    // **Standard Request Headers**
-    public static readonly string UserAgent = "user-agent";
-    public static readonly string Authorization = "authorization";
-    public static readonly string ContentType = "content-type";
-    public static readonly string Accept = "accept";
-    public static readonly string AcceptEncoding = "accept-encoding";
-    public static readonly string AcceptLanguage = "accept-language";
-    public static readonly string Host = "host";
-    public static readonly string Referer = "referer";
-    public static readonly string Origin = "origin";
-    public static readonly string Connection = "connection";
-    public static readonly string CacheControl = "cache-control";
-    public static readonly string Pragma = "pragma";
-    public static readonly string XForwardedFor = "x-forwarded-for";
-    public static readonly string XForwardedProto = "x-forwarded-proto";
-    public static readonly string XForwardedPort = "x-forwarded-port";
-    public static readonly string XRequestId = "x-request-id";
-    public static readonly string XRealIp = "x-real-ip";
-    public static readonly string XApiKey = "x-api-key";
-    public static readonly string IfModifiedSince = "if-modified-since";
-    public static readonly string IfNoneMatch = "if-none-match";
-    public static readonly string Range = "range";
+    // ---------------------- Standard Request Headers ----------------------
 
-    // **Standard Response Headers**
-    public static readonly string ResponseCorrelationId = "ms-correlationid";
-    public static readonly string ResponseRequestId = "ms-requestid";
-    public static readonly string ResponseContentType = "content-type";
-    public static readonly string ResponseContentLength = "content-length";
-    public static readonly string ResponseServer = "server";
-    public static readonly string ResponseConnection = "connection";
-    public static readonly string ResponseCacheControl = "cache-control";
-    public static readonly string ResponsePragma = "pragma";
-    public static readonly string ResponseSetCookie = "set-cookie";
-    public static readonly string ResponseExpires = "expires";
-    public static readonly string ResponseLastModified = "last-modified";
-    public static readonly string ResponseETag = "etag";
-    public static readonly string ResponseXPoweredBy = "x-powered-by";
-    public static readonly string ResponseAccessControlAllowOrigin = "access-control-allow-origin";
-    public static readonly string ResponseAccessControlAllowCredentials = "access-control-allow-credentials";
-    public static readonly string ResponseAccessControlAllowMethods = "access-control-allow-methods";
-    public static readonly string ResponseAccessControlAllowHeaders = "access-control-allow-headers";
-    public static readonly string ResponseXFrameOptions = "x-frame-options";
-    public static readonly string ResponseXXSSProtection = "x-xss-protection";
-    public static readonly string ResponseXContentTypeOptions = "x-content-type-options";
-    public static readonly string ResponseStrictTransportSecurity = "strict-transport-security";
-    public static readonly string ResponseReferrerPolicy = "referrer-policy";
-    public static readonly string ResponseFeaturePolicy = "feature-policy";
-    public static readonly string ResponseContentSecurityPolicy = "content-security-policy";
+    public const string UserAgent = "user-agent";
+    public const string Authorization = "authorization";
+    public const string ContentType = "content-type";
+    public const string Accept = "accept";
+    public const string AcceptEncoding = "accept-encoding";
+    public const string AcceptLanguage = "accept-language";
+    public const string Host = "host";
+    public const string Referer = "referer";
+    public const string Origin = "origin";
+    public const string Connection = "connection";
+    public const string CacheControl = "cache-control";
+    public const string Pragma = "pragma";
+    public const string XForwardedFor = "x-forwarded-for";
+    public const string XForwardedProto = "x-forwarded-proto";
+    public const string XForwardedPort = "x-forwarded-port";
+    public const string XRequestId = "x-request-id";
+    public const string XRealIp = "x-real-ip";
+    public const string XApiKey = "x-api-key";
+    public const string IfModifiedSince = "if-modified-since";
+    public const string IfNoneMatch = "if-none-match";
+    public const string Range = "range";
+
+    public const string SetCookie = "set-cookie";
+    public const string Expires = "expires";
+    public const string LastModified = "last-modified";
+    public const string ETag = "etag";
+    public const string XPoweredBy = "x-powered-by";
+    public const string AccessControlAllowOrigin = "access-control-allow-origin";
+    public const string AccessControlAllowCredentials = "access-control-allow-credentials";
+    public const string AccessControlAllowMethods = "access-control-allow-methods";
+    public const string AccessControlAllowHeaders = "access-control-allow-headers";
+    public const string XFrameOptions = "x-frame-options";
+    public const string XXSSProtection = "x-xss-protection";
+    public const string XContentTypeOptions = "x-content-type-options";
+    public const string StrictTransportSecurity = "strict-transport-security";
+    public const string ReferrerPolicy = "referrer-policy";
+    public const string FeaturePolicy = "feature-policy";
+    public const string ContentSecurityPolicy = "content-security-policy";
   }
 
 
