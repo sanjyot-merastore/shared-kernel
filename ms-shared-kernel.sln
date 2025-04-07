@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Common.Exceptions", "src\MeraStore.Shared.Kernel.Common.Exceptions\MeraStore.Shared.Kernel.Common.Exceptions.csproj", "{5918DEC0-E0B4-4C17-93E7-5C67D2B86015}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Caching", "src\MeraStore.Shared.Kernel.Caching\MeraStore.Shared.Kernel.Caching.csproj", "{840AAB9A-3529-407B-85E3-FED8AD36C82E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{5918DEC0-E0B4-4C17-93E7-5C67D2B86015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5918DEC0-E0B4-4C17-93E7-5C67D2B86015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5918DEC0-E0B4-4C17-93E7-5C67D2B86015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{840AAB9A-3529-407B-85E3-FED8AD36C82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{840AAB9A-3529-407B-85E3-FED8AD36C82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{840AAB9A-3529-407B-85E3-FED8AD36C82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{840AAB9A-3529-407B-85E3-FED8AD36C82E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B7F0CB13-8D37-42FA-935A-271B8B1BD51B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{5918DEC0-E0B4-4C17-93E7-5C67D2B86015} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{840AAB9A-3529-407B-85E3-FED8AD36C82E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0509730D-937F-486D-9944-2CA4ACDDE1EF}

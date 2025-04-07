@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+
+    <!-- Package Metadata -->
+    <Authors>Sanjyot Agureddy</Authors>
+    <Company>MeraStore</Company>
+    <Version>1.0.0</Version>
+    <PackageId>MeraStore.Shared.Kernel.Caching</PackageId>
+    <Title>MeraStore.Shared.Kernel.Caching</Title>
+    <Description>Flexible and pluggable caching library for MeraStore microservices platform, supporting both in-memory and Redis caching providers with extensible cache strategies.</Description>
+    <PackageTags>caching, redis, in-memory, microservices, merastore</PackageTags>
+
+    <!-- Repository Info -->
+    <RepositoryUrl>https://github.com/sanjyot-merastore/shared-kernel</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/sanjyot-merastore/shared-kernel</PackageProjectUrl>
+
+    <!-- Licensing -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <License>MIT</License>
+
+    <!-- NuGet Notes -->
+    <PackageReleaseNotes>Initial release with support for in-memory and Redis cache providers, extensible cache strategies, and factory-based resolution.</PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Strategy\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="icon.png">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+    </None>
+    <None Update="ReadMe.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
