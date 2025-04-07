@@ -1,34 +1,36 @@
-﻿using MeraStore.Shared.Kernel.Caching.Interfaces;
+﻿using MeraStore.Shared.Kernel.Caching.Extensions.Helper;
+using MeraStore.Shared.Kernel.Caching.Interfaces;
+
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MeraStore.Shared.Kernel.Caching.Providers;
 
-public class InMemoryCacheProvider(IMemoryCache memoryCache) : ICacheProvider
+public class InMemoryCacheProvider(IMemoryCache cache, CacheEntryOptions defaultOptions) : ICacheProvider
 {
   public Task<T?> GetAsync<T>(string key)
-    => Task.FromResult(memoryCache.TryGetValue(key, out var value) ? (T?)value : default);
+  {
+    cache.TryGetValue(key, out T? value);
+    return Task.FromResult(value);
+  }
 
   public Task SetAsync<T>(string key, T value, CacheEntryOptions? options = null)
   {
-    var entryOptions = new MemoryCacheEntryOptions();
+    var effectiveOptions = options ?? defaultOptions;
+    var memoryOptions = CacheOptionsConverter.ToMemoryOptions(effectiveOptions);
 
-    if (options?.AbsoluteExpirationRelativeToNow != null)
-      entryOptions.SetAbsoluteExpiration(options.AbsoluteExpirationRelativeToNow.Value);
-
-    if (options?.SlidingExpiration != null)
-      entryOptions.SetSlidingExpiration(options.SlidingExpiration.Value);
-
-    memoryCache.Set(key, value, entryOptions);
+    cache.Set(key, value, memoryOptions);
     return Task.CompletedTask;
   }
 
   public Task<bool> RemoveAsync(string key)
   {
-    memoryCache.Remove(key);
+    cache.Remove(key);
     return Task.FromResult(true);
   }
 
   public Task<bool> ExistsAsync(string key)
-    => Task.FromResult(memoryCache.TryGetValue(key, out _));
+  {
+    return Task.FromResult(cache.TryGetValue(key, out _));
+  }
 }
 
