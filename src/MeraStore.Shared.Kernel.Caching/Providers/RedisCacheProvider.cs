@@ -1,32 +1,43 @@
-﻿using MeraStore.Shared.Kernel.Caching.Extensions.Helper;
-using MeraStore.Shared.Kernel.Caching.Interfaces;
+﻿using MeraStore.Shared.Kernel.Caching.Interfaces;
 using Newtonsoft.Json;
 
 namespace MeraStore.Shared.Kernel.Caching.Providers;
 
-public class RedisCacheProvider(IConnectionMultiplexer connection, CacheEntryOptions defaultOptions)
-  : ICacheProvider
+
+public class RedisCacheProvider(IConnectionMultiplexer connection) : ICacheProvider
 {
   private readonly IDatabase _db = connection.GetDatabase();
 
-  public async Task<T?> GetAsync<T>(string key)
+  public async Task<T> GetAsync<T>(string key)
   {
     var value = await _db.StringGetAsync(key);
-    return value.HasValue ? JsonConvert.DeserializeObject<T>(value!) : default;
+    return value.HasValue ? JsonConvert.DeserializeObject<T>(value!)! : default!;
   }
 
-  public async Task SetAsync<T>(string key, T value, CacheEntryOptions? options = null)
+  public Task<bool> ExistsAsync(string key)
   {
-    var effectiveOptions = options ?? defaultOptions;
-    var expiration = CacheOptionsConverter.ResolveRedisExpiration(effectiveOptions);
+    return _db.KeyExistsAsync(key);
+  }
+
+  public Task<bool> RemoveAsync(string key)
+  {
+    return _db.KeyDeleteAsync(key);
+  }
+
+  public Task SetAsync<T>(string key, T value, CacheEntryOptions options = null!)
+  {
+    return SetAsync(key, value, null, options);
+  }
+
+  public async Task SetAsync<T>(string key, T value, string? idempotencyKey, CacheEntryOptions options = null!)
+  {
+    if (!string.IsNullOrWhiteSpace(idempotencyKey))
+    {
+      key = $"{key}:idemp:{idempotencyKey}";
+    }
 
     var serialized = JsonConvert.SerializeObject(value);
-    await _db.StringSetAsync(key, serialized, expiration);
+    var expiry = options?.AbsoluteExpirationRelativeToNow;
+    await _db.StringSetAsync(key, serialized, expiry);
   }
-
-  public async Task<bool> RemoveAsync(string key)
-    => await _db.KeyDeleteAsync(key);
-
-  public async Task<bool> ExistsAsync(string key)
-    => await _db.KeyExistsAsync(key);
 }

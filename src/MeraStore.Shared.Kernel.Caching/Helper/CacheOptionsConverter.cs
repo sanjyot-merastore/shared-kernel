@@ -5,13 +5,7 @@ namespace MeraStore.Shared.Kernel.Caching.Extensions.Helper;
 
 public static class CacheOptionsConverter
 {
-  public static TimeSpan? ResolveRedisExpiration(CacheEntryOptions options)
-  {
-    // Redis only supports absolute expiration natively
-    return options.AbsoluteExpirationRelativeToNow;
-  }
-
-  public static MemoryCacheEntryOptions ToMemoryOptions(CacheEntryOptions options)
+  public static MemoryCacheEntryOptions ToMemoryOptions(this CacheEntryOptions options)
   {
     var memoryOptions = new MemoryCacheEntryOptions();
 
