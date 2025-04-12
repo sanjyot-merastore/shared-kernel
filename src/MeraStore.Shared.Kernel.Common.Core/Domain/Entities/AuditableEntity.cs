@@ -1,11 +1,20 @@
 ﻿namespace MeraStore.Shared.Kernel.Common.Core.Domain.Entities;
 
-public abstract class AuditableEntity(string createdBy) : Entity
+public interface IAuditable
 {
-  public DateTime CreatedDate { get; private set; } = DateTime.UtcNow;
-  public DateTime? ModifiedDate { get; private set; }
-  public string CreatedBy { get; private set; } = createdBy ?? throw new ArgumentNullException(nameof(createdBy));
-  public string? ModifiedBy { get; private set; }
+  string CreatedBy { get; set; }
+  DateTime CreatedDate { get; set; }
+
+  string ModifiedBy { get; set; }
+  DateTime? ModifiedDate { get; set; }
+}
+
+public abstract class AuditableEntity(string createdBy) : Entity, IAuditable
+{
+  public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+  public DateTime? ModifiedDate { get; set; }
+  public string CreatedBy { get; set; } = createdBy;
+  public string ModifiedBy { get; set; }
 
   protected AuditableEntity() : this("System") { } // Defaulting to "System" if no user is specified
 
