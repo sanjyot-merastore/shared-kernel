@@ -2,12 +2,12 @@
 
 public interface ISoftDeletable
 {
-  bool IsDeleted { get; }
-  DateTime? DeletedAt { get; }
+  bool IsDeleted { get; set; }
+  DateTime? DeletedDate { get; set; }
 }
 
 public abstract class SoftDeletable : ISoftDeletable
 {
-  public bool IsDeleted { get; protected set; }
-  public DateTime? DeletedAt { get; protected set; }
+  public bool IsDeleted { get; set; }
+  public DateTime? DeletedDate { get; set; }
 }
