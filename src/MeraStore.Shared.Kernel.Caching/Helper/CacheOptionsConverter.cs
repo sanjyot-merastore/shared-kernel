@@ -1,4 +1,5 @@
-﻿using MeraStore.Shared.Kernel.Caching.Interfaces;
+﻿using MeraStore.Shared.Kernel.Caching.Helper;
+
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MeraStore.Shared.Kernel.Caching.Extensions.Helper;

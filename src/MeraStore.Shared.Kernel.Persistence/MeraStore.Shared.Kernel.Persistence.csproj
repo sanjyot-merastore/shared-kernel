@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+
+    <!-- Package Metadata -->
+    <Authors>Sanjyot Agureddy</Authors>
+    <Company>MeraStore</Company>
+    <Version>1.0.0</Version>
+    <PackageId>MeraStore.Shared.Kernel.Persistence</PackageId>
+    <Title>MeraStore.Shared.Kernel.Persistence</Title>
+    <Description>Extensible EF Core persistence library for the MeraStore microservices platform. Provides a base DbContext, unit of work, generic repositories, and support for soft deletion and audit tracking.</Description>
+    <PackageTags>efcore, persistence, repository-pattern, unit-of-work, merastore, dbcontext, soft-delete, audit</PackageTags>
+
+    <!-- Repository Info -->
+    <RepositoryUrl>https://github.com/sanjyot-merastore/shared-kernel</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/sanjyot-merastore/shared-kernel</PackageProjectUrl>
+
+    <!-- Licensing -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <License>MIT</License>
+
+    <!-- NuGet Notes -->
+    <PackageReleaseNotes>Initial release of EF Core persistence layer. Includes generic repositories, unit of work pattern, soft delete support, audit handling, and global query filters.</PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="MeraStore.Shared.Kernel.Common.Core" Version="1.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="9.103.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="icon.png">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+    </None>
+    <None Update="ReadMe.md">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
+</Project>

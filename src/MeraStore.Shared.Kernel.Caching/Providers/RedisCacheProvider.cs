@@ -1,4 +1,5 @@
-﻿using MeraStore.Shared.Kernel.Caching.Interfaces;
+﻿using MeraStore.Shared.Kernel.Caching.Helper;
+using MeraStore.Shared.Kernel.Caching.Interfaces;
 using Newtonsoft.Json;
 
 namespace MeraStore.Shared.Kernel.Caching.Providers;
@@ -7,6 +8,8 @@ namespace MeraStore.Shared.Kernel.Caching.Providers;
 public class RedisCacheProvider(IConnectionMultiplexer connection) : ICacheProvider
 {
   private readonly IDatabase _db = connection.GetDatabase();
+
+  public CacheStrategy Strategy => CacheStrategy.Redis;
 
   public async Task<T> GetAsync<T>(string key)
   {

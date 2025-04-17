@@ -2,11 +2,18 @@
 
 namespace MeraStore.Shared.Kernel.Common.Core.Domain.Entities;
 
-public abstract class Entity
+public interface IEntity
+{
+  Ulid Id { get; set; }
+}
+
+public abstract class Entity : IEntity
 {
   private readonly List<IDomainEvent> _domainEvents = [];
 
-  public Ulid Id { get; protected set; } = Ulid.NewUlid();
+  public Ulid Id { get; set; } = Ulid.NewUlid();
+
+
   public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
   protected Entity() { }
