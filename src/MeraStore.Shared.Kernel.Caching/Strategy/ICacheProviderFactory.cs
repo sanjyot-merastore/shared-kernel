@@ -1,5 +1,5 @@
-﻿using MeraStore.Shared.Kernel.Caching.Interfaces;
-using MeraStore.Shared.Kernel.Caching.Providers;
+﻿using MeraStore.Shared.Kernel.Caching.Helper;
+using MeraStore.Shared.Kernel.Caching.Interfaces;
 
 namespace MeraStore.Shared.Kernel.Caching.Strategy;
 
@@ -8,13 +8,15 @@ public interface ICacheProviderFactory
   ICacheProvider Get(CacheStrategy strategy);
 }
 
-public class CacheProviderFactory(InMemoryCacheProvider inMemory, RedisCacheProvider redis) : ICacheProviderFactory
+public class CacheProviderFactory(IEnumerable<ICacheProvider> providers) : ICacheProviderFactory
 {
-  public ICacheProvider Get(CacheStrategy strategy) => strategy switch
-  {
-    CacheStrategy.InMemory => inMemory,
-    CacheStrategy.Redis => redis,
-    _ => inMemory
-  };
-}
+  private readonly Dictionary<CacheStrategy, ICacheProvider> _providerMap =
+    providers.ToDictionary(p => p.Strategy);
 
+  public ICacheProvider Get(CacheStrategy strategy)
+  {
+    return _providerMap.TryGetValue(strategy, out var provider)
+      ? provider
+      : throw new NotSupportedException($"No cache provider found for strategy {strategy}");
+  }
+}

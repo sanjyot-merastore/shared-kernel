@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace MeraStore.Shared.Kernel.Caching.Interfaces;
+namespace MeraStore.Shared.Kernel.Caching.Helper;
 
 public class CacheEntryOptions
 {
@@ -33,7 +33,7 @@ public class CacheEntryOptions
   /// <summary>
   /// Add custom tags or metadata (can be helpful in diagnostics or eviction policies).
   /// </summary>
-  public Dictionary<string, string>? Metadata { get; set; }
+  public Dictionary<string, string> Metadata { get; set; }
 }
 
 public enum CacheStrategy

@@ -1,4 +1,5 @@
 ﻿using MeraStore.Shared.Kernel.Caching.Extensions.Helper;
+using MeraStore.Shared.Kernel.Caching.Helper;
 using MeraStore.Shared.Kernel.Caching.Interfaces;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -9,6 +10,8 @@ namespace MeraStore.Shared.Kernel.Caching.Providers;
 
 public class InMemoryCacheProvider(IMemoryCache memoryCache) : ICacheProvider
 {
+  public CacheStrategy Strategy => CacheStrategy.InMemory;
+
   public Task<T> GetAsync<T>(string key)
   {
     memoryCache.TryGetValue(key, out var value);
