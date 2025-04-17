@@ -1,15 +1,17 @@
 ﻿using System.Linq.Expressions;
 
+using MeraStore.Shared.Kernel.Persistence.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace MeraStore.Shared.Kernel.Persistence.EFCore
+namespace MeraStore.Shared.Kernel.Persistence.Repositories
 {
   /// <summary>
   /// A repository that provides basic CRUD operations for an entity in EF Core.
   /// </summary>
   /// <typeparam name="T">The entity type.</typeparam>
-  public class Repository<T>(DbContext context, ISaveChangesStrategy saveChanges) : IRepository<T>
+  public class Repository<T>(DbContext context, ICommitStrategy commit) : IRepository<T>
     where T : class
   {
     private readonly DbSet<T> _dbSet = context.Set<T>();
@@ -109,7 +111,7 @@ namespace MeraStore.Shared.Kernel.Persistence.EFCore
     public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
       await _dbSet.AddAsync(entity, cancellationToken);
-      await saveChanges.SaveChangesAsync(cancellationToken);
+      await commit.SaveChangesAsync(context, cancellationToken);
       return entity;
     }
 
@@ -122,7 +124,7 @@ namespace MeraStore.Shared.Kernel.Persistence.EFCore
     public async Task<IReadOnlyList<T>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
       await _dbSet.AddRangeAsync(entities, cancellationToken);
-      await saveChanges.SaveChangesAsync(cancellationToken);
+      await commit.SaveChangesAsync(context, cancellationToken);
       return entities.ToList();
     }
 
@@ -134,7 +136,7 @@ namespace MeraStore.Shared.Kernel.Persistence.EFCore
     public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
       _dbSet.Update(entity);
-      await saveChanges.SaveChangesAsync(cancellationToken);
+      await commit.SaveChangesAsync(context, cancellationToken);
     }
 
     /// <summary>
@@ -145,7 +147,7 @@ namespace MeraStore.Shared.Kernel.Persistence.EFCore
     public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
       _dbSet.Remove(entity);
-      await saveChanges.SaveChangesAsync(cancellationToken);
+      await commit.SaveChangesAsync(context, cancellationToken);
     }
 
     /// <summary>
@@ -158,7 +160,7 @@ namespace MeraStore.Shared.Kernel.Persistence.EFCore
     {
       var entitiesToDelete = await _dbSet.Where(criteria).ToListAsync(cancellationToken);
       _dbSet.RemoveRange(entitiesToDelete);
-      await saveChanges.SaveChangesAsync(cancellationToken);
+      await commit.SaveChangesAsync(context, cancellationToken);
       return entitiesToDelete.Count;
     }
 

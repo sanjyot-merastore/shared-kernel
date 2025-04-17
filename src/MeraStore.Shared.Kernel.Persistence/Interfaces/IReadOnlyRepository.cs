@@ -1,7 +1,8 @@
 ﻿using System.Linq.Expressions;
+
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace MeraStore.Shared.Kernel.Persistence;
+namespace MeraStore.Shared.Kernel.Persistence.Interfaces;
 
 /// <summary>
 /// Defines the read-only repository contract with operations to retrieve entities.
@@ -15,7 +16,7 @@ public interface IReadOnlyRepository<T> where T : class
   /// <param name="id">The identifier of the entity.</param>
   /// <param name="cancellationToken">The cancellation token.</param>
   /// <returns>The entity if found, otherwise null.</returns>
-  Task<T?> GetByIdAsync(Ulid id, CancellationToken cancellationToken = default);
+  Task<T> GetByIdAsync(Ulid id, CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Retrieves an entity by its identifier asynchronously.
@@ -24,7 +25,7 @@ public interface IReadOnlyRepository<T> where T : class
   /// <param name="id">The identifier of the entity.</param>
   /// <param name="cancellationToken">The cancellation token.</param>
   /// <returns>The entity if found, otherwise null.</returns>
-  Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default);
+  Task<T> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default);
 
   /// <summary>
   /// Retrieves the first entity that matches the given predicate asynchronously.
@@ -33,9 +34,9 @@ public interface IReadOnlyRepository<T> where T : class
   /// <param name="include">The related entities to include.</param>
   /// <param name="cancellationToken">The cancellation token.</param>
   /// <returns>The entity if found, otherwise null.</returns>
-  Task<T?> GetFirstOrDefaultAsync(
+  Task<T> GetFirstOrDefaultAsync(
       Expression<Func<T, bool>> predicate,
-      Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+      Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
       CancellationToken cancellationToken = default);
 
   /// <summary>
@@ -48,9 +49,9 @@ public interface IReadOnlyRepository<T> where T : class
   /// <param name="cancellationToken">The cancellation token.</param>
   /// <returns>A list of matching entities.</returns>
   Task<IReadOnlyList<T>> GetAsync(
-      Expression<Func<T, bool>>? predicate = null,
-      Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-      Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+      Expression<Func<T, bool>> predicate = null,
+      Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+      Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
       bool disableTracking = true,
       CancellationToken cancellationToken = default);
 

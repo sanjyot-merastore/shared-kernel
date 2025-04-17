@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MeraStore.Shared.Kernel.Persistence.Interfaces;
+using MeraStore.Shared.Kernel.Persistence.Repositories;
+using MeraStore.Shared.Kernel.Persistence.Strategy;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MeraStore.Shared.Kernel.Persistence.EFCore;
@@ -23,7 +27,7 @@ public static class ServiceRegistration
     services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     services.AddScoped(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>));
 
-    services.AddScoped<ISaveChangesStrategy, NoOpSaveChangesStrategy>();
+    services.AddScoped<ICommitStrategy, NoOpCommitStrategy>();
 
     return services;
   }
@@ -48,7 +52,7 @@ public static class ServiceRegistration
     services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     services.AddScoped(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>));
 
-    services.AddScoped<ISaveChangesStrategy, NoOpSaveChangesStrategy>();
+    services.AddScoped<ICommitStrategy, NoOpCommitStrategy>();
 
     return services;
   }

@@ -1,9 +1,11 @@
 ﻿using System.Linq.Expressions;
 
+using MeraStore.Shared.Kernel.Persistence.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace MeraStore.Shared.Kernel.Persistence.EFCore;
+namespace MeraStore.Shared.Kernel.Persistence.Repositories;
 
 public class ReadOnlyRepository<T>(DbContext dbContext) : IReadOnlyRepository<T> where T : class
 {
