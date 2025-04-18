@@ -1,57 +1,16 @@
-﻿using Serilog.Events;
+﻿namespace MeraStore.Shared.Kernel.Logging.Abstraction;
 
-namespace MeraStore.Shared.Kernel.Logging.Abstraction;
-
-public interface ILog
+public interface ILog : ILogFields
 {
- 
-  string CorrelationId { get; set; }
-  string RequestId { get; set; }
+  // Optional filters to apply when generating log fields
+  ICollection<ILogFilter> Filters { get; }
 
-  string TransactionId { get; set; }
+  // Holds the final, filtered key-value log fields
+  Dictionary<string, string> LoggingFields { get; }
 
-  string TraceId { get; set; }
+  // Allows manual setting/updating of fields dynamically
+  void TrySetLogField(string key, string value);
 
-  string SpanId { get; set; }
-
-  string ParentSpanId { get; set; }
-
-  string ServiceName { get; set; }
-
-  string Environment { get; set; }
-
-  string HostName { get; set; }
-
-  string ClientIp { get; set; }
-
-  string ServerIp { get; set; }
-
-  string PodName { get; set; }
-
-  string ContainerId { get; set; }
-  string TenantId { get; set; }
-
-  string UserId { get; set; }
-
-  string SessionId { get; set; }
-
-  string DeviceId { get; set; }
-
-  string UserAgent { get; set; }
-
-  string HttpMethod { get; set; }
-
-  string Message { get; set; }
-
-  string RequestUrl { get; set; }
-
-  DateTime? RequestTimestamp { get; set; }
-
-  string FeatureFlag { get; set; }
-
-  bool? IsDebugMode { get; set; }
-
-  double? TimeTakenMs { get; set; }
-
-  public LogEventLevel Level { get; }
+  // Should populate LoggingFields using the properties, attributes, and filters
+  Dictionary<string, string> PopulateLogFields();
 }

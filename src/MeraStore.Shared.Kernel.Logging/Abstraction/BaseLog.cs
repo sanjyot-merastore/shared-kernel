@@ -1,5 +1,6 @@
 ﻿using MeraStore.Shared.Kernel.Logging.Attributes;
 using Serilog.Events;
+using System.Reflection;
 
 namespace MeraStore.Shared.Kernel.Logging.Abstraction;
 
@@ -42,6 +43,9 @@ public abstract class BaseLog : ILog
   [LogField("container-id")]
   public string ContainerId { get; set; }
 
+  [LogField("category")]
+  public string Category { get; set; }
+
   [LogField("tenant-id", isHeader: true)]
   public string TenantId { get; set; }
 
@@ -80,6 +84,8 @@ public abstract class BaseLog : ILog
 
   [LogField("level")]
   public LogEventLevel Level { get; }
+
+  public ICollection<ILogFilter> Filters { get; }
   public Dictionary<string, string> LoggingFields { get; private set; } = new();
 
   // Method to add or update a log field
@@ -96,4 +102,67 @@ public abstract class BaseLog : ILog
       LoggingFields.TryAdd(key, value);
     }
   }
+
+  public Dictionary<string, string> PopulateLogFields()
+  {
+    var logFields = SetLoggingFields();
+
+    return logFields;
+  }
+
+  private Dictionary<string, string> SetLoggingFields()
+  {
+    var logFields = new Dictionary<string, string>();
+    var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+    foreach (var prop in properties)
+    {
+      var attr = prop.GetCustomAttribute<LogFieldAttribute>();
+      if (attr == null) continue;
+
+      var value = prop.GetValue(this);
+      if (value == null) continue;
+
+      if (value is IDictionary<string, string> dictValue)
+      {
+        foreach (var kvp in dictValue)
+        {
+          var key = attr.IsPrefix ? $"{attr.Name}.{kvp.Key}" : kvp.Key;
+          var val = kvp.Value;
+
+          // Apply filters before including
+          if (ShouldInclude(key, val))
+          {
+            logFields[key] = val;
+          }
+        }
+      }
+      else
+      {
+        string stringValue = value switch
+        {
+          DateTime dt => dt.ToString("o"),
+          bool b => b.ToString().ToLowerInvariant(),
+          Enum e => e.ToString(),
+          _ => value.ToString()
+        };
+
+        if (ShouldInclude(attr.Name, stringValue))
+        {
+          logFields[attr.Name] = stringValue;
+        }
+      }
+    }
+
+    LoggingFields = logFields;
+    return logFields;
+  }
+
+  private bool ShouldInclude(string fieldName, string value)
+  {
+    if (Filters == null || !Filters.Any()) return true;
+
+    return Filters.All(filter => filter.ShouldInclude(fieldName, value));
+  }
+
 }
