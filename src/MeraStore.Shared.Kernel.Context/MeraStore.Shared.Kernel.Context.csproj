@@ -27,6 +27,7 @@
     <!-- NuGet Notes -->
     <PackageReleaseNotes>Initial release of the MeraStore AsyncLocal-based request context system for structured logging, tracing, and multi-tenancy support.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
   </PropertyGroup>
 
 
@@ -35,6 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="icon.png">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+    </None>
     <None Update="ReadMe.md">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
