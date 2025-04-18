@@ -4,10 +4,41 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+
+    <!-- Package Metadata -->
+    <Authors>Sanjyot Agureddy</Authors>
+    <Company>MeraStore</Company>
+    <Version>1.0.0</Version>
+    <PackageId>MeraStore.Shared.Kernel.Context</PackageId>
+    <Title>MeraStore.Shared.Kernel.Context</Title>
+    <Description>Scoped request context management for ASP.NET Core apps. Provides correlation IDs, tenant info, trace context, and user metadata using AsyncLocal-based context propagation.</Description>
+    <PackageTags>context, middleware, async-local, correlation-id, tenant, merastore, shared-kernel</PackageTags>
+
+    <!-- Repository Info -->
+    <RepositoryUrl>https://github.com/sanjyot-merastore/shared-kernel</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/sanjyot-merastore/shared-kernel</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/sanjyot-merastore/docs/refs/heads/main/icons/MeraStore.ico</PackageIconUrl>
+
+    <!-- Licensing -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <License>MIT</License>
+
+    <!-- NuGet Notes -->
+    <PackageReleaseNotes>Initial release of the MeraStore AsyncLocal-based request context system for structured logging, tracing, and multi-tenancy support.</PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReadMe.md">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
   </ItemGroup>
 
 </Project>
