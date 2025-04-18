@@ -44,6 +44,7 @@
     <None Update="ReadMe.md">
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
