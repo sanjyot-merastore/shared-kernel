@@ -28,6 +28,16 @@ public static class EventCodes
     { Constants.EventCodes.DeserializationError, "121" },
     { Constants.EventCodes.SerializationError, "122" },
     { Constants.EventCodes.OperationFailed, "124" },
-    { Constants.EventCodes.InvalidOperation, "123" }
+    { Constants.EventCodes.InvalidOperation, "123" },
+    // 🆕 Newly Added
+    { Constants.EventCodes.MissingConfiguration, "125" },
+  { Constants.EventCodes.InvalidConfiguration, "126" },
+  { Constants.EventCodes.EnvironmentMismatch, "127" },
+  { Constants.EventCodes.RetryableError, "128" },
+  { Constants.EventCodes.HttpError, "129" },
+  { Constants.EventCodes.UnsupportedOperation, "130" },
+  { Constants.EventCodes.ConcurrencyConflict, "131" },
+  { Constants.EventCodes.DataConversionError, "132" },
+  { Constants.EventCodes.FileOperationError, "133" }
   };
 }

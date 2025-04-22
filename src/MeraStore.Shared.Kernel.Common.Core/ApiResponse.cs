@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace MeraStore.Shared.Kernel.Common.Core;
+namespace MeraStore.Services.Logging.SDK;
 
 public class ApiResponse<T>
 {

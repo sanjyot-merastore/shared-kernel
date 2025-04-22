@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{487C5BA9-691
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B7C09667-E74B-40C3-9C11-9DE4997B205A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Services.Sample.Api", "test\MeraStore.Services.Sample.Api\MeraStore.Services.Sample.Api.csproj", "{95F6EC3F-13BE-43D3-999A-33108B129EE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{2B61E45C-552A-4976-946D-8C3ACE340751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B61E45C-552A-4976-946D-8C3ACE340751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B61E45C-552A-4976-946D-8C3ACE340751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F6EC3F-13BE-43D3-999A-33108B129EE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F6EC3F-13BE-43D3-999A-33108B129EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F6EC3F-13BE-43D3-999A-33108B129EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F6EC3F-13BE-43D3-999A-33108B129EE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{E2F897F6-9207-4ECF-9B4B-A23AFA6D9676} = {EB7D8DAD-AB72-4350-884C-496B6E15A162}
 		{487C5BA9-691B-4CF0-8B71-BFC310470130} = {71D91C58-D565-4648-AE94-47F17507B7E0}
 		{B7C09667-E74B-40C3-9C11-9DE4997B205A} = {71D91C58-D565-4648-AE94-47F17507B7E0}
+		{95F6EC3F-13BE-43D3-999A-33108B129EE8} = {6668F8C0-C93F-48F5-B01A-2A84F56A5C1A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0509730D-937F-486D-9944-2CA4ACDDE1EF}
