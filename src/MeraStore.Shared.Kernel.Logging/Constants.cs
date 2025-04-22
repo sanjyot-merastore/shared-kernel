@@ -102,6 +102,11 @@ public static class Constants
       public const string ServerIp = "server-ip";
       public const string ClientIp = "client-ip";
       public const string Environment = "environment";
+      public const string MachineName = "machine-name";
+      public const string OsPlatform = "os-platform";
+      public const string OsVersion = "os-version";
+      public const string ProcessId = "process-id";
+      public const string ThreadId = "thread-id";
     }
 
     public static class ExceptionFields

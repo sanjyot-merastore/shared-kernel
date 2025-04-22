@@ -1,7 +1,8 @@
 ﻿using MeraStore.Shared.Kernel.Logging.Attributes;
+
 using Serilog.Events;
 
-namespace MeraStore.Shared.Kernel.Logging.Abstraction;
+namespace MeraStore.Shared.Kernel.Logging.Interfaces;
 
 public interface ILogFields
 {
@@ -10,6 +11,9 @@ public interface ILogFields
 
   [LogField("request-id", isHeader: true)]
   string RequestId { get; set; }
+
+  [LogField("app-domain", isHeader: true)]
+  string AppDomain { get; set; }
 
   [LogField("txn-id", isHeader: true)]
   string TransactionId { get; set; }
@@ -82,6 +86,14 @@ public interface ILogFields
 
   [LogField("time-taken-ms")]
   double? TimeTakenMs { get; set; }
+  [LogField("os-platform")]
+  string OsPlatform { get; set; }
+
+  [LogField("os-version")]
+  string OsVersion { get; set; }
+
+  [LogField("process-id")]
+  int ProcessId { get; set; }
 
   [LogField("level")]
   public LogEventLevel Level { get; }

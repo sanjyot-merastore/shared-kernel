@@ -1,11 +1,19 @@
 ﻿using MeraStore.Shared.Kernel.Logging.Attributes;
+
 using Serilog.Events;
 
-namespace MeraStore.Shared.Kernel.Logging.Abstraction;
+namespace MeraStore.Shared.Kernel.Logging.Loggers;
 
 public class TraceLog : BaseLog
 {
-  
+  public TraceLog(string message, string category = null) : base(message, category)
+  {
+  }
+
+  public TraceLog(string message) : base(message)
+  {
+  }
+
   [LogField("db-query-time-ms")]
   public long DbQueryTimeMs { get; set; }
 

@@ -1,10 +1,19 @@
 ﻿using MeraStore.Shared.Kernel.Logging.Attributes;
+
 using Serilog.Events;
 
-namespace MeraStore.Shared.Kernel.Logging.Abstraction;
+namespace MeraStore.Shared.Kernel.Logging.Loggers;
 
 public class ExceptionLog : BaseLog
 {
+  public ExceptionLog(string message, string category = null) : base(message, category)
+  {
+  }
+
+  public ExceptionLog(string message) : base(message)
+  {
+  }
+
   [LogField("ex-message")]
   public string ExceptionMessage { get; set; } = string.Empty;
 
@@ -23,12 +32,6 @@ public class ExceptionLog : BaseLog
   [LogField("is-handled-exception")]
   public bool IsHandledException { get; set; }
 
-  // Capturing API request details in case of exception
-  [LogField("http-method")]
-  public string HttpMethod { get; set; }
-
-  [LogField("request-url")]
-  public string RequestUrl { get; set; }
 
 
   [LogField("status-code")]

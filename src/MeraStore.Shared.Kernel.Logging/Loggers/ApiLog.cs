@@ -1,21 +1,20 @@
 ﻿using MeraStore.Shared.Kernel.Logging.Attributes;
+using MeraStore.Shared.Kernel.Logging.Interfaces;
+
 using Serilog.Events;
 
-namespace MeraStore.Shared.Kernel.Logging.Abstraction;
+namespace MeraStore.Shared.Kernel.Logging.Loggers;
 
 public class ApiLog : BaseLog
 {
-  public ApiLog()
+  public ApiLog(string message, string category = null) : base(message, category)
   {
-
-  }
-  public ApiLog(string message)
-  {
-    Message = message;
   }
 
-  [LogField("request-url")]
-  public string RequestUrl { get; set; } = string.Empty;
+  public ApiLog(string message) : base(message)
+  {
+  }
+
 
   [LogField("request-base-url")]
   public string RequestBaseUrl { get; set; } = string.Empty;
@@ -37,10 +36,10 @@ public class ApiLog : BaseLog
   public Dictionary<string, string> ResponseHeaders { get; set; } = new();
 
   [LogField("request")]
-  public string Request { get; set; }
+  public Payload Request { get; set; }
 
   [LogField("response")]
-  public string Response { get; set; }
+  public Payload Response { get; set; }
 
   [LogField("status-code")]
   public int ResponseStatusCode { get; set; }
@@ -51,21 +50,9 @@ public class ApiLog : BaseLog
   [LogField("response-size-bytes")]
   public long ResponseSizeBytes { get; set; }
 
-
-  [LogField("user-id")]
-  public string UserId { get; set; }
-
   [LogField("client-id")]
   public string ClientId { get; set; }
 
-  [LogField("device-id")]
-  public string DeviceId { get; set; }
-
-  [LogField("session-id")]
-  public string SessionId { get; set; }
-
-  [LogField("tenant-id")]
-  public string TenantId { get; set; }
 
   [LogField("roles")]
   public string Roles { get; set; }
@@ -75,4 +62,13 @@ public class ApiLog : BaseLog
 
   public new LogEventLevel Level => LogEventLevel.Information;
 
+  public ICollection<ILogFilter> MaskingFilters { get; set; } = [];
+
+  public override Dictionary<string, string> PopulateLogFields()
+  {
+     var fields = base.PopulateLogFields();
+
+
+     return fields;
+  }
 }

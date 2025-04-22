@@ -1,4 +1,4 @@
-﻿namespace MeraStore.Shared.Kernel.Logging.Abstraction;
+﻿namespace MeraStore.Shared.Kernel.Logging.Interfaces;
 
 public interface ILogFilter
 {

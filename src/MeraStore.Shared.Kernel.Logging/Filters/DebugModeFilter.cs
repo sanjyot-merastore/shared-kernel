@@ -1,4 +1,4 @@
-﻿using MeraStore.Shared.Kernel.Logging.Abstraction;
+﻿using MeraStore.Shared.Kernel.Logging.Interfaces;
 
 namespace MeraStore.Shared.Kernel.Logging.Filters;
 
