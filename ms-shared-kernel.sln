@@ -37,6 +37,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{487C5BA9-691
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B7C09667-E74B-40C3-9C11-9DE4997B205A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Context.Tests", "test\MeraStore.Shared.Kernel.Context.Tests\MeraStore.Shared.Kernel.Context.Tests.csproj", "{4B0A2950-3107-4471-98D6-108182467991}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Logging.Tests", "test\MeraStore.Shared.Kernel.Logging.Tests\MeraStore.Shared.Kernel.Logging.Tests.csproj", "{8077E950-E57E-43C9-A2F9-80768BF8B8E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,14 @@ Global
 		{2B61E45C-552A-4976-946D-8C3ACE340751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B61E45C-552A-4976-946D-8C3ACE340751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B61E45C-552A-4976-946D-8C3ACE340751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B0A2950-3107-4471-98D6-108182467991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B0A2950-3107-4471-98D6-108182467991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B0A2950-3107-4471-98D6-108182467991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B0A2950-3107-4471-98D6-108182467991}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8077E950-E57E-43C9-A2F9-80768BF8B8E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8077E950-E57E-43C9-A2F9-80768BF8B8E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8077E950-E57E-43C9-A2F9-80768BF8B8E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8077E950-E57E-43C9-A2F9-80768BF8B8E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +99,8 @@ Global
 		{E2F897F6-9207-4ECF-9B4B-A23AFA6D9676} = {EB7D8DAD-AB72-4350-884C-496B6E15A162}
 		{487C5BA9-691B-4CF0-8B71-BFC310470130} = {71D91C58-D565-4648-AE94-47F17507B7E0}
 		{B7C09667-E74B-40C3-9C11-9DE4997B205A} = {71D91C58-D565-4648-AE94-47F17507B7E0}
+		{4B0A2950-3107-4471-98D6-108182467991} = {79C45108-654D-42A6-86B3-D98CFB85F3C8}
+		{8077E950-E57E-43C9-A2F9-80768BF8B8E4} = {B7C09667-E74B-40C3-9C11-9DE4997B205A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0509730D-937F-486D-9944-2CA4ACDDE1EF}

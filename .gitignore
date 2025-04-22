@@ -398,3 +398,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/test/MeraStore.Sample.Api/logs/log.txt
