@@ -3,23 +3,26 @@ using System.Runtime.InteropServices;
 
 using Elastic.Clients.Elasticsearch;
 
+using MeraStore.Shared.Kernel.Logging.Interfaces;
+
 using Serilog.Core;
 
 namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
 
 [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
-public abstract class BaseElasticsearchSink : ILogEventSink
+public abstract class BaseElasticsearchSink : ILogSink, ILogEventSink
 {
   protected readonly ElasticsearchClient Client;
+  protected  string IndexFormat;
   protected readonly string HostName;
   protected readonly string OsPlatform;
   protected readonly string OsVersion;
   protected readonly int ProcessId;
-  private readonly string _serviceName;
+  protected readonly string ServiceName;
 
   protected BaseElasticsearchSink(string serviceName, string elasticsearchUrl, string indexFormat)
   {
-    _serviceName = !string.IsNullOrEmpty(serviceName) ? serviceName : throw new ArgumentNullException(nameof(serviceName), "Service name cannot be null or empty.");
+    ServiceName = !string.IsNullOrEmpty(serviceName) ? serviceName : throw new ArgumentNullException(nameof(serviceName), "Service name cannot be null or empty.");
     var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUrl))
         .DefaultIndex($"{indexFormat}{DateTime.UtcNow:yyyy-MM}");
     Client = new ElasticsearchClient(settings);
@@ -48,7 +51,7 @@ public abstract class BaseElasticsearchSink : ILogEventSink
     var fields = new Dictionary<string, object>();
     fields[Constants.Logging.LogFields.Timestamp] = logEvent.Timestamp.UtcDateTime;
     fields[Constants.Logging.LogFields.Level] = logEvent.Level.ToString();
-    fields["service-name"] = _serviceName;
+    fields["service-name"] = ServiceName;
     fields[Constants.Logging.LogFields.SourceContext] = sourceContext;
     fields[Constants.Logging.SystemMetadata.MachineName] = HostName;
     fields[Constants.Logging.SystemMetadata.OsPlatform] = OsPlatform;
@@ -76,4 +79,6 @@ public abstract class BaseElasticsearchSink : ILogEventSink
 
     return fields;
   }
+
+  public abstract Task WriteAsync(ILog logEntry);
 }

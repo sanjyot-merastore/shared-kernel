@@ -1,11 +1,7 @@
-﻿using Elastic.Clients.Elasticsearch.Requests;
-
-using MeraStore.Shared.Kernel.Context;
+﻿using MeraStore.Shared.Kernel.Context;
 using MeraStore.Shared.Kernel.Logging;
 
 using Serilog.Context;
-
-using System.Diagnostics;
 
 namespace MeraStore.Services.Logging.Api.Middlewares;
 

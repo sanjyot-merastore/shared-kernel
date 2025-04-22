@@ -1,4 +1,6 @@
-﻿namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
+﻿using MeraStore.Shared.Kernel.Logging.Interfaces;
+
+namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
 
 public class EntityFrameworkSink(string serviceName, string elasticsearchUrl)
   : BaseElasticsearchSink(serviceName, elasticsearchUrl, Constants.Logging.Elasticsearch.EFCoreIndexFormat)
@@ -24,5 +26,10 @@ public class EntityFrameworkSink(string serviceName, string elasticsearchUrl)
         Log.Error(ex, "Failed to index log entry to Elasticsearch.");
       }
     });
+  }
+
+  public override async Task WriteAsync(ILog logEntry)
+  {
+    throw new NotImplementedException();
   }
 }

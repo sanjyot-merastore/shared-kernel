@@ -1,8 +1,7 @@
-﻿using MeraStore.Services.Logging.Domain.LogSinks;
+﻿using MeraStore.Shared.Kernel.Logging;
 using MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
 
 using Serilog;
-using Serilog.Events;
 
 namespace MeraStore.Services.Logging.Api.Extensions;
 
@@ -24,16 +23,14 @@ public static class ServiceExtensions
     {
       throw new InvalidOperationException("Elasticsearch URL is missing in configuration.");
     }
-    var logger = new LoggerConfiguration()
-      .Enrich.FromLogContext()
-      .WriteTo.Console(formatProvider: System.Globalization.CultureInfo.InvariantCulture) // Structured logging
-      .WriteTo.Sink(new ApplicationSink(serviceName, elasticsearchUrl))
-      .WriteTo.Sink(new InfrastructureSink(serviceName, elasticsearchUrl))
-      .WriteTo.Sink(new EntityFrameworkSink(serviceName, elasticsearchUrl))
-      .CreateLogger();
 
-    // Assign Serilog as the logging provider
-    Log.Logger = logger;
+    var logBuilder = new LoggerBuilder(builder.Services, serviceName)
+      .AddLogWriter()
+      .AddConsoleSink()
+      .AddElasticsearchSink(elasticsearchUrl);
+
+    Log.Logger = logBuilder.Build();
+
     builder.Host.UseSerilog(Log.Logger);
   }
 }

@@ -1,0 +1,25 @@
+﻿using MeraStore.Shared.Kernel.Logging.Interfaces;
+using Serilog.Parsing;
+
+/// <inheritdoc />
+public class FileLogSink(string path) : ILogSink
+{
+  private readonly ILogger _logger = new LoggerConfiguration()
+    .WriteTo.File(path ??"logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+  // Configure Serilog to write to a file
+
+  public async Task WriteAsync(ILog logEntry)
+  {
+    var logEvent = new LogEvent(
+      DateTimeOffset.Now,
+      logEntry.Level,
+      null,
+      new MessageTemplate(logEntry.Message, new List<MessageTemplateToken>()),
+      logEntry.LoggingFields.Select(kv => new LogEventProperty(kv.Key, new ScalarValue(kv.Value))).ToList());
+
+    _logger.Write(logEvent);
+    await Task.CompletedTask;
+  }
+}

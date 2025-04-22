@@ -1,14 +1,53 @@
-﻿using MeraStore.Shared.Kernel.Logging;
-using MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
+﻿using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.TransformManagement;
 
-namespace MeraStore.Services.Logging.Domain.LogSinks
+using MeraStore.Shared.Kernel.Logging.Interfaces;
+
+namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch
 {
-  public class ApplicationSink(string serviceName, string elasticsearchUrl)
-    : BaseElasticsearchSink(serviceName, elasticsearchUrl, Constants.Logging.Elasticsearch.DefaultIndexFormat)
+  public class ApplicationSink : BaseElasticsearchSink
   {
-    
+    private ElasticsearchClient _client;
+
+    public ApplicationSink(string serviceName, string elasticsearchUrl, string indexFormat = null)
+      : this(serviceName, elasticsearchUrl)
+    {
+      var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUrl));
+      _client = new ElasticsearchClient(settings);
+      IndexFormat = indexFormat ?? $"{Constants.Logging.Elasticsearch.DefaultIndexFormat}{DateTime.UtcNow:yyyy-MM}";
+    }
+
+    public ApplicationSink(string serviceName, string elasticsearchUrl) : base(serviceName, elasticsearchUrl, Constants.Logging.Elasticsearch.DefaultIndexFormat)
+    {
+      var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUrl));
+      _client = new ElasticsearchClient(settings);
+      if(string.IsNullOrEmpty(IndexFormat))
+        IndexFormat = $"{Constants.Logging.Elasticsearch.DefaultIndexFormat}{DateTime.UtcNow:yyyy-MM}";
+    }
 
     public override void Emit(LogEvent logEvent)
+    {
+      Log(logEvent);
+    }
+
+    public override async Task WriteAsync(ILog logEntry)
+    {
+      var logFields = new Dictionary<string, object>();
+
+      foreach (var field in logEntry.LoggingFields)
+      {
+        logFields[field.Key] = field.Value;
+      }
+
+      // Add timestamp and other necessary fields
+      logFields["timestamp"] = DateTime.UtcNow;
+      logFields["level"] = logEntry.Level.ToString();
+      logFields["message"] = logEntry.Message;
+
+      await Client.IndexAsync(logFields, idx => idx.Index(IndexFormat));
+    }
+
+    private void Log(LogEvent logEvent)
     {
       var logEntry = GetCommonLogFields(logEvent);
 
@@ -25,7 +64,7 @@ namespace MeraStore.Services.Logging.Domain.LogSinks
       // Ensure logs belong to the service name
       var sourceContext = logEntry[Constants.Logging.LogFields.SourceContext]?.ToString();
       if (sourceContext == null || !sourceContext.StartsWith("MeraStore"))
-        return; // Ignore logs that don't belong here
+        return;
 
 
       // Index the log entry asynchronously
@@ -38,9 +77,11 @@ namespace MeraStore.Services.Logging.Domain.LogSinks
         catch (Exception ex)
         {
           // Log the exception if indexing fails
-          Log.Error(ex, "Failed to index log entry to Elasticsearch.");
+          Serilog.Log.Error(ex, "Failed to index log entry to Elasticsearch.");
         }
       });
     }
+
+
   }
 }
