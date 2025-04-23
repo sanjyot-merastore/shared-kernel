@@ -21,5 +21,5 @@ public class TraceLog : BaseLog
   [LogField("cache-lookup-time-ms")]
   public long CacheLookupTimeMs { get; set; }
 
-  public new LogEventLevel Level => LogEventLevel.Verbose;
+  public override string GetLevel() => LogLevels.Trace;
 }

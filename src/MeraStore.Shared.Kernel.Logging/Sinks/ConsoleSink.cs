@@ -1,4 +1,5 @@
-﻿using MeraStore.Shared.Kernel.Logging.Interfaces;
+﻿using MeraStore.Shared.Kernel.Logging.Helpers;
+using MeraStore.Shared.Kernel.Logging.Interfaces;
 using Serilog.Parsing;
 using ILogger = Serilog.ILogger;
 
@@ -16,7 +17,7 @@ namespace MeraStore.Shared.Kernel.Logging.Sinks
     {
       var logEvent = new LogEvent(
         DateTimeOffset.Now,
-        logEntry.Level,
+        logEntry.Level.ConvertToSerilogLevel(),
         null,
         new MessageTemplate(logEntry.Message, new List<MessageTemplateToken>()),
         logEntry.LoggingFields.Select(kv => new LogEventProperty(kv.Key, new ScalarValue(kv.Value))).ToList());

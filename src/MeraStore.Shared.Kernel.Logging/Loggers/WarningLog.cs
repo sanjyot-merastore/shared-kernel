@@ -17,4 +17,5 @@ public class WarningLog : BaseLog
   public new LogEventLevel Level => LogEventLevel.Warning;
 
   public Dictionary<string, object> AdditionalData { get; set; } = new();
+  public override string GetLevel() => LogLevels.Warning;
 }

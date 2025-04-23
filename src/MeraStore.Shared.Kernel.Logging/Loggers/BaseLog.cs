@@ -16,8 +16,7 @@ namespace MeraStore.Shared.Kernel.Logging.Loggers
       Category = category ?? string.Empty;
 
       // Default fields initialized in the constructor
-     
-      ServiceName = System.Environment.MachineName;  // For simplicity, using the machine name as service name
+      
       Environment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"; // Default to "Production"
       HostName = Dns.GetHostName();
       ClientIp = GetLocalIPAddress();
@@ -123,8 +122,10 @@ namespace MeraStore.Shared.Kernel.Logging.Loggers
     [LogField("process-id")]
     public int ProcessId { get; set; }
 
-    [LogField("level")]
-    public LogEventLevel Level { get; }
+    [LogField("level")] 
+    public string Level => GetLevel();
+
+    public abstract string GetLevel();
 
     // Filters for sensitive data exclusion (you can customize the list)
     public ICollection<ILogFilter> Filters { get; } = new List<ILogFilter>

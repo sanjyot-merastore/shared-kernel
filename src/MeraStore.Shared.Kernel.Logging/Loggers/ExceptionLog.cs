@@ -35,5 +35,6 @@ public class ExceptionLog : BaseLog
   [LogField("status-code")]
   public int? ResponseStatusCode { get; set; }
 
-  public new LogEventLevel Level => LogEventLevel.Error;
+
+  public override string GetLevel() => LogLevels.Exception; 
 }

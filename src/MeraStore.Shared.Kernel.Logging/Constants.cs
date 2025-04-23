@@ -93,6 +93,7 @@ public static class Constants
       public const string RequestPath = "request-path";
       public const string TenantId = "tenantid";
       public const string TraceId = "traceid";
+      public const string ServiceName = "service-name";
     }
 
     public static class SystemMetadata

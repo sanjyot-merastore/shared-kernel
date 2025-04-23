@@ -13,12 +13,12 @@ namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
 public abstract class BaseElasticsearchSink : ILogSink, ILogEventSink
 {
   protected readonly ElasticsearchClient Client;
-  protected  string IndexFormat;
+  protected string IndexFormat;
   protected readonly string HostName;
   protected readonly string OsPlatform;
   protected readonly string OsVersion;
   protected readonly int ProcessId;
-  protected readonly string ServiceName;
+  protected string ServiceName;
 
   protected BaseElasticsearchSink(string serviceName, string elasticsearchUrl, string indexFormat)
   {
@@ -26,7 +26,7 @@ public abstract class BaseElasticsearchSink : ILogSink, ILogEventSink
     var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUrl))
         .DefaultIndex($"{indexFormat}{DateTime.UtcNow:yyyy-MM}");
     Client = new ElasticsearchClient(settings);
-    
+
     HostName = Environment.MachineName;
     OsPlatform = RuntimeInformation.OSDescription;
     OsVersion = Environment.OSVersion.ToString();

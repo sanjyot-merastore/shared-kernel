@@ -20,7 +20,8 @@ namespace MeraStore.Services.Sample.Api.Controllers
     public async Task<IActionResult> Get()
     {
       logger.LogInformation($"Getting weather forecast - {AppContext.Current.SampleId}");
-      await LogWriter.WriteAsync(LogLevel.Trace, new TraceLog("This is form logWriter"));
+      await Logger.LogAsync(new ApiLog("This is form async logWriter"));
+      Logger.Log(new TraceLog("This is form sync logWriter"));
       return Ok(Enumerable.Range(1, 5).Select(index => new WeatherForecast
       {
         Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

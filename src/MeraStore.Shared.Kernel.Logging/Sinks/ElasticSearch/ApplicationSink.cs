@@ -1,6 +1,4 @@
 ﻿using Elastic.Clients.Elasticsearch;
-using Elastic.Clients.Elasticsearch.TransformManagement;
-
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 
 namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch
@@ -12,6 +10,7 @@ namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch
     public ApplicationSink(string serviceName, string elasticsearchUrl, string indexFormat = null)
       : this(serviceName, elasticsearchUrl)
     {
+      ServiceName = serviceName;
       var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUrl));
       _client = new ElasticsearchClient(settings);
       IndexFormat = indexFormat ?? $"{Constants.Logging.Elasticsearch.DefaultIndexFormat}{DateTime.UtcNow:yyyy-MM}";
@@ -23,6 +22,7 @@ namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch
       _client = new ElasticsearchClient(settings);
       if(string.IsNullOrEmpty(IndexFormat))
         IndexFormat = $"{Constants.Logging.Elasticsearch.DefaultIndexFormat}{DateTime.UtcNow:yyyy-MM}";
+      ServiceName = serviceName;
     }
 
     public override void Emit(LogEvent logEvent)
@@ -60,6 +60,7 @@ namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch
       logEntry[Constants.Logging.LogFields.ClientIp] = GetFormattedValue(logEvent.Properties, Constants.Logging.LogFields.ClientIp);
       logEntry[Constants.Logging.LogFields.UserAgent] = GetFormattedValue(logEvent.Properties, Constants.Logging.LogFields.UserAgent);
       logEntry[Constants.Logging.LogFields.RequestPath] = GetFormattedValue(logEvent.Properties, Constants.Logging.LogFields.RequestPath);
+      logEntry[Constants.Logging.LogFields.ServiceName] = ServiceName;
 
       // Ensure logs belong to the service name
       var sourceContext = logEntry[Constants.Logging.LogFields.SourceContext]?.ToString();

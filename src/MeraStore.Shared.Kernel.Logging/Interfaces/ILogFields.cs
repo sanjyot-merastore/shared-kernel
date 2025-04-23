@@ -1,4 +1,5 @@
 ﻿using MeraStore.Shared.Kernel.Logging.Attributes;
+using MeraStore.Shared.Kernel.Logging.Loggers;
 
 namespace MeraStore.Shared.Kernel.Logging.Interfaces;
 
@@ -94,5 +95,7 @@ public interface ILogFields
   int ProcessId { get; set; }
 
   [LogField("level")]
-  public LogEventLevel Level { get; }
+  public string Level { get; }
+
+  string GetLevel() => LogLevels.Trace; // default fallback
 }

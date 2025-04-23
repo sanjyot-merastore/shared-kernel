@@ -57,8 +57,7 @@ public class ApiLog : BaseLog
 
   [LogField("scope")]
   public string Scope { get; set; }
-
-  public new LogEventLevel Level => LogEventLevel.Information;
+  public override string GetLevel() => LogLevels.Api;
 
   public ICollection<ILogFilter> MaskingFilters { get; set; } = [];
 
