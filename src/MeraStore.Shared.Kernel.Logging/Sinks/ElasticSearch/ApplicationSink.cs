@@ -43,6 +43,7 @@ namespace MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch
       logFields["timestamp"] = DateTime.UtcNow;
       logFields["level"] = logEntry.Level.ToString();
       logFields["message"] = logEntry.Message;
+      logFields[Constants.Logging.LogFields.ServiceName] = ServiceName;
 
       await Client.IndexAsync(logFields, idx => idx.Index(IndexFormat));
     }

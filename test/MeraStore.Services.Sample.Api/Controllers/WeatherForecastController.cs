@@ -19,7 +19,6 @@ namespace MeraStore.Services.Sample.Api.Controllers
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get()
     {
-      logger.LogInformation($"Getting weather forecast - {AppContext.Current.SampleId}");
       await Logger.LogAsync(new ApiLog("This is form async logWriter"));
       Logger.Log(new TraceLog("This is form sync logWriter"));
       return Ok(Enumerable.Range(1, 5).Select(index => new WeatherForecast

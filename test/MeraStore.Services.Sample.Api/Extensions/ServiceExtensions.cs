@@ -1,6 +1,4 @@
 ﻿using MeraStore.Shared.Kernel.Logging;
-using MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
-
 using Serilog;
 
 namespace MeraStore.Services.Logging.Api.Extensions;
@@ -24,10 +22,12 @@ public static class ServiceExtensions
       throw new InvalidOperationException("Elasticsearch URL is missing in configuration.");
     }
 
-    var logBuilder = new LoggerBuilder(builder.Services, serviceName)
-      .AddLogWriter()
+    var logBuilder = new LoggerBuilder(builder.Services)
+      .WithServiceName(serviceName)
       .AddConsoleSink()
-      .AddElasticsearchSink(elasticsearchUrl);
+      .AddElasticsearchSink(elasticsearchUrl)
+      .AddInfrastructureSink(elasticsearchUrl)
+      .AddEntityFrameworkSink(elasticsearchUrl);
 
     Log.Logger = logBuilder.Build();
 

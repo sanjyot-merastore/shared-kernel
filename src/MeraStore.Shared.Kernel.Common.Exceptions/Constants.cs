@@ -28,6 +28,25 @@ public static class Constants
     public static readonly string AnalyticsService = "analytics-service";
     public static readonly string DiscountService = "discount-service";
     public static readonly string FraudDetectionService = "fraud-detection-service";
+    public static readonly string LoggingService = "logging-service";
+    public static readonly string Tracing = "tracing";
+    public static readonly string Monitoring = "monitoring";
+    public static readonly string Secrets = "secrets";
+    public static readonly string Caching = "caching";
+    public static readonly string MultiTenancy = "multi-tenancy";
+    public static readonly string Masking = "masking";
+    public static readonly string HttpClient = "http-client";
+    public static readonly string Scheduler = "scheduler";
+    public static readonly string WebhookProcessor = "webhook-processor";
+    public static readonly string OpenSearch = "open-search";
+    public static readonly string FileStorage = "file-storage";
+    public static readonly string Kubernetes = "kubernetes";
+    public static readonly string CI_CD = "ci-cd";
+    public static readonly string Terraform = "terraform";
+    public static readonly string Vault = "vault";
+    public static readonly string Istio = "istio";
+
+
   }
 
 
@@ -60,6 +79,17 @@ public static class Constants
     public const string OperationFailed = "OperationFailed";
     public const string SerializationError = "SerializationError";
     public const string HttpRequestError = "HttpRequestError";
+
+    // 🔽 Newly added
+    public const string MissingConfiguration = "MissingConfiguration";
+    public const string InvalidConfiguration = "InvalidConfiguration";
+    public const string EnvironmentMismatch = "EnvironmentMismatch";
+    public const string RetryableError = "RetryableError";
+    public const string HttpError = "HttpError";
+    public const string UnsupportedOperation = "UnsupportedOperation";
+    public const string ConcurrencyConflict = "ConcurrencyConflict";
+    public const string DataConversionError = "DataConversionError";
+    public const string FileOperationError = "FileOperationError";
   }
 
   public static class ErrorCodes
@@ -85,6 +115,19 @@ public static class Constants
     public const string HttpRequestError = "HttpRequestError";
     public const string MissingUriError = "MissingUriError";
     public const string MissingHttpMethodError = "MissingHttpMethodError";
+
+    // 🔽 Newly added
+    public const string MissingConfigurationError = "MissingConfigurationError";
+    public const string InvalidConfigurationError = "InvalidConfigurationError";
+    public const string ConfigurationConflictError = "ConfigurationConflictError";
+    public const string ExternalDependencyError = "ExternalDependencyError";
+    public const string TransientError = "TransientError";
+    public const string TimeoutError = "TimeoutError";
+    public const string HttpRequestFailed = "HttpRequestFailed";
+    public const string InvalidCriteriaError = "InvalidCriteriaError";
+    public const string InvalidOperationError = "InvalidOperationError";
+    public const string IOError = "IOError";
   }
+
 
 }

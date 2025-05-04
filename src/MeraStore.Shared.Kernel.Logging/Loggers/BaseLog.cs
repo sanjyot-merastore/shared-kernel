@@ -19,7 +19,6 @@ namespace MeraStore.Shared.Kernel.Logging.Loggers
       
       Environment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"; // Default to "Production"
       HostName = Dns.GetHostName();
-      ClientIp = GetLocalIPAddress();
       ServerIp = GetLocalIPAddress();  // Assume server and client IP are the same for this example
       PodName = System.Environment.GetEnvironmentVariable("POD_NAME") ; // Example for Kubernetes Pod name
       ContainerId = System.Environment.GetEnvironmentVariable("CONTAINER_ID") ; // Example for Docker container ID
@@ -28,7 +27,6 @@ namespace MeraStore.Shared.Kernel.Logging.Loggers
       OsPlatform = RuntimeInformation.OSDescription;
       OsVersion =  System.Environment.OSVersion.ToString();
       ProcessId = System.Environment.ProcessId;
-
     }
 
     // Default field properties with `LogField` attribute
@@ -169,17 +167,20 @@ namespace MeraStore.Shared.Kernel.Logging.Loggers
         var value = prop.GetValue(this);
         if (value == null) continue;
 
-        // Handle dictionary values for complex objects
+        if (value is string stringVal && string.IsNullOrWhiteSpace(stringVal))
+          continue; // Skip null or whitespace strings
+
+        // Handle dictionary values (e.g. for additional structured fields)
         if (value is IDictionary<string, string> dictValue)
         {
           foreach (var kvp in dictValue)
           {
-            var key = attr.IsPrefix ? $"{attr.Name}.{kvp.Key}" : kvp.Key;
-            var val = kvp.Value;
+            if (string.IsNullOrWhiteSpace(kvp.Value)) continue;
 
-            if (ShouldInclude(key, val))
+            var key = attr.IsPrefix ? $"{attr.Name}.{kvp.Key}" : kvp.Key;
+            if (ShouldInclude(key, kvp.Value))
             {
-              logFields[key] = val;
+              logFields[key] = kvp.Value;
             }
           }
         }
@@ -193,16 +194,21 @@ namespace MeraStore.Shared.Kernel.Logging.Loggers
             _ => value.ToString()
           };
 
-          if (ShouldInclude(attr.Name, stringValue))
+          if (!string.IsNullOrEmpty(stringValue) && ShouldInclude(attr.Name, stringValue))
           {
             logFields[attr.Name] = stringValue;
           }
         }
       }
 
-      LoggingFields = logFields;
+      foreach (var kvp in logFields)
+      {
+        LoggingFields.TryAdd(kvp.Key, kvp.Value);
+      }
+
       return logFields;
     }
+
 
     // Method to check if a field should be included based on the filters
     private bool ShouldInclude(string fieldName, string value)

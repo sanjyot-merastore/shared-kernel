@@ -1,66 +1,73 @@
-﻿using MeraStore.Shared.Kernel.Logging.Interfaces;
+﻿using MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
+using MeraStore.Shared.Kernel.Logging.Interfaces;
 using MeraStore.Shared.Kernel.Logging.Sinks;
 using MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Serilog;
-
 namespace MeraStore.Shared.Kernel.Logging
 {
   public class LoggerBuilder
   {
-    private readonly string _serviceName;
-    private readonly LoggerConfiguration _loggerConfiguration = new LoggerConfiguration().Enrich.FromLogContext();
-    private readonly List<ILogSink> _logSinks = new List<ILogSink>();
+    private string _serviceName;
+    private readonly LoggerConfiguration _loggerConfig;
+    private readonly List<ILogSink> _customSinks;
 
-    public LoggerBuilder(IServiceCollection services, string serviceName)
+    public LoggerBuilder(IServiceCollection services)
     {
-      _serviceName = serviceName;
+      _customSinks = [];
+      _loggerConfig = new LoggerConfiguration().Enrich.FromLogContext();
     }
 
-    // Add Console Sink
+    public LoggerBuilder WithServiceName(string serviceName)
+    {
+      if (string.IsNullOrWhiteSpace(serviceName))
+        throw new CommonExceptions.ConfigurationException("Service name must not be null, empty, or whitespace.");
+
+      _serviceName = serviceName;
+      _loggerConfig.Enrich.WithProperty(Constants.Logging.LogFields.ServiceName, serviceName);
+      return this;
+    }
+
     public LoggerBuilder AddConsoleSink()
     {
-      _loggerConfiguration.WriteTo.Console();
-      var sink = new ConsoleLogSink();
-      _logSinks.Add(sink);
+      _loggerConfig.WriteTo.Console();
+      _customSinks.Add(new ConsoleLogSink());
       return this;
     }
 
-    // Add File Sink
     public LoggerBuilder AddFileSink(string filePath = "logs/log.txt")
     {
-      _loggerConfiguration.WriteTo.File(filePath);
-      var sink = new FileLogSink(filePath);
-      _logSinks.Add(sink);
+      _loggerConfig.WriteTo.File(filePath);
+      _customSinks.Add(new FileLogSink(filePath));
       return this;
     }
 
-    // Add Elasticsearch Sink
     public LoggerBuilder AddElasticsearchSink(string elasticsearchUrl, string? indexFormat = null)
     {
-      var sink = new ApplicationSink(_serviceName, elasticsearchUrl);
-      _loggerConfiguration.WriteTo.Sink(sink);
-      _logSinks.Add(sink);
+      var elasticSink = new ApplicationSink(_serviceName, elasticsearchUrl);
+      _loggerConfig.WriteTo.Sink(elasticSink);
+      _customSinks.Add(elasticSink);
       return this;
     }
 
-    // Add LogWriter to the DI container
-    public LoggerBuilder AddLogWriter()
+    public LoggerBuilder AddInfrastructureSink(string elasticsearchUrl, string? indexFormat = null)
     {
-      LogWriter.Configure(_logSinks.ToArray());  // Configure LogWriter with the added sinks
+      var infrastructureSink = new InfrastructureSink(_serviceName, elasticsearchUrl);
+      _loggerConfig.WriteTo.Sink(infrastructureSink);
+      return this;
+    }
+    public LoggerBuilder AddEntityFrameworkSink(string elasticsearchUrl, string? indexFormat = null)
+    {
+      var logEventSink = new EntityFrameworkSink(_serviceName, elasticsearchUrl);
+      _loggerConfig.WriteTo.Sink(logEventSink);
       return this;
     }
 
-    // Build and return the Serilog Logger
     public ILogger Build()
     {
-      // Configure LogWriter before building the logger
-      LogWriter.Configure(_logSinks.ToArray());
-
-      // Return the final logger
-      return _loggerConfiguration.CreateLogger();
+      LogWriter.Configure(_customSinks.ToArray());
+      return _loggerConfig.CreateLogger();
     }
   }
 }
