@@ -3,7 +3,57 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
+
+    <!-- Package Metadata -->
+    <Authors>Sanjyot Agureddy</Authors>
+    <Company>MeraStore</Company>
+    <Version>1.0.0</Version>
+    <PackageId>MeraStore.Shared.Kernel.Logging</PackageId>
+    <Title>MeraStore.Shared.Kernel.Logging</Title>
+    <Description>Flexible logging SDK for MeraStore microservices, supporting multiple logging sinks (Console, Elasticsearch, File) with a builder pattern and structured logging support.</Description>
+    <PackageTags>logging, structured-logging, serilog, elasticsearch, sdk, microservices, merastore</PackageTags>
+
+    <!-- Repository Info -->
+    <RepositoryUrl>https://github.com/sanjyot-merastore/shared-kernel</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/sanjyot-merastore/shared-kernel</PackageProjectUrl>
+
+    <!-- Licensing -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <License>MIT</License>
+
+    <!-- NuGet Notes -->
+    <PackageReleaseNotes>Initial release with support for multiple sinks using a builder pattern and customizable log field masking.</PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="Elastic.Clients.Elasticsearch" Version="8.17.3" />    <!-- Do not update -->
+    <PackageReference Include="MeraStore.Services.Logging.SDK" Version="1.0.7" />
+    <PackageReference Include="MeraStore.Shared.Kernel.Common.Exceptions" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Elastic.Serilog.Sinks" Version="8.12.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="icon.png">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+    </None>
+    <None Update="ReadMe.md">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>

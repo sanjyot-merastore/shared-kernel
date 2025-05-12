@@ -24,6 +24,18 @@ public static class ErrorCodes
         { Constants.ErrorCodes.ValidationError, "433" },
         { Constants.ErrorCodes.HttpRequestError, "437" },
         { Constants.ErrorCodes.MissingUriError, "438" },
-        { Constants.ErrorCodes.MissingHttpMethodError, "439" }
+        { Constants.ErrorCodes.MissingHttpMethodError, "439" },
+
+        // 🆕 Newly Added
+        { Constants.ErrorCodes.MissingConfigurationError, "440" },
+        { Constants.ErrorCodes.InvalidConfigurationError, "441" },
+        { Constants.ErrorCodes.ConfigurationConflictError, "442" },
+        { Constants.ErrorCodes.ExternalDependencyError, "443" },
+        { Constants.ErrorCodes.TransientError, "444" },
+        { Constants.ErrorCodes.TimeoutError, "445" },
+        { Constants.ErrorCodes.HttpRequestFailed, "446" },
+        { Constants.ErrorCodes.InvalidCriteriaError, "447" },
+        { Constants.ErrorCodes.InvalidOperationError, "448" },
+        { Constants.ErrorCodes.IOError, "449" }
     };
 }
