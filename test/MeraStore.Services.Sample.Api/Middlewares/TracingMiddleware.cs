@@ -1,8 +1,13 @@
-﻿using MeraStore.Shared.Kernel.Context;
+﻿using Elastic.Clients.Elasticsearch.Requests;
+
+using MeraStore.Shared.Kernel.Context;
 using MeraStore.Shared.Kernel.Logging;
+
 using Serilog.Context;
 
-namespace MeraStore.Services.Logging.Api.Middlewares;
+using System.Diagnostics;
+
+namespace MeraStore.Services.Sample.Api.Middlewares;
 
 /// <summary>
 /// Middleware that injects AppContext and logs traceability metadata for each request.
@@ -16,7 +21,7 @@ public class AppContextTracingMiddleware(RequestDelegate next)
     // Build AppContext from request headers
     var baseContext = AppContextBase.FromHttpContext(context, Constants.ServiceName);
 
-    var appContext = new Sample.Api.AppContext(Constants.ServiceName)
+    var appContext = new AppContext(Constants.ServiceName)
     {
       CorrelationId = baseContext.CorrelationId,
       TransactionId = baseContext.TransactionId,

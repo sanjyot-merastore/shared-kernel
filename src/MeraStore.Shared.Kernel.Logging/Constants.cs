@@ -79,9 +79,9 @@ public static class Constants
       public const string SourceContext = "source-context";
       public const string Level = "level";
       public const string Message = "message";
-      public const string CorrelationId = "correlation-id";
-      public const string TransactionId = "txn-id";
-      public const string RequestId = "request-id";
+      public const string CorrelationId = "ms-correlation-id";
+      public const string TransactionId = "ms-txn-id";
+      public const string RequestId = "ms-request-id";
       public const string RequestUrl = "request-url";
       public const string RequestBaseUrl = "request-base-url";
       public const string QueryString = "query-string";
@@ -92,7 +92,7 @@ public static class Constants
       public const string UserAgent = "user-agent";
       public const string RequestPath = "request-path";
       public const string TenantId = "tenantid";
-      public const string TraceId = "traceid";
+      public const string TraceId = "ms-traceid";
       public const string ServiceName = "service-name";
     }
 

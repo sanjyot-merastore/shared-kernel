@@ -30,15 +30,16 @@ dotnet add reference ../MeraStore.Shared.Kernel.Logging/MeraStore.Shared.Kernel.
 
 #### 1. Configure Logger
 ```csharp
-    var logBuilder = new LoggerBuilder(builder.Services)
-      .WithServiceName(serviceName)
-      .AddConsoleSink()
-      .AddElasticsearchSink(elasticsearchUrl)
-      .AddInfrastructureSink(elasticsearchUrl)
-      .AddEntityFrameworkSink(elasticsearchUrl);
+builder.AddLoggingServices("SampleApi", options =>
+{
+    options.UseConsole = true;
+    options.UseFile = true;
+    options.UseElasticsearch = true;
+    options.ElasticsearchUrl = builder.Configuration["Logging:Elasticsearch:Url"];
+    options.UseInfrastructureSink = true;
+    options.UseEntityFrameworkSink = false;
+});
 
-    Log.Logger = logBuilder.Build();
-    builder.Host.UseSerilog(Log.Logger);
 ```
 
 #### 2. Log Messages

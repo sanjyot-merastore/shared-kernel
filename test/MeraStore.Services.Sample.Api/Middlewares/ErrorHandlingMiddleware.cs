@@ -1,12 +1,15 @@
 ﻿using System.Net;
+
 using MeraStore.Shared.Kernel.Common.Exceptions;
 using MeraStore.Shared.Kernel.Common.Exceptions.ErrorsCodes;
 using MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
 using MeraStore.Shared.Kernel.Logging.Attributes;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
 
-namespace MeraStore.Services.Logging.Api.Middlewares
+namespace MeraStore.Services.Sample.Api.Middlewares
 {
   /// <summary>
   /// 

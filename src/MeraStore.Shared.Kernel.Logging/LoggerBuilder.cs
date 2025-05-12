@@ -31,7 +31,8 @@ public class LoggerBuilder
 
   public LoggerBuilder AddConsoleSink()
   {
-    _loggerConfig.WriteTo.Console();
+    var outputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}";
+    _loggerConfig.WriteTo.Console(outputTemplate: outputTemplate);
     _customSinks.Add(new ConsoleLogSink());
     return this;
   }

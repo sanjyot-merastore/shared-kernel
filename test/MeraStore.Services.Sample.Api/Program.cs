@@ -1,7 +1,5 @@
-using MeraStore.Services.Logging.Api.Extensions;
-using MeraStore.Services.Logging.Api.Middlewares;
 using MeraStore.Services.Sample.Api;
-using MeraStore.Services.Sample.Api.Controllers;
+using MeraStore.Services.Sample.Api.Middlewares;
 using MeraStore.Shared.Kernel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,8 +14,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpClient<WeatherForecastController>();
-builder.AddLoggingServices(Constants.ServiceName);
+builder.AddLoggingServices(Constants.ServiceName, options =>
+{
+  options.UseElasticsearch = true;
+  options.ElasticsearchUrl = builder.Configuration["ElasticSearchUrl"];
+});
+
 
 var app = builder.Build();
 

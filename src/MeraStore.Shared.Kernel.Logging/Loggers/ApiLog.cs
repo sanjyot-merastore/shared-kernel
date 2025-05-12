@@ -1,8 +1,7 @@
-﻿using Elastic.Clients.Elasticsearch.Nodes;
-using MeraStore.Services.Logging.SDK;
+﻿using MeraStore.Services.Logging.SDK;
 using MeraStore.Services.Logging.SDK.Models;
 using MeraStore.Shared.Kernel.Logging.Attributes;
-using MeraStore.Shared.Kernel.Logging.Filters;
+using MeraStore.Shared.Kernel.Logging.Helpers;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 
 namespace MeraStore.Shared.Kernel.Logging.Loggers;
@@ -46,6 +45,9 @@ public class ApiLog : BaseLog
   [LogField("status-code")]
   public int ResponseStatusCode { get; set; }
 
+  [LogField("status")]
+  public bool Status => ResponseStatusCode is >= 200 and < 300;
+
   [LogField("request-size-bytes")]
   public long RequestSizeBytes { get; set; }
 
@@ -66,7 +68,7 @@ public class ApiLog : BaseLog
   public string Scope { get; set; }
   public override string GetLevel() => LogLevels.Api;
 
-  public ICollection<IMaskingFilter> MaskingFilters { get; set; } = [new MaskingFilter([], [])];
+  public ICollection<IMaskingFilter> MaskingFilters { get; set; } = [DefaultMaskingFilter.Get()];
 
   public override async Task<Dictionary<string, string>> PopulateLogFields()
   {
@@ -104,7 +106,7 @@ public class ApiLog : BaseLog
 
             }, GetDefaultHeaders(CorrelationId)).Result;
             var requestId = requestLog?.Response?.Id;
-            TrySetLogField("request", url + $"/api/v1.0/logs/requests/{requestId}");
+            TrySetLogField("request", url + $"/api/v1.0/logs/requests/payload/{requestId}");
           }
 
         }
@@ -123,7 +125,8 @@ public class ApiLog : BaseLog
             RequestId = Guid.Parse(RequestId)
           }, GetDefaultHeaders(CorrelationId)).Result;
           var requestId = response?.Response?.Id;
-          TrySetLogField("response", url + $"/api/v1.0/logs/responses/{requestId}");
+          var responseUrl = url + $"/api/v1.0/logs/responses/payload/{requestId}";
+          TrySetLogField("response", responseUrl);
         }
       }
       catch (Exception ex)

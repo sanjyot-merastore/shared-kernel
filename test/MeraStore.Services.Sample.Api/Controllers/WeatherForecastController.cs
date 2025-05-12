@@ -1,8 +1,6 @@
 using MeraStore.Shared.Kernel.Logging;
 using MeraStore.Shared.Kernel.Logging.Loggers;
-
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace MeraStore.Services.Sample.Api.Controllers
 {
@@ -19,6 +17,19 @@ namespace MeraStore.Services.Sample.Api.Controllers
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get()
+    {
+      await Logger.LogAsync(new TraceLog("Hello"));
+;      return Ok(Enumerable.Range(1, 5).Select(index => new WeatherForecast
+      {
+        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+        TemperatureC = Random.Shared.Next(-20, 55),
+        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+      })
+      .ToArray());
+    }
+    
+    [HttpPost(Name = "Post")]
+    public async Task<IActionResult> Post([FromBody] Student student)
     {
       return Ok(Enumerable.Range(1, 5).Select(index => new WeatherForecast
       {

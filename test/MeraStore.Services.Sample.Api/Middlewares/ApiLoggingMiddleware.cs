@@ -1,13 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Text;
 
+using MeraStore.Services.Sample.Api.Filters;
 using MeraStore.Shared.Kernel.Logging;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 using MeraStore.Shared.Kernel.Logging.Loggers;
 
-using AppContext = MeraStore.Services.Sample.Api.AppContext;
-
-namespace MeraStore.Services.Logging.Api.Middlewares;
+namespace MeraStore.Services.Sample.Api.Middlewares;
 
 public class ApiLoggingMiddleware(RequestDelegate next, IMaskingFilter maskingFilter)
 {
@@ -51,6 +50,8 @@ public class ApiLoggingMiddleware(RequestDelegate next, IMaskingFilter maskingFi
         RequestTimestamp = DateTime.UtcNow,
         RequestId = AppContext.Current.RequestId
       };
+
+      apiLog.MaskingFilters.Add(MaskingFilterFactory.ApiMaskingFilter());
 
       // Log the complete request and response information
       await Logger.LogAsync(apiLog);
