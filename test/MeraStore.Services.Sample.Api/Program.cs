@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.AddLoggingServices(Constants.ServiceName, options =>
 {
   options.UseElasticsearch = true;
+  options.UseInfrastructureSink = true;
   options.ElasticsearchUrl = builder.Configuration["ElasticSearchUrl"];
 });
 
