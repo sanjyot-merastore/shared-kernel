@@ -29,6 +29,8 @@ public static class ServiceRegistrations
     builder.Services.AddSingleton<IMaskingFilterBuilder, MaskingFilterBuilder>();
     builder.Services.AddSingleton<IMaskingFieldFilter, JsonPayloadRequestFilter>();
     builder.Services.AddSingleton<IMaskingFieldFilter, JsonPayloadResponseFilter>();
+    if (options.UseInfrastructureSink || options.UseEntityFrameworkSink)
+      builder.Services.AddSerilog();
 
     if (options.UseElasticsearch && string.IsNullOrWhiteSpace(options.ElasticsearchUrl))
     {
