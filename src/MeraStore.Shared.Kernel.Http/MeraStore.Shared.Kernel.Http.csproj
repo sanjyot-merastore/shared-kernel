@@ -4,10 +4,54 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+
+    <!-- Package Metadata -->
+    <Authors>Sanjyot Agureddy</Authors>
+    <Company>MeraStore</Company>
+    <Version>1.0.0</Version>
+    <PackageId>MeraStore.Shared.Kernel.Http</PackageId>
+    <Title>MeraStore.Shared.Kernel.Http</Title>
+    <Description>
+      Fluent and extensible HTTP client builder for MeraStore microservices.
+      Provides a flexible request builder pattern with built-in structured logging,
+      request/response tracking, header injection, and payload management.
+    </Description>
+    <PackageTags>http;fluent;httpclient;builder;microservices;logging;requestbuilder;merastore</PackageTags>
+
+    <!-- Repository Info -->
+    <RepositoryUrl>https://github.com/sanjyot-merastore/shared-kernel</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/sanjyot-merastore/shared-kernel</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/sanjyot-merastore/docs/refs/heads/main/icons/MeraStore.ico</PackageIconUrl>
+
+    <!-- Licensing -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <!-- NuGet Goodies -->
+    <PackageReleaseNotes>
+      🚀 Initial release! Features:
+      - Fluent builder-style HTTP client abstraction
+      - Integrated logging with MeraStore.Logging SDK
+      - Support for request headers, payloads, and timeout control
+      - Easy-to-use methods for GET, POST, PUT, DELETE
+    </PackageReleaseNotes>
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MeraStore.Shared.Kernel.Common.Exceptions" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MeraStore.Shared.Kernel.Logging\MeraStore.Shared.Kernel.Logging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReadMe.md">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+    </None>
   </ItemGroup>
 
 </Project>

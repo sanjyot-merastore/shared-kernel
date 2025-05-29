@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Exc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Persistence.Tests", "test\MeraStore.Shared.Kernel.Persistence.Tests\MeraStore.Shared.Kernel.Persistence.Tests.csproj", "{6EA62047-0455-4D04-A7B2-1874AD216E0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Http.Tests", "test\MeraStore.Shared.Kernel.Http.Tests\MeraStore.Shared.Kernel.Http.Tests.csproj", "{EA7C060B-D3B5-4362-9AD1-59CFC816EBE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{6EA62047-0455-4D04-A7B2-1874AD216E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EA62047-0455-4D04-A7B2-1874AD216E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EA62047-0455-4D04-A7B2-1874AD216E0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA7C060B-D3B5-4362-9AD1-59CFC816EBE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA7C060B-D3B5-4362-9AD1-59CFC816EBE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA7C060B-D3B5-4362-9AD1-59CFC816EBE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA7C060B-D3B5-4362-9AD1-59CFC816EBE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +121,7 @@ Global
 		{CB9EAF20-CD3E-42B7-AF4E-F6A1F70B1667} = {487C5BA9-691B-4CF0-8B71-BFC310470130}
 		{2C430657-E2CB-4A6A-A15F-13FC5B42CF5B} = {79C45108-654D-42A6-86B3-D98CFB85F3C8}
 		{6EA62047-0455-4D04-A7B2-1874AD216E0C} = {E2F897F6-9207-4ECF-9B4B-A23AFA6D9676}
+		{EA7C060B-D3B5-4362-9AD1-59CFC816EBE1} = {B7C09667-E74B-40C3-9C11-9DE4997B205A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0509730D-937F-486D-9944-2CA4ACDDE1EF}
