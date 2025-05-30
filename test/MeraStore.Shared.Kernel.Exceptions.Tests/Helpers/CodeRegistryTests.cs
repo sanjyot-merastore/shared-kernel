@@ -46,15 +46,15 @@ public class ServiceCodeRegistryTests
     [Fact]
     public void GetCode_ShouldReturnCode_WhenServiceNameExists()
     {
-        var result = ServiceCodeRegistry.GetCode("LoggingService");
-        result.Should().Be("SVC-LOG");
+        var result = ServiceCodeRegistry.GetCode("logging-service");
+        result.Should().Be("25");
     }
 
     [Fact]
     public void GetKey_ShouldReturnServiceName_WhenCodeExists()
     {
-        var result = ServiceCodeRegistry.GetKey("SVC-MSK");
-        result.Should().Be("Masking");
+        var result = ServiceCodeRegistry.GetKey("36");
+        result.Should().Be("Masking".ToLowerInvariant());
     }
 
     [Fact]
