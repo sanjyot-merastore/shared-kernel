@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MeraStore.Shared.Kernel.Common.Exceptions\MeraStore.Shared.Kernel.Exceptions.csproj" />
     <ProjectReference Include="..\..\src\MeraStore.Shared.Kernel.Context\MeraStore.Shared.Kernel.Context.csproj" />
+    <ProjectReference Include="..\..\src\MeraStore.Shared.Kernel.Exceptions\MeraStore.Shared.Kernel.Exceptions.csproj" />
     <ProjectReference Include="..\..\src\MeraStore.Shared.Kernel.Logging\MeraStore.Shared.Kernel.Logging.csproj" />
   </ItemGroup>
 

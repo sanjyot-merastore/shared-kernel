@@ -29,5 +29,13 @@
 		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <None Update="icon.png">
+	    <PackagePath>\</PackagePath>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <Pack>True</Pack>
+	  </None>
+	</ItemGroup>
+
 
 </Project>
