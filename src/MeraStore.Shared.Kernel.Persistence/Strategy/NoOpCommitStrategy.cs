@@ -1,8 +1,6 @@
 ﻿using MeraStore.Shared.Kernel.Persistence.Enums;
 using MeraStore.Shared.Kernel.Persistence.Interfaces;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace MeraStore.Shared.Kernel.Persistence.Strategy;
 
 /// <summary>

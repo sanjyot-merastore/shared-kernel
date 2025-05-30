@@ -1,9 +1,7 @@
 ﻿using MeraStore.Shared.Kernel.Persistence.Enums;
 using MeraStore.Shared.Kernel.Persistence.Interfaces;
 
-using Microsoft.EntityFrameworkCore;
-
-namespace MeraStore.Shared.Kernel.Persistence;
+namespace MeraStore.Shared.Kernel.Persistence.Repositories;
 
 /// <summary>
 /// Represents the unit of work that coordinates the changes with the DbContext.

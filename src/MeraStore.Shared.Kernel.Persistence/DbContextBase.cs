@@ -1,14 +1,12 @@
 ﻿using System.Linq.Expressions;
+using MeraStore.Shared.Kernel.Core.Domain.Entities;
 
-using MeraStore.Shared.Kernel.Common.Core.Domain.Entities;
-
-using Microsoft.EntityFrameworkCore;
-
-namespace MeraStore.Shared.Kernel.Persistence.EFCore;
+namespace MeraStore.Shared.Kernel.Persistence;
 
 /// <summary>
 /// Base class for Entity Framework Core DbContext with built-in support for audit info and soft deletion.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public abstract class DbContextBase(DbContextOptions options) : DbContext(options)
 {
   /// <summary>

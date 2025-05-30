@@ -1,15 +1,14 @@
 ﻿using MeraStore.Shared.Kernel.Persistence.Interfaces;
 using MeraStore.Shared.Kernel.Persistence.Repositories;
 using MeraStore.Shared.Kernel.Persistence.Strategy;
-
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MeraStore.Shared.Kernel.Persistence.EFCore;
+namespace MeraStore.Shared.Kernel.Persistence;
 
 /// <summary>
 /// Provides extension methods to register EF Core-based persistence services in the DI container.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public static class ServiceRegistration
 {
   /// <summary>
