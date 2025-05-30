@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace MeraStore.Shared.Kernel.Persistence.Interfaces
+﻿namespace MeraStore.Shared.Kernel.Persistence.Interfaces
 {
   /// <summary>
   /// Defines a contract for committing changes to the database.
