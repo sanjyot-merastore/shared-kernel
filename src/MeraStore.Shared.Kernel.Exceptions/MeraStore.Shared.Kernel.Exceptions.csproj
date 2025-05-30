@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+
+		<!-- Package Metadata -->
+		<Authors>Sanjyot Agureddy</Authors>
+		<Company>MeraStore</Company>
+		<Version>1.0.0</Version>
+		<PackageId>MeraStore.Shared.Kernel.Exceptions</PackageId>
+		<Title>MeraStore.Shared.Kernel.Exceptions</Title>
+		<Description>Shared exception handling components for the MeraStore platform, including structured error codes, domain exceptions, validation errors, and standardized error response models.</Description>
+		<PackageTags>exceptions, error-handling, shared-kernel, ddd, microservices, validation</PackageTags>
+
+		<!-- Repository Info -->
+		<RepositoryUrl>https://github.com/sanjyot-merastore/shared-kernel</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/sanjyot-merastore/shared-kernel</PackageProjectUrl>
+		<PackageIconUrl>https://raw.githubusercontent.com/sanjyot-merastore/docs/refs/heads/main/icons/MeraStore.ico</PackageIconUrl>
+
+		<!-- Licensing -->
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<License>MIT</License>
+
+		<!-- NuGet Notes -->
+		<PackageReleaseNotes>Initial release of MeraStore exception handling SDK, including base exceptions, structured event and error codes, and standardized exception contracts.</PackageReleaseNotes>
+		<PackageIcon>icon.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Update="icon.png">
+	    <PackagePath>\</PackagePath>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <Pack>True</Pack>
+	  </None>
+	</ItemGroup>
+
+
+</Project>
