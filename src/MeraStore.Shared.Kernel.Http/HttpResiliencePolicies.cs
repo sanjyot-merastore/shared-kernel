@@ -57,5 +57,10 @@ public static class HttpResiliencePolicies
       r.StatusCode is HttpStatusCode.InternalServerError or HttpStatusCode.TooManyRequests)
     .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
 
-
+  public static readonly IAsyncPolicy<HttpResponseMessage> DefaultResiliencePolicy =
+      Policy.WrapAsync(
+          RetryPolicy(),
+          AdvancedCircuitBreakerPolicy,
+          TimeoutPerTryPolicy
+      );
 }

@@ -1,10 +1,12 @@
-﻿using MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
-using MeraStore.Shared.Kernel.Logging.Interfaces;
+﻿using MeraStore.Shared.Kernel.Logging.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using Polly;
 using System.Text;
+using MeraStore.Shared.Kernel.Exceptions;
+using MeraStore.Shared.Kernel.Http.Exceptions;
+
 namespace MeraStore.Shared.Kernel.Http;
 
 /// <summary>
@@ -207,8 +209,8 @@ public class HttpRequestBuilder
     /// </summary>
     public HttpRequest Build()
     {
-        _request.Method = _method ?? throw new ApiExceptions.MissingMethodException();
-        _ = _request.RequestUri ?? throw new ApiExceptions.MissingUriException();
+        _request.Method = _method ?? throw  ApiExceptions.HttpMethodMissing();
+        _ = _request.RequestUri ?? throw  ApiExceptions.UrlMissing();
 
         _timeoutPolicy ??= Policy.TimeoutAsync<HttpResponseMessage>(60);
         _policies.Add(_timeoutPolicy);

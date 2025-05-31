@@ -7,12 +7,7 @@ namespace MeraStore.Shared.Kernel.Http;
 
 public static class HttpRequestMessageExtensions
 {
-    private static readonly IAsyncPolicy<HttpResponseMessage> ResiliencePolicy =
-        Policy.WrapAsync(
-            HttpResiliencePolicies.RetryPolicy(),
-            HttpResiliencePolicies.AdvancedCircuitBreakerPolicy,
-            HttpResiliencePolicies.TimeoutPerTryPolicy
-        );
+    
 
     private static readonly HttpClient DefaultClient = new();
 
@@ -42,7 +37,7 @@ public static class HttpRequestMessageExtensions
             apiLog.TrySetLogField(k, v);
 
         var sw = Stopwatch.StartNew();
-        var response = await ResiliencePolicy.ExecuteAsync(ct => client.SendAsync(context.Request, ct), cancellationToken);
+        var response = await HttpResiliencePolicies.DefaultResiliencePolicy.ExecuteAsync(ct => client.SendAsync(context.Request, ct), cancellationToken);
         sw.Stop();
 
         apiLog.TimeTakenMs = sw.ElapsedMilliseconds;

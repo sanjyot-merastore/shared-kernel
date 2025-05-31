@@ -39,7 +39,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MeraStore.Shared.Kernel.Common.Exceptions" Version="1.0.0" />
+    <PackageReference Include="MeraStore.Shared.Kernel.Exceptions" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
