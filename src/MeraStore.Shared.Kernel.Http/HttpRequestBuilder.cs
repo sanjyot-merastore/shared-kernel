@@ -4,7 +4,6 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using Polly;
 using System.Text;
-using MeraStore.Shared.Kernel.Exceptions;
 using MeraStore.Shared.Kernel.Http.Exceptions;
 
 namespace MeraStore.Shared.Kernel.Http;

@@ -36,17 +36,21 @@
       - Easy-to-use methods for GET, POST, PUT, DELETE
     </PackageReleaseNotes>
     <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Copyright>Sanjyot Agureddy</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MeraStore.Shared.Kernel.Exceptions" Version="1.0.0" />
+    <PackageReference Include="MeraStore.Shared.Kernel.Logging" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeraStore.Shared.Kernel.Logging\MeraStore.Shared.Kernel.Logging.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Update="icon.png">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+    </None>
     <None Update="ReadMe.md">
       <PackagePath>\</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

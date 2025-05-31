@@ -13,7 +13,7 @@ public class HttpRequest(HttpRequestMessage request, List<IAsyncPolicy<HttpRespo
     public List<IMaskingFilter> MaskingFilters { get; init; } = [];
     public HttpClient? Client { get; init; }
     public HttpRequestMessage Request { get; } = request ?? throw new ArgumentNullException(nameof(request));
-    public IReadOnlyList<IAsyncPolicy<HttpResponseMessage>> Policies => _policies;
+    public IAsyncPolicy<HttpResponseMessage> FaultPolicy => Policy.WrapAsync(_policies.ToArray());
 
     private readonly List<IAsyncPolicy<HttpResponseMessage>> _policies = policies ?? throw new ArgumentNullException(nameof(policies));
 }

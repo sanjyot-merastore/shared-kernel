@@ -26,3 +26,28 @@ This package is part of the `MeraStore.Shared.Kernel` monorepo. Add the referenc
 
 ## 🛠️ Usage
 
+### 1 Vanilla HTTP Request
+
+```csharp
+
+           var builder = new HttpRequestBuilder()
+              .WithMethod(HttpMethod.Get)
+              .WithUri(url)
+              .WithRequestId(AppContext.Current.RequestId)
+              .WithCorrelationId(AppContext.Current.CorrelationId)
+              .WithTimeout(TimeSpan.FromSeconds(15))
+              .UseDefaultResilience()
+              .WithLoggingField("controller", "LoggingApi")
+              .WithLoggingField("action", "Get_Request_Payload".ToLower())
+              .Build();
+
+            var response = await builder.SendAsync(cancellationToken: cancellationToken);
+
+```
+
+
+### 2 With a Wrapper
+```csharp
+
+
+```
