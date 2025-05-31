@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using MeraStore.Shared.Kernel.Logging.Helpers;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 using MeraStore.Shared.Kernel.Logging.Masking;
 

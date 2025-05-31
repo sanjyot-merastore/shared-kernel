@@ -1,5 +1,6 @@
 using MeraStore.Services.Sample.Api;
 using MeraStore.Services.Sample.Api.Middlewares;
+using MeraStore.Shared.Kernel.Http;
 using MeraStore.Shared.Kernel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,8 @@ builder.AddLoggingServices(Constants.ServiceName, options =>
   options.UseInfrastructureSink = true;
   options.ElasticsearchUrl = builder.Configuration["ElasticSearchUrl"];
 });
+
+builder.Services.AddHttpServices(builder.Configuration);
 
 
 var app = builder.Build();
