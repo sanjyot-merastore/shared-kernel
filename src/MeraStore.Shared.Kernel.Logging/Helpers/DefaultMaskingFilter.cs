@@ -5,8 +5,6 @@ namespace MeraStore.Shared.Kernel.Logging.Helpers;
 
 public static class DefaultMaskingFilter
 {
-  
-
   /// <summary>
   /// Returns a default masking filter instance with standard sensitive fields masked.
   /// </summary>
@@ -39,9 +37,6 @@ public static class DefaultMaskingFilter
     responseFilter.AddField("summary"); // e.g. order or account summaries
     responseFilter.AddField("jwt");
 
-    return new MaskingFilter(
-      [requestFilter],
-      [responseFilter]
-    );
+    return new MaskingFilter([requestFilter], [responseFilter]);
   }
 }

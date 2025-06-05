@@ -1,4 +1,4 @@
-﻿using MeraStore.Shared.Kernel.Common.Exceptions.Exceptions;
+﻿using MeraStore.Shared.Kernel.Exceptions;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 using MeraStore.Shared.Kernel.Logging.Sinks;
 using MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;
@@ -22,7 +22,7 @@ public class LoggerBuilder
   public LoggerBuilder WithServiceName(string serviceName)
   {
     if (string.IsNullOrWhiteSpace(serviceName))
-      throw new CommonExceptions.ConfigurationException("Service name must not be null, empty, or whitespace.");
+      throw CommonException.MissingParameter("Service name must not be null, empty, or whitespace.");
 
     _serviceName = serviceName;
     _loggerConfig.Enrich.WithProperty(Constants.Logging.LogFields.ServiceName, serviceName);
