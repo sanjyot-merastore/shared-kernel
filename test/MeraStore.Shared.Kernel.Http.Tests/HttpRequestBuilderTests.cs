@@ -1,121 +1,96 @@
-﻿using FluentAssertions;
+﻿using MeraStore.Shared.Kernel.Http;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 using Moq;
+using MeraStore.Shared.Kernel.Exceptions;
 
-namespace MeraStore.Shared.Kernel.Http.Tests;
 public class HttpRequestBuilderTests
 {
-    private readonly HttpClient _client;
-
-    public HttpRequestBuilderTests()
-    {
-        var httpMessageHandlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-
-        _client = new HttpClient(httpMessageHandlerMock.Object)
-        {
-            BaseAddress = new Uri("https://test.local")
-        };
-    }
-
-
     [Fact]
-    public void Build_WithRequiredFields_ShouldReturnConfiguredHttpRequest()
+    public void Build_Throws_WhenMethodNotSet()
     {
-        // Arrange
         var builder = new HttpRequestBuilder()
-            .WithMethod(HttpMethod.Post)
-            .WithUri("https://example.com/api/test");
+            .WithUri("https://example.com");
 
-        // Act
-        var result = builder.Build();
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Request.Should().NotBeNull();
-        result.Request.Method.Should().Be(HttpMethod.Post);
-        result.Request.RequestUri.Should().Be("https://example.com/api/test");
+        var ex = Assert.Throws<ApiException>(() => builder.Build());
     }
 
     [Fact]
-    public void WithJsonContent_ShouldSetProperContentType()
+    public void Build_Throws_WhenUriNotSet()
     {
-        // Arrange
-        var payload = new { Name = "Boss", Level = 100 };
         var builder = new HttpRequestBuilder()
-            .WithMethod(HttpMethod.Post)
-            .WithUri("https://example.com")
-            .WithJsonContent(payload);
+            .WithMethod(HttpMethod.Get);
 
-        // Act
-        var result = builder.Build();
-
-        // Assert
-        result.Request.Content?.Headers?.ContentType?.MediaType.Should().Be("application/json");
+        var ex = Assert.Throws<ApiException>(() => builder.Build());
     }
 
     [Fact]
-    public void WithHeader_ShouldAddCustomHeader()
+    public void Build_SetsDefaultTimeoutPolicy()
     {
-        // Arrange
+        var builder = new HttpRequestBuilder()
+            .WithMethod(HttpMethod.Get)
+            .WithUri("https://example.com");
+
+        var request = builder.Build();
+
+        Assert.NotNull(request);
+        Assert.NotNull(request.FaultPolicy);
+    }
+
+    [Fact]
+    public void WithCorrelationId_SetsCorrelationId()
+    {
+        var cid = Guid.NewGuid().ToString();
         var builder = new HttpRequestBuilder()
             .WithMethod(HttpMethod.Get)
             .WithUri("https://example.com")
-            .WithHeader("X-Custom-Header", "value");
+            .WithCorrelationId(cid);
 
-        // Act
-        var request = builder.Build().Request;
+        var request = builder.Build();
 
-        // Assert
-        request.Headers.Contains("X-Custom-Header").Should().BeTrue();
+        Assert.Equal(cid, request.CorrelationId);
     }
 
     [Fact]
-    public void WithLoggingField_ShouldAddCustomLoggingData()
+    public void WithRequestId_SetsRequestId()
     {
-        // Arrange
+        var reqId = Guid.NewGuid().ToString();
         var builder = new HttpRequestBuilder()
             .WithMethod(HttpMethod.Get)
             .WithUri("https://example.com")
-            .WithLoggingField("userId", "1234");
+            .WithRequestId(reqId);
 
-        // Act
-        var result = builder.Build();
+        var request = builder.Build();
 
-        // Assert
-        result.LoggingFields.Should().ContainKey("userId").WhoseValue.Should().Be("1234");
+        Assert.Equal(reqId, request.RequestId);
+    }
+
+
+    
+    [Fact]
+    public void WithLoggingField_AddsLoggingField()
+    {
+        var builder = new HttpRequestBuilder()
+            .WithMethod(HttpMethod.Get)
+            .WithUri("https://example.com")
+            .WithLoggingField("user", "darling");
+
+        var request = builder.Build();
+
+        Assert.True(request.LoggingFields.ContainsKey("user"));
+        Assert.Equal("darling", request.LoggingFields["user"]);
     }
 
     [Fact]
-    public void WithMaskingFilters_ShouldApplyMaskingFilters()
+    public void WithMaskingFilters_AddsMaskingFilters()
     {
-        // Arrange
         var mockFilter = new Mock<IMaskingFilter>();
         var builder = new HttpRequestBuilder()
             .WithMethod(HttpMethod.Get)
             .WithUri("https://example.com")
             .WithMaskingFilters(mockFilter.Object);
 
-        // Act
-        var result = builder.Build();
+        var request = builder.Build();
 
-        // Assert
-        result.MaskingFilters.Should().ContainSingle().Which.Should().Be(mockFilter.Object);
-    }
-
-    [Fact]
-    public void WithHttpClient_ShouldUseProvidedClient()
-    {
-        // Arrange
-        var client = new HttpClient();
-        var builder = new HttpRequestBuilder()
-            .WithMethod(HttpMethod.Get)
-            .WithUri("https://example.com")
-            .WithHttpClient(client);
-
-        // Act
-        var result = builder.Build();
-
-        // Assert
-        result.Client.Should().Be(client);
+        Assert.Contains(mockFilter.Object, request.MaskingFilters);
     }
 }

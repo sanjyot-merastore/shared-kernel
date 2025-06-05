@@ -1,10 +1,14 @@
-﻿using MeraStore.Shared.Kernel.Logging.Interfaces;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Converters;
-using Polly;
-using System.Text;
+﻿using MeraStore.Shared.Kernel.Http.Codes;
 using MeraStore.Shared.Kernel.Http.Exceptions;
+using MeraStore.Shared.Kernel.Logging.Interfaces;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+
+using Polly;
+
+using System.Text;
 
 namespace MeraStore.Shared.Kernel.Http;
 
@@ -208,10 +212,16 @@ public class HttpRequestBuilder
     /// </summary>
     public HttpRequest Build()
     {
-        _request.Method = _method ?? throw  ApiExceptions.HttpMethodMissing();
-        _ = _request.RequestUri ?? throw  ApiExceptions.UrlMissing();
+        CodesHelpers.Initialize(); // Triggers the static ctor
+
+        _request.Method = _method ?? throw ApiExceptions.HttpMethodMissing();
+        _ = _request.RequestUri ?? throw ApiExceptions.UrlMissing();
 
         _timeoutPolicy ??= Policy.TimeoutAsync<HttpResponseMessage>(60);
+
+        if (_policies.Count == 0)
+            UseDefaultResilience();
+
         _policies.Add(_timeoutPolicy);
 
         var context = new HttpRequest(_request, _policies)

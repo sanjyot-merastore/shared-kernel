@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using MeraStore.Shared.Kernel.Logging;
+﻿using MeraStore.Shared.Kernel.Logging;
 using MeraStore.Shared.Kernel.Logging.Loggers;
+using System.Diagnostics;
 
 namespace MeraStore.Shared.Kernel.Http;
 
@@ -18,7 +18,8 @@ public static class HttpRequestHelpers
     /// <param name="message">Optional message label for log tracking.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The <see cref="HttpResponseMessage"/> received from the server.</returns>
-    public static async Task<HttpResponseMessage> SendAsync(this HttpRequest context, string message = "http_call",        CancellationToken cancellationToken = default)
+    public static async Task<HttpResponseMessage> SendAsync(this HttpRequest context, string message = "http_call",
+        CancellationToken cancellationToken = default)
     {
         var client = context.Client ?? DefaultClient;
 

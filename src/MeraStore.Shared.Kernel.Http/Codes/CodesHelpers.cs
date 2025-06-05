@@ -14,4 +14,6 @@ public static class CodesHelpers
         EventCodeRegistry.Register("HttpMethodMissing", "1001");
         ErrorCodeRegistry.Register("HttpMethodMissing", "1002");
     }
+    public static void Initialize() { /* intentionally blank */ }
+
 }
