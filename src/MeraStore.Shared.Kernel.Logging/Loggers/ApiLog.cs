@@ -66,7 +66,14 @@ public class ApiLog : BaseLog
 
   [LogField("scope")]
   public string Scope { get; set; }
-  public override string GetLevel() => LogLevels.Api;
+
+  [LogField("rq-cookies", true)]
+  public Dictionary<string, string> RequestCookies { get; set; } = new(); 
+  
+  [LogField("rs-cookies", true)]
+  public Dictionary<string, string> ResponseCookies { get; set; } = new();
+
+    public override string GetLevel() => LogLevels.Api;
 
   public ICollection<IMaskingFilter> MaskingFilters { get; set; } = [DefaultMaskingFilter.Get()];
 

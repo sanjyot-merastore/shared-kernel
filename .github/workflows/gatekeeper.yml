@@ -26,7 +26,7 @@ jobs:
           echo "🔍 Evaluating PR Title: '$PR_TITLE'"
 
           JIRA_REGEX="^[A-Z]{3,5}-[0-9]+:?"
-          CHANGE_TYPE_REGEX="^[A-Z]{3,5}-[0-9]+:?\s+(\(?(feat|fix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build|release|merge|config|cleanup|security|ux|ui|spike|wip|init|upgrade|downgrade|rollback)\)?) "
+          CHANGE_TYPE_REGEX="^[A-Z]{3,5}-[0-9]+:?\s+(\(?(feat|fix|bugfix|hotfix|chore|docs|refactor|test|ci|perf|infra|style|revert|build|release|merge|config|cleanup|security|ux|ui|spike|wip|init|upgrade|downgrade|rollback)\)?) "
 
           # Check for valid change type
           echo "🔍 Checking for valid change type..."
