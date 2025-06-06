@@ -53,6 +53,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="elastic-field-mappings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="icon.png">
       <PackagePath>\</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

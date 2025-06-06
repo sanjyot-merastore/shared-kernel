@@ -42,18 +42,16 @@ public static class HttpRequestHelpers
     {
         var requestUri = context.Request.RequestUri;
 
-        var apiLog = new ApiLog(message)
-        {
-            RequestTimestamp = DateTime.UtcNow,
-            HttpMethod = context.Method.Method,
-            CorrelationId = context.CorrelationId,
-            RequestId = context.RequestId,
-            RequestBaseUrl = requestUri?.GetLeftPart(UriPartial.Authority) ?? string.Empty,
-            RequestPath = requestUri?.AbsolutePath ?? string.Empty,
-            RequestProtocol = requestUri?.Scheme ?? string.Empty,
-            RequestHeaders = context.Request.Headers.ToDictionary(h => h.Key, h => string.Join(",", h.Value)),
-            Request = await ReadPayloadAsync(context.Request.Content)
-        };
+        var apiLog = new ApiLog(message);
+        apiLog.RequestTimestamp = DateTime.UtcNow;
+        apiLog.HttpMethod = context.Method.Method;
+        apiLog.CorrelationId = context.CorrelationId;
+        apiLog.RequestId = context.RequestId;
+        apiLog.RequestBaseUrl = requestUri?.GetLeftPart(UriPartial.Authority) ?? string.Empty;
+        apiLog.RequestPath = requestUri?.PathAndQuery ?? string.Empty;
+        apiLog.RequestProtocol = requestUri?.Scheme ?? string.Empty;
+        apiLog.RequestHeaders = context.Request.Headers.ToDictionary(h => h.Key, h => string.Join(",", h.Value));
+        apiLog.Request = await ReadPayloadAsync(context.Request.Content);
 
         foreach (var filter in context.MaskingFilters)
             apiLog.MaskingFilters.Add(filter);
