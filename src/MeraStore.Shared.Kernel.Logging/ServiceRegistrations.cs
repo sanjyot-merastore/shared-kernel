@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using MeraStore.Shared.Kernel.Exceptions;
+using Newtonsoft.Json;
 
 namespace MeraStore.Shared.Kernel.Logging;
 
@@ -51,9 +52,14 @@ public static class ServiceRegistrations
                 using var stream = assembly.GetManifestResourceStream(resourceName)
                                    ?? throw new FileNotFoundException($"Embedded resource '{resourceName}' not found.");
 
-                using var reader = new StreamReader(stream);
-                var mappingJson = reader.ReadToEnd();
-                using var doc = JsonDocument.Parse(mappingJson);
+                LoggingClientFactory.Configure("http://logging-api.merastore.com:8101");
+                var loggingClient = LoggingClientFactory.Initialize();
+
+                var response = loggingClient.GetLoggingFieldsAsync().GetAwaiter().GetResult();
+                if (!response.IsSuccess)
+                    throw LoggingServiceException.LogInternalServerError($"Failed to retrieve logging fields: {response.ErrorInfo?.Detail}");
+
+                using var doc = JsonDocument.Parse(JsonConvert.SerializeObject(response.Response));
 
                 var properties = doc.RootElement
                     .GetProperty("mappings")

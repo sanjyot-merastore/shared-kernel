@@ -1,4 +1,6 @@
-﻿using MeraStore.Shared.Kernel.Exceptions;
+﻿using MeraStore.Services.Logging.SDK;
+using MeraStore.Services.Logging.SDK.Interfaces;
+using MeraStore.Shared.Kernel.Exceptions;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 using MeraStore.Shared.Kernel.Logging.Sinks;
 using MeraStore.Shared.Kernel.Logging.Sinks.ElasticSearch;

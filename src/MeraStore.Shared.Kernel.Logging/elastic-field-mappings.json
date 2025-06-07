@@ -771,7 +771,35 @@
       },
       "user-device-id": {
         "type": "keyword"
-      }
+      },
+      "event-retry-count": { "type": "integer" },
+      "event-processing-time-ms": { "type": "long" },
+      "event-handler-name": { "type": "keyword" },
+      "event-consumer-group": { "type": "keyword" },
+      "event-offset": { "type": "long" },
+      "event-partition": { "type": "integer" },
+      "event-topic": { "type": "keyword" },
+      "event-ingest-timestamp": { "type": "date" },
+      "event-publish-timestamp": { "type": "date" },
+      "workflow-id": { "type": "keyword" },
+      "workflow-name": { "type": "keyword" },
+      "workflow-step-name": { "type": "keyword" },
+      "workflow-step-sequence": { "type": "integer" },
+      "workflow-status": { "type": "keyword" },
+      "workflow-start-timestamp": { "type": "date" },
+      "workflow-end-timestamp": { "type": "date" },
+      "workflow-duration-ms": { "type": "long" },
+      "workflow-error-message": { "type": "text" },
+      "workflow-error-stack": { "type": "text" },
+      "workflow-retry-count": { "type": "integer" },
+      "workflow-trigger-source": { "type": "keyword" },
+      "workflow-input-payload": { "type": "text" },
+      "workflow-output-payload": { "type": "text" },
+      "pipeline-name": { "type": "keyword" },
+      "pipeline-duration-ms": { "type": "long" },
+      "pipeline-failure-step-name": { "type": "keyword" },
+      "pipeline-recovery-action": { "type": "keyword" },
+      "pipeline-behavior-duration": { "type": "long" }
     }
   }
 }
