@@ -1,11 +1,8 @@
-﻿using System.Reflection;
-using Elastic.Clients.Elasticsearch;
-using MeraStore.Shared.Kernel.Logging.Filters;
+﻿using MeraStore.Shared.Kernel.Logging.Filters;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
 using MeraStore.Shared.Kernel.Exceptions;
 
 namespace MeraStore.Shared.Kernel.Logging;
@@ -39,57 +36,6 @@ public static class ServiceRegistrations
             if (string.IsNullOrWhiteSpace(options.ElasticsearchUrl))
                 throw LoggingServiceException.LogConfigurationMissing("Elasticsearch URL is required when Elasticsearch sink is enabled.");
 
-            try
-            {
-                // Step 1: Create an Elastic client
-                var elasticClient = new ElasticsearchClient(new ElasticsearchClientSettings(new Uri(options.ElasticsearchUrl)));
-
-                // Step 2: Read field mappings from embedded resource
-                var assembly = Assembly.GetExecutingAssembly();
-                const string resourceName = "MeraStore.Shared.Kernel.Logging.elastic-field-mappings.json";
-
-                using var stream = assembly.GetManifestResourceStream(resourceName)
-                                   ?? throw new FileNotFoundException($"Embedded resource '{resourceName}' not found.");
-
-                using var reader = new StreamReader(stream);
-                var mappingJson = reader.ReadToEnd();
-                using var doc = JsonDocument.Parse(mappingJson);
-
-                var properties = doc.RootElement
-                    .GetProperty("mappings")
-                    .GetProperty("properties");
-
-                var fieldMap = new Dictionary<string, string>();
-                foreach (var prop in properties.EnumerateObject())
-                {
-                    if (prop.Value.TryGetProperty("type", out var typeProp))
-                        fieldMap[prop.Name] = typeProp.GetString()!;
-                }
-
-
-                // Step 3: Push index template ONCE
-                var client = new ElasticsearchClient(new ElasticsearchClientSettings(new Uri(options.ElasticsearchUrl)));
-
-                var indexTemplates = new[]
-                {
-                    "log-service-template", "ef-logs-template", "infra-logs-template", "app-logs-template"
-                };
-
-                var indexPatterns = new[]
-                {
-                    "log-service-*", "ef-logs-*", "infra-logs-*", "app-logs-*"
-                };
-
-                for (var i = 0; i < indexTemplates.Length; i++)
-                {
-                    var pusher = new ElasticsearchTemplatePusher(client, fieldMap, indexTemplates[i], indexPatterns[i]);
-                    pusher.PushAsync().GetAwaiter().GetResult();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw LoggingServiceException.LogInternalServerError($"Elasticsearch template setup failed: {ex.Message}", ex);
-            }
         }
 
         // Configure Serilog Builder
