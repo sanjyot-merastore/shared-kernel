@@ -1,8 +1,9 @@
-﻿using MeraStore.Shared.Kernel.Common.Core;
-using MeraStore.Shared.Kernel.Http;
+﻿using System.Runtime.CompilerServices;
+using MeraStore.Shared.Kernel.Common.Core;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
-
 using Polly;
+
+namespace MeraStore.Shared.Kernel.Http;
 
 /// <summary>
 /// Provides static helper methods for building, sending, and handling HTTP requests with support for logging, resilience policies, masking filters, and response parsing.
@@ -25,6 +26,7 @@ public static class HttpRequestHandler
     /// <param name="filters">Masking filters for sensitive data (optional).</param>
     /// <param name="timeout">Request timeout (optional).</param>
     /// <param name="cancellationToken">Cancellation token (optional).</param>
+    /// <param name="callerMemberName">The name of the calling method, automatically injected by the compiler.</param>
     /// <returns>An <see cref="ApiResponse{TRes}"/> containing the response or error details.</returns>
     public static async Task<ApiResponse<TRes>> SendAsync<TReq, TRes>(
         HttpMethod method,
@@ -37,7 +39,8 @@ public static class HttpRequestHandler
         IEnumerable<IAsyncPolicy<HttpResponseMessage>>? policies = null,
         IEnumerable<IMaskingFilter>? filters = null,
         TimeSpan? timeout = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        [CallerMemberName] string callerMemberName = "")
     {
         var builder = new HttpRequestBuilder()
             .WithMethod(method)
@@ -95,7 +98,8 @@ public static class HttpRequestHandler
         IEnumerable<IAsyncPolicy<HttpResponseMessage>>? policies = null,
         IEnumerable<IMaskingFilter>? filters = null,
         TimeSpan? timeout = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default, 
+        [CallerMemberName] string callerMemberName = "")
         => SendAsync<object, TRes>(HttpMethod.Get, url, null, message, headers, correlationId, requestId, policies, filters, timeout, cancellationToken);
 
     /// <summary>
@@ -113,6 +117,7 @@ public static class HttpRequestHandler
     /// <param name="filters">Masking filters for sensitive data (optional).</param>
     /// <param name="timeout">Request timeout (optional).</param>
     /// <param name="cancellationToken">Cancellation token (optional).</param>
+    /// <param name="callerMemberName">The name of the calling method, automatically injected by the compiler.</param>
     /// <returns>An <see cref="ApiResponse{TRes}"/> containing the response or error details.</returns>
     public static Task<ApiResponse<TRes>> PostAsync<TReq, TRes>(
         string url,
@@ -124,7 +129,8 @@ public static class HttpRequestHandler
         IEnumerable<IAsyncPolicy<HttpResponseMessage>>? policies = null,
         IEnumerable<IMaskingFilter>? filters = null,
         TimeSpan? timeout = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        [CallerMemberName] string callerMemberName = "")
         => SendAsync<TReq, TRes>(HttpMethod.Post, url, payload, message, headers, correlationId, requestId, policies, filters, timeout, cancellationToken);
 
     /// <summary>
@@ -142,6 +148,7 @@ public static class HttpRequestHandler
     /// <param name="filters">Masking filters for sensitive data (optional).</param>
     /// <param name="timeout">Request timeout (optional).</param>
     /// <param name="cancellationToken">Cancellation token (optional).</param>
+    /// <param name="callerMemberName">The name of the calling method, automatically injected by the compiler.</param>
     /// <returns>An <see cref="ApiResponse{TRes}"/> containing the response or error details.</returns>
     public static Task<ApiResponse<TRes>> PutAsync<TReq, TRes>(
         string url,
@@ -153,6 +160,7 @@ public static class HttpRequestHandler
         IEnumerable<IAsyncPolicy<HttpResponseMessage>>? policies = null,
         IEnumerable<IMaskingFilter>? filters = null,
         TimeSpan? timeout = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        [CallerMemberName] string callerMemberName = "")
         => SendAsync<TReq, TRes>(HttpMethod.Put, url, payload, message, headers, correlationId, requestId, policies, filters, timeout, cancellationToken);
 }
