@@ -34,7 +34,7 @@
 			- Designed for use across MeraStore microservices
 			- Lightweight, testable, and modular
 		</PackageReleaseNotes>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<Copyright>Sanjyot Agureddy</Copyright>
