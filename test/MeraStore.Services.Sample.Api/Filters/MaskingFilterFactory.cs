@@ -3,6 +3,9 @@
 using MeraStore.Shared.Kernel.Logging.Filters;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 
+/// <summary>
+/// 
+/// </summary>
 public static class MaskingFilterFactory
 {
   public static IMaskingFilter ApiMaskingFilter()

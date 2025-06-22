@@ -3,11 +3,11 @@ using MeraStore.Shared.Kernel.Caching.Strategy;
 using MeraStore.Shared.Kernel.Caching.Helper;
 using MeraStore.Shared.Kernel.Caching.Interfaces;
 
-namespace MeraStore.Shared.Kernel.Caching.Extensions
+namespace MeraStore.Shared.Kernel.Caching.Extensions;
+
+[ExcludeFromCodeCoverage]
+public static class ServiceRegistration
 {
-  [ExcludeFromCodeCoverage]
-  public static class ServiceRegistration
-  {
     /// <summary>
     /// Adds MeraStore Caching services with configurable caching strategies.
     /// </summary>
@@ -18,31 +18,30 @@ namespace MeraStore.Shared.Kernel.Caching.Extensions
     public static IServiceCollection AddMeraStoreCaching(this IServiceCollection services, string? redisConnectionString = null,
         Action<CacheEntryOptions>? configureDefaults = null)
     {
-      // Set up default cache entry options
-      var defaultOptions = new CacheEntryOptions
-      {
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
-      };
-      configureDefaults?.Invoke(defaultOptions);
+        // Set up default cache entry options
+        var defaultOptions = new CacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+        };
+        configureDefaults?.Invoke(defaultOptions);
 
-      services.AddSingleton(defaultOptions);
-      services.AddMemoryCache();
+        services.AddSingleton(defaultOptions);
+        services.AddMemoryCache();
 
-      // Register Redis caching strategy if Redis connection string is provided
-      if (!string.IsNullOrWhiteSpace(redisConnectionString))
-      {
-        var multiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
-        services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-        services.AddSingleton<ICacheProvider, RedisCacheProvider>(); // Register Redis strategy
-      }
+        // Register Redis caching strategy if Redis connection string is provided
+        if (!string.IsNullOrWhiteSpace(redisConnectionString))
+        {
+            var multiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
+            services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+            services.AddSingleton<ICacheProvider, RedisCacheProvider>(); // Register Redis strategy
+        }
 
-      // Register InMemory caching strategy if Redis is not configured
-      services.AddSingleton<ICacheProvider, InMemoryCacheProvider>(); // Register In-memory strategy
+        // Register InMemory caching strategy if Redis is not configured
+        services.AddSingleton<ICacheProvider, InMemoryCacheProvider>(); // Register In-memory strategy
 
-      // Factory for creating the appropriate caching provider
-      services.AddSingleton<ICacheProviderFactory, CacheProviderFactory>();
+        // Factory for creating the appropriate caching provider
+        services.AddSingleton<ICacheProviderFactory, CacheProviderFactory>();
 
-      return services;
+        return services;
     }
-  }
 }

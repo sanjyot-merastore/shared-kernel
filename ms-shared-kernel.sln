@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Log
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Helpers", "src\MeraStore.Shared.Kernel.Helpers\MeraStore.Shared.Kernel.Helpers.csproj", "{B01BDADC-E2C7-4601-B7A4-33CFF2D466CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.WebApi", "src\MeraStore.Shared.Kernel.WebApi\MeraStore.Shared.Kernel.WebApi.csproj", "{D005F4C6-9BAB-406F-BB46-E654C11D6D2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{B01BDADC-E2C7-4601-B7A4-33CFF2D466CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B01BDADC-E2C7-4601-B7A4-33CFF2D466CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B01BDADC-E2C7-4601-B7A4-33CFF2D466CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +142,7 @@ Global
 		{EA7C060B-D3B5-4362-9AD1-59CFC816EBE1} = {B7C09667-E74B-40C3-9C11-9DE4997B205A}
 		{7E4D02C1-32DC-43A7-AD64-F2732B828B99} = {B7C09667-E74B-40C3-9C11-9DE4997B205A}
 		{B01BDADC-E2C7-4601-B7A4-33CFF2D466CA} = {487C5BA9-691B-4CF0-8B71-BFC310470130}
+		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C} = {487C5BA9-691B-4CF0-8B71-BFC310470130}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0509730D-937F-486D-9944-2CA4ACDDE1EF}

@@ -2,6 +2,8 @@ using MeraStore.Services.Sample.Api;
 using MeraStore.Services.Sample.Api.Middlewares;
 using MeraStore.Shared.Kernel.Http;
 using MeraStore.Shared.Kernel.Logging;
+using MeraStore.Shared.Kernel.WebApi;
+using MeraStore.Shared.Kernel.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +16,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
-builder.Services.AddSwaggerGen();
-builder.AddLoggingServices(Constants.ServiceName, options =>
-{
-  options.UseElasticsearch = true;
-  options.UseInfrastructureSink = true;
-  options.ElasticsearchUrl = builder.Configuration["ElasticSearchUrl"];
-});
+builder.Services.AddCustomSwagger(serviceName: Constants.ServiceName, "MeraStore.Services.Sample.Api.xml");
+
+builder.AddApiServices(Constants.ServiceName, defaultLogging: true);
 
 builder.Services.AddHttpServices(builder.Configuration);
 
@@ -33,9 +31,9 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 
-app.UseMiddleware<AppContextTracingMiddleware>();
+app.UseMiddleware<TracingMiddleware>(Constants.ServiceName);
 app.UseMiddleware<ErrorHandlingMiddleware>();
-app.UseMiddleware<ApiLoggingMiddleware>();
+app.UseMiddleware<LoggingMiddleware>();
 app.UseHttpsRedirection();
 
 

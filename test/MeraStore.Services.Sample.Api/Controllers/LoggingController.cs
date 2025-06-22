@@ -1,18 +1,26 @@
 ﻿using MeraStore.Shared.Kernel.Http;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeraStore.Services.Sample.Api.Controllers;
 
+/// <summary>
+/// Controller responsible for interacting with the centralized logging service.
+/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class LoggingController(HttpClient httpClient) : ControllerBase
 {
     /// <summary>
-    /// Gets the request payload from the logging API for a fixed request ID.
+    /// Retrieves the request payload from the Logging API for the specified request ID.
     /// </summary>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Raw JSON response from logging API</returns>
+    /// <param name="id">The unique request identifier.</param>
+    /// <param name="cancellationToken">Cancellation token to abort the operation.</param>
+    /// <returns>Returns the raw JSON payload of the request log from the logging API.</returns>
     [HttpGet("request-payload/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(499)]
     public async Task<IActionResult> GetRequestPayload(string id, CancellationToken cancellationToken)
     {
         var url = $"http://logging-api.merastore.com:8101/api/v1.0/logs/requests/payload/{id}";
@@ -20,15 +28,15 @@ public class LoggingController(HttpClient httpClient) : ControllerBase
         try
         {
             var builder = new HttpRequestBuilder()
-              .WithMethod(HttpMethod.Get)
-              .WithUri(url)
-              .WithRequestId(AppContext.Current.RequestId)
-              .WithCorrelationId(AppContext.Current.CorrelationId)
-              .WithTimeout(TimeSpan.FromSeconds(15))
-              .UseDefaultResilience()
-              .WithLoggingField("controller", "LoggingApi")
-              .WithLoggingField("action", "Get_Request_Payload".ToLower())
-              .Build();
+                .WithMethod(HttpMethod.Get)
+                .WithUri(url)
+                .WithRequestId(AppContext.Current.RequestId)
+                .WithCorrelationId(AppContext.Current.CorrelationId)
+                .WithTimeout(TimeSpan.FromSeconds(15))
+                .UseDefaultResilience()
+                .WithLoggingField("controller", nameof(LoggingController))
+                .WithLoggingField("action", "get_request_payload")
+                .Build();
 
             var response = await builder.SendAsync(cancellationToken: cancellationToken);
 
@@ -45,7 +53,7 @@ public class LoggingController(HttpClient httpClient) : ControllerBase
         }
         catch (Exception ex)
         {
-            // Log exception here if you have a logging mechanism
+            // TODO: Inject ILogger<LoggingController> and log the exception for observability
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }

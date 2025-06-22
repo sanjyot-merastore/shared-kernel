@@ -4,19 +4,20 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.3" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MeraStore.Shared.Kernel.Context\MeraStore.Shared.Kernel.Context.csproj" />
     <ProjectReference Include="..\..\src\MeraStore.Shared.Kernel.Http\MeraStore.Shared.Kernel.Http.csproj" />
+    <ProjectReference Include="..\..\src\MeraStore.Shared.Kernel.WebApi\MeraStore.Shared.Kernel.WebApi.csproj" />
   </ItemGroup>
 
 </Project>
