@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<!-- Package Metadata -->
+		<Authors>Sanjyot Agureddy</Authors>
+		<Company>MeraStore</Company>
+		<Version>1.0.0</Version>
+		<PackageId>MeraStore.Shared.Kernel.WebApi</PackageId>
+		<Title>MeraStore.Shared.Kernel.WebApi</Title>
+		<Description>
+			Essential Web API middleware and utilities for MeraStore microservices.
+			Includes standardized error handling, request/response logging, rate limiting,
+			model validation, and extensibility hooks for custom pipelines.
+		</Description>
+		<PackageTags>webapi;middleware;microservices;merastore;error-handling;rate-limiting;logging;validation</PackageTags>
+
+		<!-- Repository Info -->
+		<RepositoryUrl>https://github.com/sanjyot-merastore/shared-kernel</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/sanjyot-merastore/shared-kernel</PackageProjectUrl>
+
+		<!-- Licensing -->
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+		<!-- NuGet Goodies -->
+		<PackageReleaseNotes>
+			🚀 Initial release! Features:
+			- Standardized error handling middleware
+			- Request/Response logging with masking support
+			- Automatic model validation responses
+			- Rate limiting utilities
+			- Plug-and-play extensibility for custom middlewares
+		</PackageReleaseNotes>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="FastEndpoints" Version="6.1.0" />
+	  <PackageReference Include="FastEndpoints.Attributes" Version="6.1.0" />
+	  <PackageReference Include="FastEndpoints.Messaging.Core" Version="6.1.0" />
+	  <PackageReference Include="FastEndpoints.Security" Version="6.1.0" />
+	  <PackageReference Include="FastEndpoints.Swagger" Version="6.1.0" />
+	  <PackageReference Include="FluentValidation" Version="12.0.0" />
+	  <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+	  <PackageReference Include="MediatR" Version="12.5.0" />
+	  <PackageReference Include="MeraStore.Shared.Kernel.Context" Version="1.0.1" />
+	  <PackageReference Include="MeraStore.Shared.Kernel.Logging" Version="1.0.4" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.5" />
+	  <PackageReference Include="OrchardCore.ResponseCompression" Version="2.1.7" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="icon.png">
+	    <PackagePath>\</PackagePath>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <Pack>True</Pack>
+	  </None>
+	  <None Update="ReadMe.md">
+	    <PackagePath>\</PackagePath>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <Pack>True</Pack>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Helpers\" />
+	</ItemGroup>
+
+</Project>
