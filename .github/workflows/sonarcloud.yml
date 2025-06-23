@@ -2,7 +2,7 @@ name: SonarQube
 on:
   push:
     branches:
-      - main
+       - '**'     # ← double asterisk = all branches, all day, every day 💪
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -43,7 +43,11 @@ jobs:
         run: |
           mkdir -p .sonar/scanner
           dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
-
+      - name: Configure NuGet
+        run: |
+          echo "Adding Azure NuGet feed as a source"
+          dotnet nuget add source --username "mera-store-feed" --password "${{ secrets.AZURE_NUGET_AUTH_TOKEN }}" --store-password-in-clear-text  --name "mera-store-feed" "https://pkgs.dev.azure.com/merastore/MeraStore/_packaging/mera-store-feed/nuget/v3/index.json"
+          
       - name: Restore dependencies
         run: dotnet restore
 
