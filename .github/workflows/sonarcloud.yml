@@ -65,6 +65,7 @@ jobs:
 
           .\.sonar\scanner\dotnet-sonarscanner begin $SONAR_ARGS
           dotnet tool install --global dotnet-coverage
+          dotnet tool install --global JetBrains.dotCover.CommandLineTools
           dotnet build --no-incremental
-          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+          dotnet dotcover test --dcReportType=HTML
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
