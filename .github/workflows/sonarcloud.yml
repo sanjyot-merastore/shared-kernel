@@ -43,6 +43,12 @@ jobs:
         run: |
           mkdir -p .sonar/scanner
           dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
+          
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+            
       - name: Configure NuGet
         run: |
           echo "Adding Azure NuGet feed as a source"
