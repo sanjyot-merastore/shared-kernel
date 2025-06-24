@@ -1,18 +1,15 @@
-﻿using MeraStore.Shared.Kernel.Exceptions;
+﻿using System.Net;
+using MeraStore.Shared.Kernel.Exceptions;
 using MeraStore.Shared.Kernel.Exceptions.Core;
 using MeraStore.Shared.Kernel.Exceptions.Helpers;
 using MeraStore.Shared.Kernel.Logging.Attributes;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 using Newtonsoft.Json;
-
-using System.Net;
 using ValidationException = FluentValidation.ValidationException;
 
-namespace MeraStore.Shared.Kernel.WebApi.Middleware;
+namespace MeraStore.Shared.Kernel.WebApi.Middlewares;
 
 /// <summary>
 /// Base error-handling middleware that captures exceptions and converts them into structured ProblemDetails.

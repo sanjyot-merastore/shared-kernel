@@ -1,10 +1,7 @@
-﻿using FastEndpoints;
-
-using MeraStore.Shared.Kernel.Logging;
+﻿using MeraStore.Shared.Kernel.Logging;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Json;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
@@ -20,7 +17,7 @@ namespace MeraStore.Shared.Kernel.WebApi
     [ExcludeFromCodeCoverage]
     public static class ServiceRegistrations
     {
-        public static void AddApiServices(this WebApplicationBuilder builder, string serviceName, bool enableFastEndpoints = false, bool defaultLogging = true)
+        public static void AddApiServices(this WebApplicationBuilder builder, string serviceName,  bool defaultLogging = true)
         {
             builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -46,26 +43,6 @@ namespace MeraStore.Shared.Kernel.WebApi
                 options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             });
 
-            if (enableFastEndpoints)
-            {
-                builder.Services.AddFastEndpoints();
-
-
-                builder.Services
-                    .AddFastEndpoints()
-                    .ConfigureHttpJsonOptions(options =>
-                    {
-                        options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                        options.SerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
-                        options.SerializerOptions.DefaultBufferSize = 16 * 1024; // 16 KB
-                        options.SerializerOptions.PropertyNameCaseInsensitive = true;
-                        options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                        options.SerializerOptions.WriteIndented = true; // Set to true if you want pretty print
-                        options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-                        options.SerializerOptions.Converters.Add(
-                            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-                    });
-            }
 
             if (defaultLogging)
             {
@@ -76,6 +53,7 @@ namespace MeraStore.Shared.Kernel.WebApi
                     options.ElasticsearchUrl = builder.Configuration["ElasticSearchUrl"];
                 });
             }
+
             builder.Services.AddProblemDetails();
             builder.Services.AddSwaggerGen();
 

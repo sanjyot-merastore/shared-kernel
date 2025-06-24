@@ -1,6 +1,6 @@
 ﻿using MeraStore.Shared.Kernel.Exceptions.Core;
 using MeraStore.Shared.Kernel.Exceptions.Helpers;
-using MeraStore.Shared.Kernel.WebApi.Middleware;
+using MeraStore.Shared.Kernel.WebApi.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

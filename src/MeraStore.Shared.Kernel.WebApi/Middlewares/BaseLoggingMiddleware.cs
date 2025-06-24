@@ -1,16 +1,14 @@
-﻿using MeraStore.Shared.Kernel.Context;
+﻿using System.Diagnostics;
+using MeraStore.Shared.Kernel.Context;
 using MeraStore.Shared.Kernel.Logging;
 using MeraStore.Shared.Kernel.Logging.Helpers;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 using MeraStore.Shared.Kernel.Logging.Loggers;
 using MeraStore.Shared.Kernel.WebApi.Attributes;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-using System.Diagnostics;
-
-namespace MeraStore.Shared.Kernel.WebApi.Middleware;
+namespace MeraStore.Shared.Kernel.WebApi.Middlewares;
 
 /// <summary>
 /// Base middleware for logging API requests and responses with masking support.
