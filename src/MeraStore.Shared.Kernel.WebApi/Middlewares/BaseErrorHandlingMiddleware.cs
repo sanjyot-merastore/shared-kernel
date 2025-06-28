@@ -1,12 +1,16 @@
 ﻿using System.Net;
+
 using MeraStore.Shared.Kernel.Exceptions;
 using MeraStore.Shared.Kernel.Exceptions.Core;
 using MeraStore.Shared.Kernel.Exceptions.Helpers;
 using MeraStore.Shared.Kernel.Logging.Attributes;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
+
 using ValidationException = FluentValidation.ValidationException;
 
 namespace MeraStore.Shared.Kernel.WebApi.Middlewares;
@@ -89,24 +93,47 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
         context.Response.ContentType = "application/problem+json";
         context.Response.StatusCode = (int)exception.StatusCode;
 
-        var problemDetails = new ProblemDetails();
-        problemDetails.Status = context.Response.StatusCode;
-        problemDetails.Type = exception.EventCode ?? GetRequestEventCode(context);
-        problemDetails.Title = "An error occurred while processing your request.";
-        problemDetails.Detail = exception.Message;
-        problemDetails.Instance = context.TraceIdentifier;
+        var problemDetails = new ProblemDetails
+        {
+            Status = context.Response.StatusCode,
+            Type = exception.EventCode ?? GetRequestEventCode(context),
+            Title = "An error occurred while processing your request.",
+            Detail = exception.Message,
+            Instance = context.TraceIdentifier
+        };
 
+        // Add custom structured fields
         problemDetails.Extensions["errorCode"] = exception.FullErrorCode;
         problemDetails.Extensions["category"] = exception.Category.ToString();
         problemDetails.Extensions["severity"] = exception.Severity.ToString();
-        problemDetails.Extensions["service"] = ServiceCodeRegistry.GetKey(exception.ServiceIdentifier);
+        if (!string.IsNullOrWhiteSpace(exception.ServiceIdentifier) &&
+            exception.ServiceIdentifier.All(char.IsDigit))
+        {
+            problemDetails.Extensions["service"] = ServiceCodeRegistry.GetCode(exception.ServiceIdentifier);
+        }
+        else
+        {
+            problemDetails.Extensions["service"] = exception.ServiceIdentifier;
+        }
+
         problemDetails.Extensions["traceId"] = context.TraceIdentifier;
+
+        // 👇 NEW: Include inner exception details if available
+        if (exception.InnerException is not null)
+        {
+            problemDetails.Extensions["innerException"] = new
+            {
+                message = exception.InnerException.Message,
+                type = exception.InnerException.GetType().FullName
+            };
+        }
 
         logger.LogError(exception, "Structured error occurred: {Message} | Code: {Code} | Category: {Category}",
             exception.Message, exception.FullErrorCode, exception.Category);
 
         return context.Response.WriteAsync(JsonConvert.SerializeObject(problemDetails, JsonSerializerSettings));
     }
+
 
     protected virtual string GetRequestEventCode(HttpContext context)
     {

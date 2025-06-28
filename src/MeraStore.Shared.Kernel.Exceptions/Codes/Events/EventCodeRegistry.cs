@@ -21,12 +21,18 @@ public static class EventCodeRegistry
 
         AdditionalCodes[key] = code;
     }
-
     public static string GetCode(string key)
     {
-        if (AllCodes.TryGetValue(key, out var addCode))
-            return addCode;
+        return AllCodes.GetValueOrDefault(key, "00");
+    }
 
-        throw new KeyNotFoundException($"Event code key '{key}' not found.");
+    public static string GetKey(string code)
+    {
+        foreach (var kvp in AllCodes.Where(kvp => kvp.Value == code))
+        {
+            return kvp.Key;
+        }
+
+        return "unknown";
     }
 }

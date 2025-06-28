@@ -1,11 +1,13 @@
-﻿namespace MeraStore.Shared.Kernel.Exceptions;
+﻿using MeraStore.Shared.Kernel.Exceptions.Codes.Services;
+
+namespace MeraStore.Shared.Kernel.Exceptions;
 
 [ExcludeFromCodeCoverage]
 public partial class ValidationException : BaseAppException
 {
     public ValidationException(string eventCode, string errorCode, HttpStatusCode statusCode, string message,
         ExceptionCategory category = ExceptionCategory.Validation,
-        ExceptionSeverity severity = ExceptionSeverity.Minor) : base(Constants.ServiceIdentifiers.DataValidation,
+        ExceptionSeverity severity = ExceptionSeverity.Minor) : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.DataValidation),
         eventCode, errorCode, statusCode, message, category,
         severity)
     {
@@ -14,7 +16,7 @@ public partial class ValidationException : BaseAppException
     public ValidationException(string eventCode, string errorCode, HttpStatusCode statusCode, string message,
         Exception? innerException,
         ExceptionCategory category = ExceptionCategory.Validation, ExceptionSeverity severity = ExceptionSeverity.Minor)
-        : base(Constants.ServiceIdentifiers.DataValidation, eventCode, errorCode, statusCode, message, innerException,
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.DataValidation), eventCode, errorCode, statusCode, message, innerException,
             category, severity)
     {
     }
