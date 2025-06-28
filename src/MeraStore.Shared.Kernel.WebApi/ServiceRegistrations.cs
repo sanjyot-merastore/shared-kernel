@@ -11,6 +11,7 @@ using Newtonsoft.Json.Serialization;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MeraStore.Shared.Kernel.WebApi.Extensions;
 
 namespace MeraStore.Shared.Kernel.WebApi
 {
@@ -19,6 +20,7 @@ namespace MeraStore.Shared.Kernel.WebApi
     {
         public static void AddApiServices(this WebApplicationBuilder builder, string serviceName,  bool defaultLogging = true)
         {
+            builder.Services.AddMeraStoreCompression();
             builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
@@ -43,6 +45,13 @@ namespace MeraStore.Shared.Kernel.WebApi
                 options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             });
 
+            // JSON serialization config
+            builder.Services.ConfigureHttpJsonOptions(options =>
+            {
+                options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                options.SerializerOptions.WriteIndented = true;
+            });
 
             if (defaultLogging)
             {
