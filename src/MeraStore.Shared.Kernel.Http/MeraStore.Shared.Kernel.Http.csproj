@@ -41,9 +41,9 @@
     <Copyright>Sanjyot Agureddy</Copyright>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MeraStore.Shared.Kernel.Logging\MeraStore.Shared.Kernel.Logging.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MeraStore.Shared.Kernel.Logging" Version="1.0.6" />
+	</ItemGroup>
 
   <ItemGroup>
     <None Update="icon.png">
