@@ -49,11 +49,14 @@
 	  <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
 	  <PackageReference Include="MediatR" Version="12.5.0" />
 	  <PackageReference Include="MeraStore.Shared.Kernel.Context" Version="1.0.1" />
-	  <PackageReference Include="MeraStore.Shared.Kernel.Logging" Version="1.0.4" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.6" />
 	  <PackageReference Include="OrchardCore.ResponseCompression" Version="2.1.7" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\MeraStore.Shared.Kernel.Logging\MeraStore.Shared.Kernel.Logging.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

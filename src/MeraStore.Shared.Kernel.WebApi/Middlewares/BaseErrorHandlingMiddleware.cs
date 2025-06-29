@@ -1,24 +1,31 @@
-﻿using System.Net;
-
-using MeraStore.Shared.Kernel.Exceptions;
+﻿using MeraStore.Shared.Kernel.Exceptions;
+using MeraStore.Shared.Kernel.Exceptions.Codes.Services;
 using MeraStore.Shared.Kernel.Exceptions.Core;
-using MeraStore.Shared.Kernel.Exceptions.Helpers;
 using MeraStore.Shared.Kernel.Logging.Attributes;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 using Newtonsoft.Json;
-
+using System.Net;
+using MeraStore.Shared.Kernel.Exceptions.Codes.Events;
+using MeraStore.Shared.Kernel.Exceptions.Codes.Http;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace MeraStore.Shared.Kernel.WebApi.Middlewares;
 
 /// <summary>
-/// Base error-handling middleware that captures exceptions and converts them into structured ProblemDetails.
-/// Extend this middleware to customize behavior in your service.
+/// Middleware for centralized exception handling across HTTP requests.
+/// Captures and processes different exception types—including FluentValidation and custom application exceptions—
+/// and returns standardized <see cref="ProblemDetails"/> or <see cref="ValidationProblemDetails"/> responses.
 /// </summary>
+/// <remarks>
+/// This middleware also logs detailed error information using structured logging,
+/// enriches responses with traceability metadata (e.g., <c>traceId</c>, <c>errorCode</c>, etc.),
+/// and ensures consistency across microservices.
+/// </remarks>
+/// <param name="next">The next middleware component in the pipeline.</param>
+/// <param name="logger">The logger instance used for writing error logs.</param>
 public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseErrorHandlingMiddleware> logger)
 {
     protected readonly JsonSerializerSettings JsonSerializerSettings = new()
@@ -32,7 +39,11 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
         Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() } // Enums as strings
     };
 
-
+    /// <summary>
+    /// Core middleware logic that wraps the HTTP request pipeline in a try-catch block
+    /// and handles different exception types gracefully.
+    /// </summary>
+    /// <param name="context">The current HTTP context.</param>
     public virtual async Task InvokeAsync(HttpContext context)
     {
         try
@@ -63,6 +74,12 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
         }
     }
 
+    /// <summary>
+    /// Handles <see cref="ValidationException"/>s by returning a <see cref="ValidationProblemDetails"/> response.
+    /// </summary>
+    /// <param name="context">The HTTP context.</param>
+    /// <param name="exception">The thrown <see cref="ValidationException"/>.</param>
+
     protected virtual async Task HandleValidationExceptionAsync(HttpContext context, ValidationException exception)
     {
         logger.LogError(exception, "Validation error occurred: {@ValidationErrors}",
@@ -88,6 +105,11 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
         await context.Response.WriteAsync(JsonConvert.SerializeObject(problemDetails, JsonSerializerSettings));
     }
 
+    /// <summary>
+    /// Handles all <see cref="BaseAppException"/> types by returning structured <see cref="ProblemDetails"/>.
+    /// </summary>
+    /// <param name="context">The HTTP context.</param>
+    /// <param name="exception">The custom application exception.</param>
     protected virtual Task HandleStructuredExceptionAsync(HttpContext context, BaseAppException exception)
     {
         context.Response.ContentType = "application/problem+json";
@@ -96,35 +118,40 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
         var problemDetails = new ProblemDetails
         {
             Status = context.Response.StatusCode,
-            Type = exception.EventCode ?? GetRequestEventCode(context),
+            Type = EventCodeRegistry.GetKey(exception.EventCode) ?? EventCodeRegistry.GetKey(GetRequestEventCode(context)),
             Title = "An error occurred while processing your request.",
             Detail = exception.Message,
             Instance = context.TraceIdentifier
         };
 
-        // Add custom structured fields
+        // Structured extensions
         problemDetails.Extensions["errorCode"] = exception.FullErrorCode;
         problemDetails.Extensions["category"] = exception.Category.ToString();
         problemDetails.Extensions["severity"] = exception.Severity.ToString();
+
         if (!string.IsNullOrWhiteSpace(exception.ServiceIdentifier) &&
             exception.ServiceIdentifier.All(char.IsDigit))
         {
-            problemDetails.Extensions["service"] = ServiceCodeRegistry.GetCode(exception.ServiceIdentifier);
+            problemDetails.Extensions["service"] = ServiceCodeRegistry.GetKey(exception.ServiceIdentifier);
         }
         else
         {
             problemDetails.Extensions["service"] = exception.ServiceIdentifier;
         }
 
-        problemDetails.Extensions["traceId"] = context.TraceIdentifier;
+        // Optionally add correlation ID
+        if (context.Request.Headers.TryGetValue("x-correlation-id", out var correlationId))
+            problemDetails.Extensions["correlationId"] = correlationId.ToString();
 
-        // 👇 NEW: Include inner exception details if available
         if (exception.InnerException is not null)
         {
             problemDetails.Extensions["innerException"] = new
             {
                 message = exception.InnerException.Message,
-                type = exception.InnerException.GetType().FullName
+                type = exception.InnerException.GetType().FullName,
+#if DEBUG
+                stackTrace = exception.InnerException.StackTrace
+#endif
             };
         }
 
@@ -135,6 +162,12 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
     }
 
 
+    /// <summary>
+    /// Retrieves the event code metadata associated with the current request endpoint.
+    /// Falls back to <c>InternalServerError</c> if none is found.
+    /// </summary>
+    /// <param name="context">The HTTP context.</param>
+    /// <returns>The resolved event code string.</returns>
     protected virtual string GetRequestEventCode(HttpContext context)
     {
         var endpoint = context.GetEndpoint();

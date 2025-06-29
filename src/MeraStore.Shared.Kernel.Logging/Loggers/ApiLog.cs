@@ -81,7 +81,7 @@ public class ApiLog : BaseLog
     public override async Task<Dictionary<string, string>> PopulateLogFields()
     {
         var fields = await base.PopulateLogFields();
-        var url = "http://cross-cutting-api.merastore.com:8101/";
+        var url = "http://cross-cutting-api.merastore.com:8101".TrimEnd('/');
         LoggingClientFactory.Configure(url);
         var loggingClient = LoggingClientFactory.Initialize();
 
