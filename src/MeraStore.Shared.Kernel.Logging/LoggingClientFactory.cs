@@ -6,7 +6,7 @@ namespace MeraStore.Shared.Kernel.Logging;
 
 public static class LoggingClientFactory
 {
-    private static ILoggingApiClient? _instance;
+    private static ILoggingServiceClient? _instance;
     private static readonly Lock Lock = new();
 
     public static void Configure(string url)
@@ -26,7 +26,7 @@ public static class LoggingClientFactory
         }
     }
 
-    public static ILoggingApiClient Initialize()
+    public static ILoggingServiceClient Initialize()
     {
         if (_instance == null)
             throw LoggingServiceException.LogInternalServerError("LoggingClientFactory is not configured. Call Configure(url) first.");

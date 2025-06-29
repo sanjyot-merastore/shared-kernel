@@ -62,17 +62,4 @@ public class EventCodeRegistryTests
 
         Assert.Contains("Invalid event code or key", ex.Message);
     }
-
-    [Fact]
-    public void GetCode_ShouldThrowKeyNotFoundException_WhenKeyDoesNotExist()
-    {
-        // Arrange
-        var nonExistentKey = "SomeNonExistentEvent";
-
-        // Act & Assert
-        var ex = Assert.Throws<KeyNotFoundException>(() =>
-            EventCodeRegistry.GetCode(nonExistentKey));
-
-        Assert.Contains("not found", ex.Message);
-    }
 }

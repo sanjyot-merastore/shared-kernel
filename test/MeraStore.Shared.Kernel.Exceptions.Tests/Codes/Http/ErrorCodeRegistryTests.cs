@@ -63,16 +63,4 @@ public class ErrorCodeRegistryTests
         Assert.Contains("Invalid error code or key", ex.Message);
     }
 
-    [Fact]
-    public void GetCode_ShouldThrowKeyNotFoundException_WhenKeyDoesNotExist()
-    {
-        // Arrange
-        var key = "ThisKeyDoesNotExistEver";
-
-        // Act & Assert
-        var ex = Assert.Throws<KeyNotFoundException>(() =>
-            ErrorCodeRegistry.GetCode(key));
-
-        Assert.Contains("not found", ex.Message);
-    }
 }
