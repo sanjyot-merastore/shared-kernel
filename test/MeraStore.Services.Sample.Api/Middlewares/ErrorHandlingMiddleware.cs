@@ -1,8 +1,6 @@
 ﻿using MeraStore.Shared.Kernel.Exceptions.Core;
-using MeraStore.Shared.Kernel.Exceptions.Helpers;
-using MeraStore.Shared.Kernel.WebApi.Middleware;
+using MeraStore.Shared.Kernel.WebApi.Middlewares;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace MeraStore.Services.Sample.Api.Middlewares;
 
@@ -23,28 +21,6 @@ public class ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandling
     /// <returns>A task that represents the asynchronous operation of writing the problem response.</returns>
     protected override Task HandleStructuredExceptionAsync(HttpContext context, BaseAppException exception)
     {
-        context.Response.ContentType = "application/problem+json";
-        context.Response.StatusCode = (int)exception.StatusCode;
-
-        var problemDetails = new ProblemDetails
-        {
-            Status = context.Response.StatusCode,
-            Type = exception.EventCode ?? GetRequestEventCode(context),
-            Title = "An error occurred while processing your request.",
-            Detail = exception.Message,
-            Instance = context.TraceIdentifier
-        };
-
-        problemDetails.Extensions["errorCode"] = exception.FullErrorCode;
-        problemDetails.Extensions["category"] = exception.Category.ToString();
-        problemDetails.Extensions["severity"] = exception.Severity.ToString();
-        problemDetails.Extensions["service"] = ServiceCodeRegistry.GetKey(exception.ServiceIdentifier);
-        problemDetails.Extensions["traceId"] = context.TraceIdentifier;
-
-        logger.LogError(exception, "Structured error occurred: {Message} | Code: {Code} | Category: {Category}",
-            exception.Message, exception.FullErrorCode, exception.Category);
-
-        return context.Response.WriteAsync(JsonConvert.SerializeObject(problemDetails, JsonSerializerSettings));
+        return base.HandleStructuredExceptionAsync(context, exception);
     }
-
 }

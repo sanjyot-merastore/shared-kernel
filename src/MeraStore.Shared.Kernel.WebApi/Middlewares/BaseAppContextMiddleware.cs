@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using MeraStore.Shared.Kernel.Context;
+﻿using MeraStore.Shared.Kernel.Context;
 using MeraStore.Shared.Kernel.Logging;
+using Microsoft.AspNetCore.Http;
 
-namespace MeraStore.Shared.Kernel.WebApi.Middleware;
+namespace MeraStore.Shared.Kernel.WebApi.Middlewares;
 
 /// <summary>
 /// Middleware that sets up AppContext and logging scopes for traceability.

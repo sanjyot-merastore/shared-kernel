@@ -41,9 +41,9 @@
     <Copyright>Sanjyot Agureddy</Copyright>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MeraStore.Shared.Kernel.Logging" Version="1.0.4" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MeraStore.Shared.Kernel.Logging" Version="1.0.7" />
+	</ItemGroup>
 
   <ItemGroup>
     <None Update="icon.png">

@@ -1,5 +1,5 @@
 using MeraStore.Services.Sample.Api;
-using MeraStore.Services.Sample.Api.Middlewares;
+using MeraStore.Services.Sample.Api.Middlewares.Extensions;
 using MeraStore.Shared.Kernel.Http;
 using MeraStore.Shared.Kernel.Logging;
 using MeraStore.Shared.Kernel.WebApi;
@@ -16,7 +16,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
-builder.Services.AddCustomSwagger(serviceName: Constants.ServiceName, "MeraStore.Services.Sample.Api.xml");
+builder.Services.AddOpenApi();
+//builder.Services.AddCustomSwagger(serviceName: Constants.ServiceName, "MeraStore.Services.Sample.Api.xml");
 
 builder.AddApiServices(Constants.ServiceName, defaultLogging: true);
 
@@ -27,13 +28,12 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseMeraStoreTracing();
+app.UseMeraStoreErrorHandling();
 
+app.UseCustomSwagger(Constants.ServiceName);
 
-app.UseMiddleware<TracingMiddleware>(Constants.ServiceName);
-app.UseMiddleware<ErrorHandlingMiddleware>();
-app.UseMiddleware<LoggingMiddleware>();
+app.UseMeraStoreLogging();
 app.UseHttpsRedirection();
 
 

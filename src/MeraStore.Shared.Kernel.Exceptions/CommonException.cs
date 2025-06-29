@@ -1,4 +1,6 @@
-﻿namespace MeraStore.Shared.Kernel.Exceptions;
+﻿using MeraStore.Shared.Kernel.Exceptions.Codes.Services;
+
+namespace MeraStore.Shared.Kernel.Exceptions;
 
 [ExcludeFromCodeCoverage]
 public partial class CommonException : BaseAppException
@@ -6,14 +8,14 @@ public partial class CommonException : BaseAppException
 
     public CommonException(string eventCode, string errorCode, HttpStatusCode statusCode, string message,
         ExceptionCategory category = ExceptionCategory.General, ExceptionSeverity severity = ExceptionSeverity.Major)
-        : base(Constants.ServiceIdentifiers.General, eventCode, errorCode, statusCode, message, category, severity)
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.General), eventCode, errorCode, statusCode, message, category, severity)
     {
 
     }
 
     public CommonException(string eventCode, string errorCode, HttpStatusCode statusCode, string message, Exception? innerException,
         ExceptionCategory category = ExceptionCategory.General, ExceptionSeverity severity = ExceptionSeverity.Major)
-        : base(Constants.ServiceIdentifiers.General, eventCode, errorCode, statusCode, message, innerException, category, severity)
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.General), eventCode, errorCode, statusCode, message, innerException, category, severity)
     {
 
     }

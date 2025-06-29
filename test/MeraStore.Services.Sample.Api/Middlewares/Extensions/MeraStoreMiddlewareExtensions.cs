@@ -1,8 +1,6 @@
-﻿using MeraStore.Services.Sample.Api.Middlewares;
-using MeraStore.Shared.Kernel.Logging;
+﻿using MeraStore.Shared.Kernel.Logging;
 
-
-namespace MeraStore.Shared.Kernel.WebApi.Extensions
+namespace MeraStore.Services.Sample.Api.Middlewares.Extensions
 {
     /// <summary>
     /// Extension methods to register standard MeraStore middleware components.

@@ -1,4 +1,6 @@
-﻿namespace MeraStore.Shared.Kernel.Exceptions;
+﻿using MeraStore.Shared.Kernel.Exceptions.Codes.Services;
+
+namespace MeraStore.Shared.Kernel.Exceptions;
 
 [ExcludeFromCodeCoverage]
 public partial class LoggingServiceException : BaseAppException
@@ -6,7 +8,7 @@ public partial class LoggingServiceException : BaseAppException
     public LoggingServiceException(string eventCode, string errorCode, HttpStatusCode statusCode, string message,
         ExceptionCategory category = ExceptionCategory.CrossCutting,
         ExceptionSeverity severity = ExceptionSeverity.Minor)
-        : base(Constants.ServiceIdentifiers.LoggingService, eventCode, errorCode, statusCode, message, category,
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.LoggingService), eventCode, errorCode, statusCode, message, category,
             severity)
     {
     }
@@ -15,7 +17,7 @@ public partial class LoggingServiceException : BaseAppException
         Exception? innerException,
         ExceptionCategory category = ExceptionCategory.CrossCutting,
         ExceptionSeverity severity = ExceptionSeverity.Minor)
-        : base(Constants.ServiceIdentifiers.LoggingService, eventCode, errorCode, statusCode, message,
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.LoggingService), eventCode, errorCode, statusCode, message,
             innerException, category, severity)
     {
     }

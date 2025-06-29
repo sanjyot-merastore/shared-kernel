@@ -81,8 +81,8 @@ public class ApiLog : BaseLog
     public override async Task<Dictionary<string, string>> PopulateLogFields()
     {
         var fields = await base.PopulateLogFields();
-        var url = "http://logging-api.merastore.com:8101";
-        LoggingClientFactory.Configure("http://logging-api.merastore.com:8101");
+        var url = "http://cross-cutting-api.merastore.com:8101".TrimEnd('/');
+        LoggingClientFactory.Configure(url);
         var loggingClient = LoggingClientFactory.Initialize();
 
 
@@ -102,7 +102,7 @@ public class ApiLog : BaseLog
 
                     if (Request.Data.Length != 0)
                     {
-                        var requestLog = loggingClient.CreateRequestLogAsync(new RequestLog()
+                        var requestLog = loggingClient.LogRequestAsync(new RequestLog()
                         {
                             Payload = Request.Data,
                             CorrelationId = CorrelationId,
@@ -112,7 +112,7 @@ public class ApiLog : BaseLog
 
                         }, GetDefaultHeaders(CorrelationId)).Result;
                         var requestId = requestLog?.Response?.Id;
-                        TrySetLogField("request", url + $"/api/v1.0/logs/requests/payload/{requestId}");
+                        TrySetLogField("request", url + $"/api/v1.0/logging/requests/payload/{requestId}");
                     }
 
                 }
@@ -125,13 +125,13 @@ public class ApiLog : BaseLog
                         Response = new Payload(filter.MaskResponsePayload(Response.Data));
                     }
 
-                    var response = loggingClient.CreateResponseLogAsync(new ResponseLog()
+                    var response = loggingClient.LogResponseAsync(new ResponseLog()
                     {
                         Payload = Response.Data,
                         RequestId = Guid.Parse(RequestId)
                     }, GetDefaultHeaders(CorrelationId)).Result;
                     var requestId = response?.Response?.Id;
-                    var responseUrl = url + $"/api/v1.0/logs/responses/payload/{requestId}";
+                    var responseUrl = url + $"/api/v1.0/logging/responses/payload/{requestId}";
                     TrySetLogField("response", responseUrl);
                 }
             }

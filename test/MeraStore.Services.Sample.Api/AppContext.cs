@@ -2,6 +2,7 @@
 
 namespace MeraStore.Services.Sample.Api;
 
+/// <inheritdoc />
 public class AppContext(string serviceName) : AppContextBase(serviceName)
 {
   public Guid SampleId { get; set; } = Guid.NewGuid();

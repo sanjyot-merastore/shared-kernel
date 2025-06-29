@@ -1,4 +1,6 @@
-﻿namespace MeraStore.Shared.Kernel.Exceptions;
+﻿using MeraStore.Shared.Kernel.Exceptions.Codes.Services;
+
+namespace MeraStore.Shared.Kernel.Exceptions;
 
 [ExcludeFromCodeCoverage]
 public partial class MaskingServiceException : BaseAppException
@@ -6,7 +8,7 @@ public partial class MaskingServiceException : BaseAppException
     public MaskingServiceException(string eventCode, string errorCode, HttpStatusCode statusCode, string message,
         ExceptionCategory category = ExceptionCategory.CrossCutting,
         ExceptionSeverity severity = ExceptionSeverity.Major)
-        : base(Constants.ServiceIdentifiers.Masking, eventCode, errorCode, statusCode, message, category, severity)
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.Masking), eventCode, errorCode, statusCode, message, category, severity)
     {
     }
 
@@ -14,7 +16,7 @@ public partial class MaskingServiceException : BaseAppException
         Exception? innerException,
         ExceptionCategory category = ExceptionCategory.CrossCutting,
         ExceptionSeverity severity = ExceptionSeverity.Major)
-        : base(Constants.ServiceIdentifiers.Masking, eventCode, errorCode, statusCode, message, innerException,
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.Masking), eventCode, errorCode, statusCode, message, innerException,
             category, severity)
     {
     }

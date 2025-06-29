@@ -1,4 +1,6 @@
-﻿namespace MeraStore.Shared.Kernel.Exceptions;
+﻿using MeraStore.Shared.Kernel.Exceptions.Codes.Services;
+
+namespace MeraStore.Shared.Kernel.Exceptions;
 
 [ExcludeFromCodeCoverage]
 public partial class ProductServiceException : BaseAppException
@@ -6,7 +8,7 @@ public partial class ProductServiceException : BaseAppException
     public ProductServiceException(string eventCode, string errorCode, HttpStatusCode statusCode, string message,
         ExceptionCategory category = ExceptionCategory.General,
         ExceptionSeverity severity = ExceptionSeverity.Major)
-        : base(Constants.ServiceIdentifiers.ProductService, eventCode, errorCode, statusCode, message, category,
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.ProductService), eventCode, errorCode, statusCode, message, category,
             severity)
     {
     }
@@ -15,7 +17,7 @@ public partial class ProductServiceException : BaseAppException
         Exception? innerException,
         ExceptionCategory category = ExceptionCategory.General,
         ExceptionSeverity severity = ExceptionSeverity.Major)
-        : base(Constants.ServiceIdentifiers.ProductService, eventCode, errorCode, statusCode, message,
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.ProductService), eventCode, errorCode, statusCode, message,
             innerException, category, severity)
     {
     }

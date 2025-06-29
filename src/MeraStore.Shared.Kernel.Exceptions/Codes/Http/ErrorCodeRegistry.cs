@@ -16,17 +16,22 @@ public static class ErrorCodeRegistry
         if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(code))
             throw new ArgumentException("Invalid error code or key.");
 
-        if (CoreCodes.ContainsKey(key) || AdditionalCodes.ContainsKey(key))
+        if (CoreCodes.ContainsKey(key) || !AdditionalCodes.TryAdd(key, code))
             throw new InvalidOperationException($"Error code key '{key}' already exists.");
-
-        AdditionalCodes[key] = code;
     }
 
     public static string GetCode(string key)
     {
-        if (AllCodes.TryGetValue(key, out var addCode))
-            return addCode;
+        return AllCodes.GetValueOrDefault(key, "00");
+    }
 
-        throw new KeyNotFoundException($"Error code key '{key}' not found.");
+    public static string GetKey(string code)
+    {
+        foreach (var kvp in AllCodes.Where(kvp => kvp.Value == code))
+        {
+            return kvp.Key;
+        }
+
+        return "unknown";
     }
 }
