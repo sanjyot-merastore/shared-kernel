@@ -42,7 +42,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MeraStore.Shared.Kernel.Logging" Version="1.0.6" />
+		<PackageReference Include="MeraStore.Shared.Kernel.Logging" Version="1.0.7" />
 	</ItemGroup>
 
   <ItemGroup>
