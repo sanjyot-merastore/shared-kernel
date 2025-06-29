@@ -1,6 +1,4 @@
 ﻿using MeraStore.Shared.Kernel.Caching.Helper;
-using MeraStore.Shared.Kernel.WebApi.Middleware;
-
 using Microsoft.AspNetCore.Builder;
 
 namespace MeraStore.Shared.Kernel.Caching.Middlewares;

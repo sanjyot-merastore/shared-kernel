@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using MeraStore.Shared.Kernel.Caching.Interfaces;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using MeraStore.Shared.Kernel.Caching.Helper;
+using MeraStore.Shared.Kernel.Caching.Interfaces;
 using MeraStore.Shared.Kernel.Caching.Strategy;
+using Microsoft.AspNetCore.Http;
 
-namespace MeraStore.Shared.Kernel.WebApi.Middleware;
+namespace MeraStore.Shared.Kernel.Caching.Middlewares;
 
 /// <summary>
 /// Middleware that enforces idempotency by rejecting duplicate POST, PUT, or PATCH requests.
@@ -19,7 +19,7 @@ public class IdempotencyMiddleware(RequestDelegate next, ICacheProviderFactory c
     /// <summary>
     /// The underlying cache provider used to store idempotency keys.
     /// </summary>
-    private readonly ICacheProvider cache = cacheProvider.Get(strategy);
+    private readonly ICacheProvider _cache = cacheProvider.Get(strategy);
 
     /// <summary>
     /// Intercepts HTTP requests, checks for the Idempotency-Key header,
@@ -48,7 +48,7 @@ public class IdempotencyMiddleware(RequestDelegate next, ICacheProviderFactory c
         var cacheKey = GenerateCacheKey(context.Request.Path, key!);
 
         // Check for existing key in cache
-        if (await cache.ExistsAsync(cacheKey))
+        if (await _cache.ExistsAsync(cacheKey))
         {
             context.Response.StatusCode = StatusCodes.Status409Conflict;
             await context.Response.WriteAsync("Duplicate request blocked by idempotency middleware.");
@@ -66,7 +66,7 @@ public class IdempotencyMiddleware(RequestDelegate next, ICacheProviderFactory c
         var responseBody = await new StreamReader(memStream).ReadToEndAsync();
 
         // Store key to prevent duplicates (only storing flag, not response)
-        await cache.SetAsync(
+        await _cache.SetAsync(
             cacheKey,
             value: true,
             options: new()

@@ -17,7 +17,7 @@ public partial class LoggingServiceException : BaseAppException
         Exception? innerException,
         ExceptionCategory category = ExceptionCategory.CrossCutting,
         ExceptionSeverity severity = ExceptionSeverity.Minor)
-        : base(Constants.ServiceIdentifiers.LoggingService, eventCode, errorCode, statusCode, message,
+        : base(ServiceCodeRegistry.GetCode(Constants.ServiceIdentifiers.LoggingService), eventCode, errorCode, statusCode, message,
             innerException, category, severity)
     {
     }
