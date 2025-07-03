@@ -5,6 +5,7 @@ public static class Constants
 {
     public static class ServiceIdentifiers
     {
+        public static readonly string VendorService = "vendor-service";
         public static readonly string General = "general";
         public static readonly string ApiGateway = "api-gateway";
         public static readonly string AuthService = "auth-service";
