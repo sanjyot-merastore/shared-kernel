@@ -59,6 +59,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Kernel.Messaging", "src\MeraStore.Shared.Kernel.Messaging\MeraStore.Shared.Kernel.Messaging.csproj", "{E79327C3-5EF3-41BE-84B8-44E2765CB3D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E79327C3-5EF3-41BE-84B8-44E2765CB3D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E79327C3-5EF3-41BE-84B8-44E2765CB3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E79327C3-5EF3-41BE-84B8-44E2765CB3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E79327C3-5EF3-41BE-84B8-44E2765CB3D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +155,7 @@ Global
 		{7E4D02C1-32DC-43A7-AD64-F2732B828B99} = {B7C09667-E74B-40C3-9C11-9DE4997B205A}
 		{B01BDADC-E2C7-4601-B7A4-33CFF2D466CA} = {487C5BA9-691B-4CF0-8B71-BFC310470130}
 		{D005F4C6-9BAB-406F-BB46-E654C11D6D2C} = {487C5BA9-691B-4CF0-8B71-BFC310470130}
+		{E79327C3-5EF3-41BE-84B8-44E2765CB3D8} = {2DEFA02F-1BAC-4C69-BA46-2F354344823B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0509730D-937F-486D-9944-2CA4ACDDE1EF}
