@@ -96,7 +96,7 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
 
         var problemDetails = new ValidationProblemDetails(validationErrors)
         {
-            Type = GetRequestEventCode(context),
+            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1",
             Status = context.Response.StatusCode,
             Title = "Validation failed.",
             Instance = context.TraceIdentifier
@@ -115,14 +115,17 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
         context.Response.ContentType = "application/problem+json";
         context.Response.StatusCode = (int)exception.StatusCode;
 
+        var statusCode = context.Response.StatusCode;
+
         var problemDetails = new ProblemDetails
         {
-            Status = context.Response.StatusCode,
-            Type = EventCodeRegistry.GetKey(exception.EventCode) ?? EventCodeRegistry.GetKey(GetRequestEventCode(context)),
-            Title = "An error occurred while processing your request.",
+            Status = statusCode,
+            Type = GetProblemTypeUrl(statusCode),
+            Title = "An error occurred.",
             Detail = exception.Message,
             Instance = context.TraceIdentifier
         };
+
 
         // Structured extensions
         problemDetails.Extensions["errorCode"] = exception.FullErrorCode;
@@ -177,4 +180,51 @@ public class BaseErrorHandlingMiddleware(RequestDelegate next, ILogger<BaseError
             ? Constants.EventCodes.InternalServerError
             : code;
     }
+
+    private static string GetProblemTypeUrl(int statusCode) =>
+    statusCode switch
+    {
+        100 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.2.1", // Continue
+        101 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.2.2", // Switching Protocols
+        200 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.3.1", // OK
+        201 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.3.2", // Created
+        202 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.3.3", // Accepted
+        204 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.3.5", // No Content
+        301 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.4.2", // Moved Permanently
+        302 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.4.3", // Found
+        304 => "https://datatracker.ietf.org/doc/html/rfc7232#section-4.1",   // Not Modified
+        307 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.4.7", // Temporary Redirect
+        308 => "https://datatracker.ietf.org/doc/html/rfc7538#section-3",     // Permanent Redirect
+
+        400 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1", // Bad Request
+        401 => "https://datatracker.ietf.org/doc/html/rfc7235#section-3.1",   // Unauthorized
+        402 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.2", // Payment Required
+        403 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.3", // Forbidden
+        404 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4", // Not Found
+        405 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.5", // Method Not Allowed
+        406 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.6", // Not Acceptable
+        407 => "https://datatracker.ietf.org/doc/html/rfc7235#section-3.2",   // Proxy Authentication Required
+        408 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.7", // Request Timeout
+        409 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.8", // Conflict
+        410 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.9", // Gone
+        411 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.10",// Length Required
+        412 => "https://datatracker.ietf.org/doc/html/rfc7232#section-4.2",   // Precondition Failed
+        413 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.11",// Payload Too Large
+        414 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.12",// URI Too Long
+        415 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.13",// Unsupported Media Type
+        416 => "https://datatracker.ietf.org/doc/html/rfc7233#section-4.4",   // Range Not Satisfiable
+        417 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.14",// Expectation Failed
+        422 => "https://datatracker.ietf.org/doc/html/rfc4918#section-11.2",  // Unprocessable Entity (WebDAV)
+        426 => "https://datatracker.ietf.org/doc/html/rfc2817#section-7",     // Upgrade Required
+
+        500 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1", // Internal Server Error
+        501 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.2", // Not Implemented
+        502 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.3", // Bad Gateway
+        503 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.4", // Service Unavailable
+        504 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.5", // Gateway Timeout
+        505 => "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.6", // HTTP Version Not Supported
+
+        _ => "https://datatracker.ietf.org/doc/html/rfc7231"                  // Fallback
+    };
+
 }
