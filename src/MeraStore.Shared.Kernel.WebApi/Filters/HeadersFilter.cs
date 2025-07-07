@@ -1,4 +1,4 @@
-﻿using MeraStore.Shared.Kernel.Common.Core;
+﻿using MeraStore.Shared.Kernel.Core;
 using MeraStore.Shared.Kernel.WebApi.Attributes;
 
 using Microsoft.OpenApi.Models;
