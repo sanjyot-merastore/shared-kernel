@@ -30,6 +30,7 @@ public static class ServiceIdentifiers
         { Constants.ServiceIdentifiers.DiscountService, "23" },
         { Constants.ServiceIdentifiers.FraudDetectionService, "24" },
         { Constants.ServiceIdentifiers.LoggingService, "25" },
+        { Constants.ServiceIdentifiers.VendorService, "46" },
 
         // Supporting Domain Extensions
         { Constants.ServiceIdentifiers.MediaService, "26" },

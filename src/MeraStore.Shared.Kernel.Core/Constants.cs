@@ -6,22 +6,23 @@ public static class Constants
 
   public static class Services
   {
-    public static readonly string User = "merastore-user-service";
-    public static readonly string Product = "merastore-product-service";
-    public static readonly string Inventory = "merastore-inventory-service";
-    public static readonly string Order = "merastore-order-service";
-    public static readonly string Cart = "merastore-cart-service";
-    public static readonly string Logging = "merastore-logging-service";
-    public static readonly string Payment = "merastore-payment-service";
-    public static readonly string Shipping = "merastore-shipping-service";
-    public static readonly string Auth = "merastore-auth-service";
-    public static readonly string Notification = "merastore-notification-service";
-    public static readonly string Search = "merastore-search-service";
-    public static readonly string Review = "merastore-review-service";
-    public static readonly string Warehouse = "merastore-warehouse-service";
-    public static readonly string Analytics = "merastore-analytics-service";
-    public static readonly string Discount = "merastore-discount-service";
-    public static readonly string FraudDetection = "merastore-fraud-detection-service";
+    public static readonly string User = "ms-user-service";
+    public static readonly string Product = "ms-product-service";
+    public static readonly string Inventory = "ms-inventory-service";
+    public static readonly string Order = "ms-order-service";
+    public static readonly string Cart = "ms-cart-service";
+    public static readonly string Logging = "ms-logging-service";
+    public static readonly string Payment = "ms-payment-service";
+    public static readonly string Shipping = "ms-shipping-service";
+    public static readonly string Auth = "ms-auth-service";
+    public static readonly string Vendor = "ms-vendor-service";
+    public static readonly string Notification = "ms-notification-service";
+    public static readonly string Search = "ms-search-service";
+    public static readonly string Review = "ms-review-service";
+    public static readonly string Warehouse = "ms-warehouse-service";
+    public static readonly string Analytics = "ms-analytics-service";
+    public static readonly string Discount = "ms-discount-service";
+    public static readonly string FraudDetection = "ms-fraud-detection-service";
   }
 
   public static class SharedLibraries
@@ -119,25 +120,25 @@ public static class Constants
 
   public static class Infrastructure
   {
-    public static readonly string Config = "merastore-infra-config";
-    public static readonly string DockerImages = "merastore-docker-images";
-    public static readonly string CiCdPipelines = "merastore-ci-cd-pipelines";
+    public static readonly string Config = "ms-infra-config";
+    public static readonly string DockerImages = "ms-docker-images";
+    public static readonly string CiCdPipelines = "ms-ci-cd-pipelines";
   }
 
   public static class Frontend
   {
-    public static readonly string Web = "merastore-frontend";
-    public static readonly string Mobile = "merastore-mobile-app";
+    public static readonly string Web = "ms-frontend";
+    public static readonly string Mobile = "ms-mobile-app";
   }
 
   public static class Additional
   {
-    public static readonly string Docs = "merastore-docs";
-    public static readonly string Monitoring = "merastore-monitoring";
-    public static readonly string SecretsManagement = "merastore-secrets-management";
-    public static readonly string Testing = "merastore-testing";
-    public static readonly string Analytics = "merastore-analytics";
-    public static readonly string FeatureFlags = "merastore-feature-flags";
+    public static readonly string Docs = "ms-docs";
+    public static readonly string Monitoring = "ms-monitoring";
+    public static readonly string SecretsManagement = "ms-secrets-management";
+    public static readonly string Testing = "ms-testing";
+    public static readonly string Analytics = "ms-analytics";
+    public static readonly string FeatureFlags = "ms-feature-flags";
   }
 
   public static partial class ServiceIdentifiers
@@ -159,6 +160,7 @@ public static class Constants
     public static readonly string ShippingService = "shipping-service";
     public static readonly string Security = "security";
     public static readonly string UserService = "user-service";
+    public static readonly string VendorService = "vendor-service";
     public static readonly string NotificationService = "notification-service";
     public static readonly string SearchService = "search-service";
     public static readonly string ReviewService = "review-service";

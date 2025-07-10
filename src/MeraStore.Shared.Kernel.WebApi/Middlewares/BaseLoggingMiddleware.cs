@@ -14,10 +14,11 @@ namespace MeraStore.Shared.Kernel.WebApi.Middlewares;
 /// Base middleware for logging API requests and responses with masking support.
 /// Can be extended to enrich logs or override masking behavior.
 /// </summary>
-public abstract class BaseLoggingMiddleware(RequestDelegate next, IMaskingFilter maskingFilter)
+public abstract class BaseLoggingMiddleware(RequestDelegate next, IMaskingFilter maskingFilter, LoggingMiddlewareOptions? options = null)
 {
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
     private readonly IMaskingFilter _maskingFilter = maskingFilter ?? throw new ArgumentNullException(nameof(maskingFilter));
+    private readonly LoggingMiddlewareOptions? _options = options ?? new LoggingMiddlewareOptions();
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -28,6 +29,17 @@ public abstract class BaseLoggingMiddleware(RequestDelegate next, IMaskingFilter
             return;
         }
 
+        var path = context.Request.Path.Value ?? string.Empty;
+        var method = context.Request.Method;
+
+        if (_options != null &&
+            (_options.SkipPaths.Contains(path, StringComparer.OrdinalIgnoreCase) ||
+             _options.SkipPathStartsWith.Any(prefix => path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) ||
+             _options.SkipMethods.Contains(method, StringComparer.OrdinalIgnoreCase)))
+        {
+            await _next(context); // 🔕 Skip based on config
+            return;
+        }
 
         var stopwatch = Stopwatch.StartNew();
         var request = context.Request;
@@ -62,13 +74,13 @@ public abstract class BaseLoggingMiddleware(RequestDelegate next, IMaskingFilter
             AddMaskingFilters(apiLog);
 
             await EnrichApiLogAsync(apiLog, context);
-
             await Logger.LogAsync(apiLog);
 
             response.Body.Seek(0, SeekOrigin.Begin);
             await response.Body.CopyToAsync(originalBodyStream);
         }
     }
+
 
     /// <summary>
     /// Sets standardized action and verb names based on the controller/action (MVC) or endpoint metadata (Minimal APIs/FastEndpoints).
@@ -79,35 +91,37 @@ public abstract class BaseLoggingMiddleware(RequestDelegate next, IMaskingFilter
     protected virtual void SetActionAndVerb(ApiLog apiLog, HttpContext context)
     {
         var routeData = context.GetRouteData();
-        var controller = routeData.Values["controller"]?.ToString();
-        var action = routeData.Values["action"]?.ToString();
+        var endpoint = context.GetEndpoint();
+        string httpMethod = context.Request?.Method?.ToLowerInvariant() ?? "unknown";
 
-        // If MVC controller-style route data is not found, fall back to endpoint metadata
-        if (string.IsNullOrWhiteSpace(controller) || string.IsNullOrWhiteSpace(action))
+        string? controller = routeData.Values["controller"]?.ToString();
+        string? action = routeData.Values["action"]?.ToString();
+
+        // Minimal API / FastEndpoints: use route name if provided
+        var routeName = endpoint?.Metadata
+            .OfType<Microsoft.AspNetCore.Routing.RouteNameMetadata>()
+            .FirstOrDefault()?.RouteName;
+
+        if (!string.IsNullOrWhiteSpace(routeName))
         {
-            var endpoint = context.GetEndpoint();
-
-            // Try to get the delegate method or display name from endpoint
-            var endpointDisplay = endpoint?.DisplayName ?? "unknown";
-            var endpointMethod = endpoint?.Metadata
-                .OfType<Microsoft.AspNetCore.Routing.RouteNameMetadata>()
-                .FirstOrDefault()?.RouteName;
-
-            action = ToSnakeCase(endpointMethod ?? ExtractMethodName(endpointDisplay));
-            controller = "endpoint";
+            // Prefer route name if defined
+            action = routeName.ToSnakeCase();
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(controller) && !string.IsNullOrWhiteSpace(action))
         {
-            controller = ToSnakeCase(controller);
-            action = ToSnakeCase(action);
+            // Use traditional controller/action
+            controller = controller.ToSnakeCase();
+            action = action.ToSnakeCase();
         }
 
-        var actionName = $"{controller}_{action}";
-        var verbName = $"{action}";
+
+        string actionName = string.IsNullOrEmpty(controller) ? $"{action}" : $"{controller}_{action}";
+        string verbName = $"{httpMethod}_{action}";
 
         apiLog.TrySetLogField("action", actionName);
         apiLog.TrySetLogField("verb", verbName);
     }
+
     private static string ExtractMethodName(string displayName)
     {
         if (string.IsNullOrWhiteSpace(displayName))

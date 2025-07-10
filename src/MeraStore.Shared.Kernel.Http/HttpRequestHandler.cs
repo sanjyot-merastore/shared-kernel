@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using MeraStore.Shared.Kernel.Common.Core;
+using MeraStore.Shared.Kernel.Core;
 using MeraStore.Shared.Kernel.Logging.Interfaces;
 using Polly;
 
@@ -27,7 +27,7 @@ public static class HttpRequestHandler
     /// <param name="timeout">Request timeout (optional).</param>
     /// <param name="cancellationToken">Cancellation token (optional).</param>
     /// <param name="callerMemberName">The name of the calling method, automatically injected by the compiler.</param>
-    /// <returns>An <see cref="ApiResponse{TRes}"/> containing the response or error details.</returns>
+    /// <returns>An <see cref="ApiResponse{T}"/> containing the response or error details.</returns>
     public static async Task<ApiResponse<TRes>> SendAsync<TReq, TRes>(
         HttpMethod method,
         string url,

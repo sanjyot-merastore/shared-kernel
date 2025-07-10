@@ -1,6 +1,5 @@
 ﻿#nullable enable
-using MeraStore.Shared.Kernel.Common.Core;
-
+using MeraStore.Shared.Kernel.Core;
 using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;

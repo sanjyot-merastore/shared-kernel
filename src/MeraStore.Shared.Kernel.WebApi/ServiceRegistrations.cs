@@ -55,7 +55,7 @@ namespace MeraStore.Shared.Kernel.WebApi
 
             if (defaultLogging)
             {
-                builder.AddLoggingServices(Constants.ServiceName, options =>
+                builder.AddLoggingServices(serviceName, options =>
                 {
                     options.UseElasticsearch = true;
                     options.UseInfrastructureSink = true;
