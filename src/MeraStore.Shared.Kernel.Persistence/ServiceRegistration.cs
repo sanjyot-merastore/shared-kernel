@@ -1,4 +1,5 @@
-﻿using MeraStore.Shared.Kernel.Persistence.Interfaces;
+﻿using MeraStore.Shared.Kernel.Persistence.Enums;
+using MeraStore.Shared.Kernel.Persistence.Interfaces;
 using MeraStore.Shared.Kernel.Persistence.Repositories;
 using MeraStore.Shared.Kernel.Persistence.Strategy;
 
@@ -13,13 +14,22 @@ namespace MeraStore.Shared.Kernel.Persistence;
 public static class ServiceRegistration
 {
     /// <summary>
-    /// Registers EF Core DbContext and generic repositories without using a Unit of Work.
+    /// Registers EF Core DbContext and generic repositories without using a Unit of Work,
+    /// and configures the desired commit strategy (Default or NoOp).
     /// </summary>
-    /// <typeparam name="TDbContext">The DbContext type to register.</typeparam>
+    /// <typeparam name="TDbContext">The type of the EF Core DbContext to register.</typeparam>
     /// <param name="services">The service collection to which services will be added.</param>
-    /// <param name="optionsAction">The action to configure DbContext options.</param>
-    /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddPersistence<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction)
+    /// <param name="optionsAction">An action to configure the DbContext options.</param>
+    /// <param name="commitType">
+    /// Specifies the type of commit strategy to use:
+    /// <list type="bullet">
+    /// <item><description><see cref="CommitType.Default"/> — Uses standard EF Core SaveChanges behavior.</description></item>
+    /// <item><description><see cref="CommitType.NoOp"/> — Suppresses all data persistence operations (read-only mode).</description></item>
+    /// </list>
+    /// </param>
+    /// <returns>The updated <see cref="IServiceCollection"/> with persistence services registered.</returns>
+
+    public static IServiceCollection AddPersistence<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction, CommitType commitType = CommitType.Default)
         where TDbContext : DbContext
     {
         services.AddDbContext<TDbContext>(optionsAction);
@@ -27,8 +37,10 @@ public static class ServiceRegistration
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>));
 
-        services.AddScoped<ICommitStrategy, DefaultCommitStrategy>();
-        services.AddScoped<ICommitStrategy, NoOpCommitStrategy>();
+        if(commitType == CommitType.NoOp)
+            services.AddScoped<ICommitStrategy, NoOpCommitStrategy>();
+        else
+            services.AddScoped<ICommitStrategy, DefaultCommitStrategy>();
 
         return services;
     }
